@@ -103,10 +103,10 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
-"@juggle/resize-observer@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.0.2.tgz#f4f326806826c0da5221411374e4c54902c327bb"
-  integrity sha512-9fEfZIxZ1qTahMSX50pigfSJ/1N6X2oABhmgd4Dt2SsPkZi0lTlvoHu5V2yrGZ6m+oALfS4tJrpx9nbVIxwOYQ==
+"@juggle/resize-observer@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.1.2.tgz#e2b4ee9e50ac36e957e34031055f5ddc8494a9e2"
+  integrity sha512-Yao5AFq8HKHsyLCLZn15BybqN67cdbgDbVDnnaN54IUaffkwDHj0VMgBp1C/IxOsFsNltsI7LdnW4GEHmQarLQ==
 
 "@koa/cors@3.0.0":
   version "3.0.0"
