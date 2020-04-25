@@ -167,7 +167,7 @@
 		"koa-slow": "2.1.0",
 		"koa-views": "6.2.1",
 		"langmap": "0.0.16",
-		"lolex": "5.1.2",
+		"lolex": "6.0.0",
 		"lookup-dns-cache": "2.1.0",
 		"markdown-it": "10.0.0",
 		"markdown-it-anchor": "5.2.7",
