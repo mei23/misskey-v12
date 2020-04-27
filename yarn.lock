@@ -4219,10 +4219,10 @@ gulp-cli@^2.2.0:
     v8flags "^3.0.1"
     yargs "^7.1.0"
 
-gulp-dart-sass@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/gulp-dart-sass/-/gulp-dart-sass-1.0.1.tgz#fef34b2373d13609b61a6d52013d2abffde57f8a"
-  integrity sha512-Hsa6cy4N9L3QZGfSabtRl60czLOqm7VngAjS+BNdWpRwCRbc+x8kWT+xEKLq5M2Pq+Or1d4Onr8qGrWJR0CQMA==
+gulp-dart-sass@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gulp-dart-sass/-/gulp-dart-sass-1.0.2.tgz#20e33c236b48d557c91e8dfe67a2aef2b8a2e328"
+  integrity sha512-8fLttA824mbuc0jRVlGs00zWYZXBckat6INawx5kp66Eqsz5srNWTA51t0mbfB4C8a/a/GZ9muYLwXGklgAHlw==
   dependencies:
     chalk "^2.3.0"
     lodash.clonedeep "^4.3.2"
