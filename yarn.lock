@@ -10048,10 +10048,10 @@ vue-prism-component@1.2.0:
   resolved "https://registry.yarnpkg.com/vue-prism-component/-/vue-prism-component-1.2.0.tgz#406252e16979def13b5d28827d95b2b6dc647825"
   integrity sha512-0N9CNuQu+36CJpdsZHrhdq7d18oBvjVMjawyKdIr8xuzFWLfdxECZQYbFaYoopPBg3SvkEEMtkhYqdgTQl5Y+A==
 
-vue-prism-editor@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/vue-prism-editor/-/vue-prism-editor-0.5.1.tgz#7f3b2eef680c81cb77e1cf0402d62066307e2725"
-  integrity sha512-8RBDhfbjAaVXTmIbSwv215QdhAiXKEK6dyjf6HP0dnLnR/2jrsJCatX/ubHqHrvpfPzacUBU+w6Qms1Gf01YkA==
+vue-prism-editor@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vue-prism-editor/-/vue-prism-editor-0.6.1.tgz#e7c5ed39eecd798d2b4a3a6864985e90ed1f0c00"
+  integrity sha512-UyFLZ242eAplU0C1Tx/ZHSKFTPODQDMBuW9qqgMJyZqHFL2iuIbfT8EWmKtoNUn8w9VWS9IIicPs2odz2eni4Q==
   dependencies:
     dom-iterator "^1.0.0"
     escape-html "^1.0.3"
