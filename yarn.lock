@@ -626,17 +626,10 @@
   dependencies:
     "@types/redis" "*"
 
-"@types/redis@*":
-  version "2.8.17"
-  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.17.tgz#c114039957bfcad3b2d487f1ea39aae58b550095"
-  integrity sha512-7RVHFjClwG1x987MSIKusCMMicu7tsvpGgwPTJpYgf0j896G+LCeyGMewDBKVxc9Tlj5OjA9y7PtgvwGVQsACg==
-  dependencies:
-    "@types/node" "*"
-
-"@types/redis@2.8.18":
-  version "2.8.18"
-  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.18.tgz#6e95de50d848cd9c0aacb89aa8a6aef07a0a34b3"
-  integrity sha512-29ffRZITbLRs4zboL31EPJVDhSC/pHommWpf0rRcpwz45fvH6U2VxdRM6wWPSJu23l/kXQNKrMR8SAlLB7OqbQ==
+"@types/redis@*", "@types/redis@2.8.19":
+  version "2.8.19"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.19.tgz#a5331c3d97404a2e13b21bcfc01b2b9469500ad3"
+  integrity sha512-93T0Wd7jH+aM3ndIi7duNG9lLABkPHSE2L7zTVZP+JmsByWEaOld7IdMzHAsokM68ypg60hfCcDKPRYfKtqjrA==
   dependencies:
     "@types/node" "*"
 
