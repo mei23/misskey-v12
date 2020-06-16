@@ -252,7 +252,7 @@
 		"vue-meta": "2.3.3",
 		"vue-prism-component": "1.2.0",
 		"vue-prism-editor": "0.6.1",
-		"vue-router": "3.2.0",
+		"vue-router": "3.3.4",
 		"vue-style-loader": "4.1.2",
 		"vue-svg-inline-loader-corejs3": "1.5.0",
 		"vue-template-compiler": "2.6.11",
