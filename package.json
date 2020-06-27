@@ -106,7 +106,7 @@
 		"@types/ws": "7.2.4",
 		"@typescript-eslint/parser": "2.33.0",
 		"abort-controller": "3.0.0",
-		"apexcharts": "3.19.2",
+		"apexcharts": "3.19.3",
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
