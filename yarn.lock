@@ -4334,10 +4334,10 @@ hash-sum@^1.0.2:
   resolved "https://registry.yarnpkg.com/hash-sum/-/hash-sum-1.0.2.tgz#33b40777754c6432573c120cc3808bbd10d47f04"
   integrity sha1-M7QHd3VMZDJXPBIMw4CLvRDUfwQ=
 
-hcaptcha@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/hcaptcha/-/hcaptcha-0.0.1.tgz#e8c5e25a943083d06630bf077bae8a3053fa3da5"
-  integrity sha512-xGU7wSg3BENwEsOplfMghyR7SL/AXKllmCRMkmt3WQHxhINVNs2u7pP7V5FhigNFBNt6zz32GDRzLqfeDzqPyA==
+hcaptcha@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/hcaptcha/-/hcaptcha-0.0.2.tgz#18f4c055a2315db9f732ac77f9d0e30026bb2eb7"
+  integrity sha512-wWOncj/sY+q8s7tV12tjn3cFNoQhSu3l/7nTJi4QkFKALQi9XnduoXrV/KFzLg5lnB+5560zSAoi9YdYPDw6Eg==
 
 he@1.2.0, he@^1.1.0, he@^1.2.0:
   version "1.2.0"
