@@ -192,10 +192,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@syuilo/aiscript@0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.8.0.tgz#3a895ddd9f5bd5afa1648acb5fd3e6f94f434cbb"
-  integrity sha512-mrZ3awYf1R81D+OWZctRFiAWUt6xL3A5ovBn2OD8+1hZyX3T7S+awqrhYVLoQPhd/cijz1RT6PE8AEUtuR1J8Q==
+"@syuilo/aiscript@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.10.0.tgz#858c0f84db9dd2c3ffec40c340966c6bcc096e1d"
+  integrity sha512-Nrhzsb0JfplazCl2biLqlC9sUcrwAEu7dF5MaFZc2lbR4gAMX1i1ijFuH4V2NRG0P81l8cikGCpMnjhxfS6qGw==
   dependencies:
     autobind-decorator "2.4.0"
     chalk "4.0.0"
