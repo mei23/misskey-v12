@@ -9910,10 +9910,10 @@ vue-i18n@8.20.0:
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.20.0.tgz#c81b01d6541182b28565316cafe881b65a3c0f1b"
   integrity sha512-ZiAOoeR4d/JtKpbjipx3I80ey7cYG1ki5gQ7HwzWm4YFio9brA15BEYHjalEoBaEfzF5OBEZP+Y2MvAaWnyXXg==
 
-vue-json-pretty@1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.6.5.tgz#ceb1a46d1413528ff12e956d5f8e39aff1e08da1"
-  integrity sha512-6iW3Jk4/swNG+orb4VfjfekkYF+I/UXa8rGRNque9j5r2MnrbaP8+DlGVHMqrxPcsS59eMV/SpMlB2zNBzPDww==
+vue-json-pretty@1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.6.7.tgz#7dbc0d50d7b30f2ad99dade6541cd57479ff3725"
+  integrity sha512-M7fGSj6yQxl9x3n4cViD5OUUXeXeIfjVfnOQOH+T95qo4wz2BzthBDZzRsKKsf9W5YIFbC1ZWkw50j9cPxxs9w==
 
 vue-loader@15.9.3:
   version "15.9.3"
