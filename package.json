@@ -252,7 +252,7 @@
 		"vue-marquee-text-component": "1.1.1",
 		"vue-meta": "2.4.0",
 		"vue-prism-component": "1.2.0",
-		"vue-prism-editor": "0.6.1",
+		"vue-prism-editor": "1.2.0",
 		"vue-router": "3.4.2",
 		"vue-style-loader": "4.1.2",
 		"vue-svg-inline-loader-corejs3": "1.5.0",
