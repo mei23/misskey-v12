@@ -5281,10 +5281,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jsrsasign@8.0.20:
-  version "8.0.20"
-  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.20.tgz#37d8029c9d8f794d8ac8d8998bce319921491f11"
-  integrity sha512-JTXt9+nqdynIB8wFsS6e8ffHhIjilhywXwdaEVHSj9OVmwldG2H0EoCqkQ+KXkm2tVqREfH/HEmklY4k1/6Rcg==
+jsrsasign@9.1.9:
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-9.1.9.tgz#62f44eb2766264f0bfaffd87b8ade05ee4563347"
+  integrity sha512-BMajAcUANeo07/MnscMAsHJtddYtqN/ix4twr+dOheHc5KH/Ad06bI6YfUB2M7ZQhqxvt9pbVWFXYQXe6G+yXw==
 
 jstransformer@1.0.0:
   version "1.0.0"
