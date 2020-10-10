@@ -197,10 +197,10 @@
   resolved "https://registry.yarnpkg.com/@sqltools/formatter/-/formatter-1.2.2.tgz#9390a8127c0dcba61ebd7fdcc748655e191bdd68"
   integrity sha512-/5O7Fq6Vnv8L6ucmPjaWbVG1XkP4FO+w5glqfkIsq3Xw4oyNAdJddbnYodNDAfjVUvo/rrSCTom4kAND7T1o5Q==
 
-"@syuilo/aiscript@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.11.0.tgz#8567da2efbf46e99db38ed80e6a4a4ae8f4bb567"
-  integrity sha512-aMe2ZwvliFRmdZ2n5ORmSnwqqlXEZ63syo8kEojXjt6VaoOVGmo+Z3qxU1ux6U6SMDMElHLc40aZXrkLL859/Q==
+"@syuilo/aiscript@0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@syuilo/aiscript/-/aiscript-0.11.1.tgz#52c14692113c58d1d62e6ae696352ba49abdf2eb"
+  integrity sha512-chwOIA3yLUKvOB0G611hjLArKTeOWNmTm3lHERSaDW1d+dS6do56naX6Lkwy2UpnwWC0qzeNSgg35elk6t2gZg==
   dependencies:
     autobind-decorator "2.4.0"
     chalk "4.0.0"
