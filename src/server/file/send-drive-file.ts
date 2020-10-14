@@ -79,8 +79,8 @@ export default async function(ctx: Koa.Context) {
 			} catch (e) {
 				serverLogger.error(e);
 
-				if (typeof e == 'number' && e >= 400 && e < 500) {
-					ctx.status = e;
+				if (typeof e.statusCode == 'number' && e.statusCode >= 400 && e.statusCode < 500) {
+					ctx.status = e.statusCode;
 					ctx.set('Cache-Control', 'max-age=86400');
 				} else {
 					ctx.status = 500;
