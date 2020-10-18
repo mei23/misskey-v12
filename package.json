@@ -193,7 +193,7 @@
 		"portscanner": "2.2.0",
 		"postcss": "8.1.1",
 		"postcss-loader": "4.0.3",
-		"prismjs": "1.21.0",
+		"prismjs": "1.22.0",
 		"probe-image-size": "5.0.0",
 		"promise-limit": "2.7.0",
 		"promise-sequential": "1.1.1",
