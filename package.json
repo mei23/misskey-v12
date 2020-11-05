@@ -193,7 +193,7 @@
 		"postcss": "8.1.4",
 		"postcss-loader": "4.0.4",
 		"prismjs": "1.22.0",
-		"probe-image-size": "5.0.0",
+		"probe-image-size": "6.0.0",
 		"promise-limit": "2.7.0",
 		"promise-sequential": "1.1.1",
 		"pug": "2.0.4",
