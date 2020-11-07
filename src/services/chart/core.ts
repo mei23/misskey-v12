@@ -305,12 +305,12 @@ export default abstract class Chart<T extends Record<string, any>> {
 			if (currentLog != null) return currentLog;
 
 			// 新規ログ挿入
-			log = await this.repository.save({
+			log = await this.repository.insert({
 				group: group,
 				span: span,
 				date: date,
 				...Chart.convertObjectToFlattenColumns(data)
-			});
+			}).then(x => this.repository.findOneOrFail(x.identifiers[0]));
 
 			logger.info(`${this.name + (group ? `:${group}` : '')} (${span}): New commit created`);
 
