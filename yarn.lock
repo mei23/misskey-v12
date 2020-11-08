@@ -10440,10 +10440,10 @@ vuex-persistedstate@3.1.0:
     deepmerge "^4.2.2"
     shvl "^2.0.0"
 
-vuex@4.0.0-beta.4:
-  version "4.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.0-beta.4.tgz#7b319ead2ef30432b7eaa4e37258ea3c5e44f698"
-  integrity sha512-/+4E1dokq5cwbl4mohOqOj8h0vOLOWmLSqlqTf++bfmN9/JKWtwYfsBrzlK0sYrNfuYcpQeX0BVxQHoHXDfYZQ==
+vuex@4.0.0-rc.1:
+  version "4.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.0-rc.1.tgz#160cd5957972a61c7c01ab585995b78e092a298d"
+  integrity sha512-zgXVCQygF1Sm7ezyudEEMynoV2PBxZdcjE12D0BY1xIKZMrA7GFP6xqADTEAzwfVemXboExJ+/KThfxJFtM/5w==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
