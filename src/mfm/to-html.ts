@@ -44,7 +44,13 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 		},
 
 		fn(token) {
-			const el = doc.createElement('i');
+			const el = doc.createElement('span');
+			el.setAttribute('data-mfm', token.node.props.name);
+			for (const [key, value] of Object.entries(token.node.props.args || {})) {
+				if (!key.match(/^[a-z]+$/)) continue;
+				if (value === false) continue;
+				el.setAttribute(`data-mfm-${key}`, value === true ? '1' : value);
+			}
 			appendChildren(token.children, el);
 			return el;
 		},
@@ -52,6 +58,7 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 		blockCode(token) {
 			const pre = doc.createElement('pre');
 			const inner = doc.createElement('code');
+			if (token.node.props.lang) inner.setAttribute('data-mfm-lang', token.node.props.lang);
 			inner.textContent = token.node.props.code;
 			pre.appendChild(inner);
 			return pre;
@@ -59,6 +66,7 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 
 		center(token) {
 			const el = doc.createElement('div');
+			el.setAttribute('align', 'center');
 			appendChildren(token.children, el);
 			return el;
 		},
@@ -83,12 +91,14 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 
 		mathInline(token) {
 			const el = doc.createElement('code');
+			el.setAttribute('data-mfm', 'math');
 			el.textContent = token.node.props.formula;
 			return el;
 		},
 
 		mathBlock(token) {
 			const el = doc.createElement('code');
+			el.setAttribute('data-mfm', 'math');
 			el.textContent = token.node.props.formula;
 			return el;
 		},
@@ -141,7 +151,7 @@ export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: IMentione
 
 		search(token) {
 			const a = doc.createElement('a');
-			a.href = `https://www.google.com/search?q=${token.node.props.query}`;
+			a.href = `https://www.google.com/search?q=${encodeURIComponent(token.node.props.query)}`;
 			a.textContent = token.node.props.content;
 			return a;
 		}
