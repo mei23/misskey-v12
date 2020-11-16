@@ -102,20 +102,16 @@ export function fromHtml(html: string, hashtagNames?: string[]): string {
 
 			case 'span': {
 				const name = getValue(node, 'data-mfm');
-				if (name && name.match(/^\w+$/)) {
+				if (name?.match(/^[a-z]+$/)) {
 					const args = [];
+					for (const attr of node.attrs) {
+						const m = attr.name.match(/^data-mfm-([a-z]+)$/);
+						if (!m) continue;
+						const key = m[1];
+						args.push(attr.name === attr.value ? key : `${key}=${attr.value}`);
+					}
 
-					if (hasAttribute(node, 'data-mfm-x')) args.push('x');
-					if (hasAttribute(node, 'data-mfm-y')) args.push('y');
-					if (hasAttribute(node, 'data-mfm-h')) args.push('h');
-					if (hasAttribute(node, 'data-mfm-v')) args.push('v');
-					if (hasAttribute(node, 'data-mfm-left')) args.push('left');
-					if (hasAttribute(node, 'data-mfm-alternative')) args.push('alternative');
-
-					const speed = getValue(node, 'data-mfm-speed');
-					if (speed) args.push(`speed=${speed}`);
-
-					text += args.length > 0 ? `[${name} ${args.join(',')} ` : `[${name} `;
+					text += args.length > 0 ? `[${name}.${args.join(',')} ` : `[${name} `;
 					appendChildren(node.childNodes);
 					text += ']';
 				} else {
@@ -185,8 +181,4 @@ function getText(node: any): string {
 
 function getValue(node: any, name: string): string | undefined {
 	return node.attrs.find((x: any) => x.name == name)?.value || undefined;
-}
-
-function hasAttribute(node: any, name: string) {
-	return !!node.attrs.find((x: any) => x.name == name);
 }

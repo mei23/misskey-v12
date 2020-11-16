@@ -1087,13 +1087,19 @@ describe('MFM', () => {
 		it('br', () => {
 			const input = 'foo\nbar\nbaz';
 			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)), output);
+			assert.deepStrictEqual(toHtml(parse(input)), output);
 		});
 
 		it('br alt', () => {
 			const input = 'foo\r\nbar\rbaz';
 			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)), output);
+			assert.deepStrictEqual(toHtml(parse(input)), output);
+		});
+
+		it('fn', () => {
+			const input = '[fn.aaa,bbb=ccc abc]';
+			const output = '<p><span data-mfm="fn" data-mfm-aaa="data-mfm-aaa" data-mfm-bbb="ccc"><span>abc</span></span></p>';
+			assert.deepStrictEqual(toHtml(parse(input)), output);
 		});
 	});
 
@@ -1189,5 +1195,13 @@ describe('fromHtml', () => {
 
 	it('hashtag', () => {
 		assert.deepStrictEqual(fromHtml('<p>a <a href="https://example.com/tags/a">#a</a> d</p>', ['#a']), 'a #a d');
+	});
+
+	it('fn', () => {
+		assert.deepStrictEqual(fromHtml('<span data-mfm="fn" data-mfm-aaa="data-mfm-aaa" data-mfm-bbb="ccc" other="x">abc</span>'), '[fn.aaa,bbb=ccc abc]');
+	});
+
+	it('not a fn', () => {
+		assert.deepStrictEqual(fromHtml('<span>abc</span>'), 'abc');
 	});
 });
