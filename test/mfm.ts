@@ -1101,6 +1101,12 @@ describe('MFM', () => {
 			const output = '<p><span data-mfm="fn" data-mfm-aaa="data-mfm-aaa" data-mfm-bbb="ccc"><span>abc</span></span></p>';
 			assert.deepStrictEqual(toHtml(parse(input)), output);
 		});
+
+		it('fn with no args', () => {
+			const input = '[fn abc]';
+			const output = '<p><span data-mfm="fn"><span>abc</span></span></p>';
+			assert.deepStrictEqual(toHtml(parse(input)), output);
+		});
 	});
 
 	it('code block with quote', () => {
@@ -1199,6 +1205,10 @@ describe('fromHtml', () => {
 
 	it('fn', () => {
 		assert.deepStrictEqual(fromHtml('<span data-mfm="fn" data-mfm-aaa="data-mfm-aaa" data-mfm-bbb="ccc" other="x">abc</span>'), '[fn.aaa,bbb=ccc abc]');
+	});
+
+	it('fn with no args', () => {
+		assert.deepStrictEqual(fromHtml('<span data-mfm="fn">abc</span>'), '[fn abc]');
 	});
 
 	it('not a fn', () => {
