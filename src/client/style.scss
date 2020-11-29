@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 :root {
-	--baseContentWidth: 750px;
+	--baseContentWidth: 760px;
 	--radius: 8px;
 	--marginFull: 16px;
 	--marginHalf: 10px;
@@ -27,7 +27,7 @@ html {
 	color: var(--fg);
 	overflow: auto;
 	font-family: "BIZ UDGothic", Roboto, HelveticaNeue, Arial, sans-serif;
-	line-height: 1.3em;
+	line-height: 1.35;
 	text-size-adjust: 100%;
 
 	&, * {
@@ -74,6 +74,10 @@ html {
 
 	&.f-veryLarge {
 		font-size: 1.2em;
+	}
+
+	&.useSystemFont {
+		font-family: sans-serif;
 	}
 }
 
@@ -232,13 +236,19 @@ hr {
 }
 
 ._panel {
-	//position: relative;
-	//z-index: 1;
 	background: var(--panel);
 	border-radius: var(--radius);
 	//border: var(--panelBorder);
-	box-shadow: var(--panelShadow);
 	overflow: hidden;
+}
+
+// TODO: 普通のpanelとの使い分けが特に決まっていないので廃止してもいいかも？
+._panelElevated {
+	@extend ._panel;
+
+	//position: relative;
+	//z-index: 1;
+	box-shadow: var(--panelShadow);
 }
 
 ._card {
