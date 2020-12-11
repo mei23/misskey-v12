@@ -10276,10 +10276,10 @@ vue-json-pretty@1.7.1:
   resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.7.1.tgz#c7cd0ef9e85d89025a8bf87a0da14b0fc7d19913"
   integrity sha512-D7aHQ5XPooSAEndTkb/RvXXJdmuCjaj14IMRdJwO4q+yJMpzPv87FT2gz4Dt2mCr1EzFyat7z7Qv9R+l/1as+w==
 
-vue-loader@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.0.0.tgz#7ec137c7f9029f2a5990f39dc5abbca06d60ba30"
-  integrity sha512-R20f4PWe34dqhTZ9tkyFd6nfjxEbLBHbFOsN38qg0Jl8GKMfmoyc/E8vVjjRkunE6qCydpPoH7f/tW13bD6+JA==
+vue-loader@16.1.1:
+  version "16.1.1"
+  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.1.1.tgz#f5b286d60ac6886684c63a17a184391cc9e0199a"
+  integrity sha512-wz/+HFg/3SBayHWAlZXARcnDTl3VOChrfW9YnxvAweiuyKX/7IGx1ad/4yJHmwhgWlOVYMAbTiI7GV8G33PfGQ==
   dependencies:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
