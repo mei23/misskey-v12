@@ -1,8 +1,7 @@
 /**
  * BOOT LOADER
  * サーバーからレスポンスされるHTMLに埋め込まれるスクリプトで、以下の役割を持ちます。
- * - 翻訳ファイルをフェッチする。
- * - バージョンに基づいて適切なメインスクリプトを読み込む。
+ * - バージョンやユーザーの言語に基づいて適切なメインスクリプトを読み込む。
  * - キャッシュされたコンパイル済みテーマを適用する。
  * - クライアントの設定値に基づいて対応するHTMLクラス等を設定する。
  * テーマをこの段階で設定するのは、メインスクリプトが読み込まれる間もテーマを適用したいためです。
@@ -11,34 +10,27 @@
 
 'use strict';
 
-// ブロックの中に入れないと、定義した変数がブラウザのグローバルスコープに登録されてしまい邪魔なので
-(async () => {
-	const v = localStorage.getItem('v') || VERSION;
+// ブロックの中に入れないと、定義した変数がブラウザのグローバルスコープに登録されてしまい邪魔
+{
+	//#region Script
 
-	//#region Detect language & fetch translations
-	if (localStorage.hasOwnProperty('locale')) {
-		// TODO: 非同期でlocaleの更新処理をする
-	} else {
-		const supportedLangs = LANGS;
-		let lang = localStorage.getItem('lang');
-		if (lang == null || !supportedLangs.includes(lang)) {
-			if (supportedLangs.includes(navigator.language)) {
-				lang = navigator.language;
-			} else {
-				lang = supportedLangs.find(x => x.split('-')[0] === navigator.language);
+	//#region Detect language
+	const supportedLangs = LANGS;
+	let lang = localStorage.getItem('lang');
+	if (lang == null || !supportedLangs.includes(lang)) {
+		if (supportedLangs.includes(navigator.language)) {
+			lang = navigator.language;
+		} else {
+			lang = supportedLangs.find(x => x.split('-')[0] === navigator.language);
 
-				// Fallback
-				if (lang == null) lang = 'en-US';
-			}
+			// Fallback
+			if (lang == null) lang = 'en-US';
 		}
-
-		const res = await fetch(`/assets/locales/${lang}.${v}.json`);
-		const json = await res.json();
-		localStorage.setItem('locale', JSON.stringify(json));
 	}
 	//#endregion
 
-	//#region Script
+	const ver = localStorage.getItem('v') || VERSION;
+
 	const salt = localStorage.getItem('salt')
 		? `?salt=${localStorage.getItem('salt')}`
 		: '';
@@ -46,7 +38,7 @@
 	const head = document.getElementsByTagName('head')[0];
 
 	const script = document.createElement('script');
-	script.setAttribute('src', `/assets/app.${v}.js${salt}`);
+	script.setAttribute('src', `/assets/app.${ver}.${lang}.js${salt}`);
 	script.setAttribute('async', 'true');
 	script.setAttribute('defer', 'true');
 	head.appendChild(script);
@@ -64,7 +56,7 @@
 
 		const meta = await res.json();
 
-		if (meta.version != v) {
+		if (meta.version != ver) {
 			localStorage.setItem('v', meta.version);
 			alert(
 				'Misskeyの新しいバージョンがあります。ページを再度読み込みします。' +
@@ -121,4 +113,4 @@
 
 		location.reload();
 	}
-})();
+}
