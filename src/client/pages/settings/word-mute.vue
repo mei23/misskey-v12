@@ -1,31 +1,31 @@
 <template>
 <div>
 	<MkTab v-model:value="tab">
-		<option value="soft">{{ $ts._wordMute.soft }}</option>
-		<option value="hard">{{ $ts._wordMute.hard }}</option>
+		<option value="soft">{{ $t('_wordMute.soft') }}</option>
+		<option value="hard">{{ $t('_wordMute.hard') }}</option>
 	</MkTab>
 	<FormBase>
 		<div class="_formItem">
 			<div v-show="tab === 'soft'">
-				<MkInfo>{{ $ts._wordMute.softDescription }}</MkInfo>
+				<MkInfo>{{ $t('_wordMute.softDescription') }}</MkInfo>
 				<FormTextarea v-model:value="softMutedWords">
-					<span>{{ $ts._wordMute.muteWords }}</span>
-					<template #desc>{{ $ts._wordMute.muteWordsDescription }}<br>{{ $ts._wordMute.muteWordsDescription2 }}</template>
+					<span>{{ $t('_wordMute.muteWords') }}</span>
+					<template #desc>{{ $t('_wordMute.muteWordsDescription') }}<br>{{ $t('_wordMute.muteWordsDescription2') }}</template>
 				</FormTextarea>
 			</div>
 			<div v-show="tab === 'hard'">
-				<MkInfo>{{ $ts._wordMute.hardDescription }}</MkInfo>
+				<MkInfo>{{ $t('_wordMute.hardDescription') }}</MkInfo>
 				<FormTextarea v-model:value="hardMutedWords">
-					<span>{{ $ts._wordMute.muteWords }}</span>
-					<template #desc>{{ $ts._wordMute.muteWordsDescription }}<br>{{ $ts._wordMute.muteWordsDescription2 }}</template>
+					<span>{{ $t('_wordMute.muteWords') }}</span>
+					<template #desc>{{ $t('_wordMute.muteWordsDescription') }}<br>{{ $t('_wordMute.muteWordsDescription2') }}</template>
 				</FormTextarea>
 				<FormKeyValueView v-if="hardWordMutedNotesCount != null">
-					<template #key>{{ $ts._wordMute.mutedNotes }}</template>
+					<template #key>{{ $t('_wordMute.mutedNotes') }}</template>
 					<template #value>{{ number(hardWordMutedNotesCount) }}</template>
 				</FormKeyValueView>
 			</div>
 		</div>
-		<FormButton @click="save()" primary inline :disabled="!changed"><Fa :icon="faSave"/> {{ $ts.save }}</FormButton>
+		<FormButton @click="save()" primary inline :disabled="!changed"><Fa :icon="faSave"/> {{ $t('save') }}</FormButton>
 	</FormBase>
 </div>
 </template>
@@ -57,7 +57,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.wordMute,
+				title: this.$t('wordMute'),
 				icon: faCommentSlash
 			},
 			tab: 'soft',

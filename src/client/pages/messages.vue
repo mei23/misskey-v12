@@ -18,7 +18,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.directNotes,
+				title: this.$t('directNotes'),
 				icon: faEnvelope
 			},
 			pagination: {

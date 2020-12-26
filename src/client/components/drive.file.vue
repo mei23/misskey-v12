@@ -10,15 +10,15 @@
 >
 	<div class="label" v-if="$i.avatarId == file.id">
 		<img src="/assets/label.svg"/>
-		<p>{{ $ts.avatar }}</p>
+		<p>{{ $t('avatar') }}</p>
 	</div>
 	<div class="label" v-if="$i.bannerId == file.id">
 		<img src="/assets/label.svg"/>
-		<p>{{ $ts.banner }}</p>
+		<p>{{ $t('banner') }}</p>
 	</div>
 	<div class="label red" v-if="file.isSensitive">
 		<img src="/assets/label-red.svg"/>
-		<p>{{ $ts.nsfw }}</p>
+		<p>{{ $t('nsfw') }}</p>
 	</div>
 
 	<MkDriveFileThumbnail class="thumbnail" :file="file" fit="contain"/>
@@ -82,26 +82,26 @@ export default defineComponent({
 	methods: {
 		getMenu() {
 			return [{
-				text: this.$ts.rename,
+				text: this.$t('rename'),
 				icon: faICursor,
 				action: this.rename
 			}, {
-				text: this.file.isSensitive ? this.$ts.unmarkAsSensitive : this.$ts.markAsSensitive,
+				text: this.file.isSensitive ? this.$t('unmarkAsSensitive') : this.$t('markAsSensitive'),
 				icon: this.file.isSensitive ? faEye : faEyeSlash,
 				action: this.toggleSensitive
 			}, null, {
-				text: this.$ts.copyUrl,
+				text: this.$t('copyUrl'),
 				icon: faLink,
 				action: this.copyUrl
 			}, {
 				type: 'a',
 				href: this.file.url,
 				target: '_blank',
-				text: this.$ts.download,
+				text: this.$t('download'),
 				icon: faDownload,
 				download: this.file.name
 			}, null, {
-				text: this.$ts.delete,
+				text: this.$t('delete'),
 				icon: faTrashAlt,
 				danger: true,
 				action: this.deleteFile
@@ -137,9 +137,9 @@ export default defineComponent({
 
 		rename() {
 			os.dialog({
-				title: this.$ts.renameFile,
+				title: this.$t('renameFile'),
 				input: {
-					placeholder: this.$ts.inputNewFileName,
+					placeholder: this.$t('inputNewFileName'),
 					default: this.file.name,
 					allowEmpty: false
 				}

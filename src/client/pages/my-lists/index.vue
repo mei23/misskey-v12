@@ -1,6 +1,6 @@
 <template>
 <div class="qkcjvfiv _section">
-	<MkButton @click="create" primary class="add"><Fa :icon="faPlus"/> {{ $ts.createList }}</MkButton>
+	<MkButton @click="create" primary class="add"><Fa :icon="faPlus"/> {{ $t('createList') }}</MkButton>
 
 	<MkPagination :pagination="pagination" #default="{items}" class="lists _content" ref="list">
 		<div class="list _panel" v-for="(list, i) in items" :key="list.id">
@@ -26,7 +26,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.manageLists,
+				title: this.$t('manageLists'),
 				icon: faListUl,
 				action: {
 					icon: faPlus,
@@ -44,7 +44,7 @@ export default defineComponent({
 	methods: {
 		async create() {
 			const { canceled, result: name } = await os.dialog({
-				title: this.$ts.enterListName,
+				title: this.$t('enterListName'),
 				input: true
 			});
 			if (canceled) return;

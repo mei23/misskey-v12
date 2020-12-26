@@ -136,10 +136,10 @@ export default defineComponent({
 		getMenu() {
 			const items = [{
 				icon: faPencilAlt,
-				text: this.$ts.rename,
+				text: this.$t('rename'),
 				action: () => {
 					os.dialog({
-						title: this.$ts.rename,
+						title: this.$t('rename'),
 						input: {
 							default: this.column.name,
 							allowEmpty: false
@@ -151,43 +151,43 @@ export default defineComponent({
 				}
 			}, null, {
 				icon: faArrowLeft,
-				text: this.$ts._deck.swapLeft,
+				text: this.$t('_deck.swapLeft'),
 				action: () => {
 					swapLeftColumn(this.column.id);
 				}
 			}, {
 				icon: faArrowRight,
-				text: this.$ts._deck.swapRight,
+				text: this.$t('_deck.swapRight'),
 				action: () => {
 					swapRightColumn(this.column.id);
 				}
 			}, this.isStacked ? {
 				icon: faArrowUp,
-				text: this.$ts._deck.swapUp,
+				text: this.$t('_deck.swapUp'),
 				action: () => {
 					swapUpColumn(this.column.id);
 				}
 			} : undefined, this.isStacked ? {
 				icon: faArrowDown,
-				text: this.$ts._deck.swapDown,
+				text: this.$t('_deck.swapDown'),
 				action: () => {
 					swapDownColumn(this.column.id);
 				}
 			} : undefined, null, {
 				icon: faWindowRestore,
-				text: this.$ts._deck.stackLeft,
+				text: this.$t('_deck.stackLeft'),
 				action: () => {
 					stackLeftColumn(this.column.id);
 				}
 			}, this.isStacked ? {
 				icon: faWindowMaximize,
-				text: this.$ts._deck.popRight,
+				text: this.$t('_deck.popRight'),
 				action: () => {
 					popRightColumn(this.column.id);
 				}
 			} : undefined, null, {
 				icon: faTrashAlt,
-				text: this.$ts.remove,
+				text: this.$t('remove'),
 				action: () => {
 					removeColumn(this.column.id);
 				}

@@ -18,7 +18,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.mentions,
+				title: this.$t('mentions'),
 				icon: faAt
 			},
 			pagination: {

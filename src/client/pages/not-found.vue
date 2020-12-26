@@ -2,7 +2,7 @@
 <div class="ipledcug">
 	<div class="_fullinfo">
 		<img src="https://xn--931a.moe/assets/not-found.jpg" class="_ghost"/>
-		<div>{{ $ts.notFoundDescription }}</div>
+		<div>{{ $t('notFoundDescription') }}</div>
 	</div>
 </div>
 </template>
@@ -16,7 +16,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.notFound,
+				title: this.$t('notFound'),
 				icon: faExclamationTriangle
 			},
 		}

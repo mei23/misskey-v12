@@ -1,9 +1,9 @@
 <template>
 <section class="uawsfosz _section">
-	<div class="_title"><Fa :icon="faCloud"/> {{ $ts.drive }}</div>
+	<div class="_title"><Fa :icon="faCloud"/> {{ $t('drive') }}</div>
 	<div class="_content">
-		<span>{{ $ts.uploadFolder }}: {{ uploadFolder ? uploadFolder.name : '-' }}</span>
-		<MkButton primary @click="chooseUploadFolder()"><Fa :icon="faFolderOpen"/> {{ $ts.selectFolder }}</MkButton>
+		<span>{{ $t('uploadFolder') }}: {{ uploadFolder ? uploadFolder.name : '-' }}</span>
+		<MkButton primary @click="chooseUploadFolder()"><Fa :icon="faFolderOpen"/> {{ $t('selectFolder') }}</MkButton>
 	</div>
 </section>
 </template>

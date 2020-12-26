@@ -1,7 +1,7 @@
 <template>
 <div class="_section">
 	<div class="mk-messaging _content" v-size="{ max: [400] }">
-		<MkButton @click="start" primary class="start"><Fa :icon="faPlus"/> {{ $ts.startMessaging }}</MkButton>
+		<MkButton @click="start" primary class="start"><Fa :icon="faPlus"/> {{ $t('startMessaging') }}</MkButton>
 
 		<div class="history" v-if="messages.length > 0">
 			<MkA v-for="(message, i) in messages"
@@ -23,14 +23,14 @@
 						<MkTime :time="message.createdAt" class="time"/>
 					</header>
 					<div class="body">
-						<p class="text"><span class="me" v-if="isMe(message)">{{ $ts.you }}:</span>{{ message.text }}</p>
+						<p class="text"><span class="me" v-if="isMe(message)">{{ $t('you') }}:</span>{{ message.text }}</p>
 					</div>
 				</div>
 			</MkA>
 		</div>
 		<div class="_fullinfo" v-if="!fetching && messages.length == 0">
 			<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
-			<div>{{ $ts.noHistory }}</div>
+			<div>{{ $t('noHistory') }}</div>
 		</div>
 		<MkLoading v-if="fetching"/>
 	</div>
@@ -53,7 +53,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.messaging,
+				title: this.$t('messaging'),
 				icon: faComments
 			},
 			fetching: true,
@@ -119,11 +119,11 @@ export default defineComponent({
 
 		start(ev) {
 			os.modalMenu([{
-				text: this.$ts.messagingWithUser,
+				text: this.$t('messagingWithUser'),
 				icon: faUser,
 				action: () => { this.startUser() }
 			}, {
-				text: this.$ts.messagingWithGroup,
+				text: this.$t('messagingWithGroup'),
 				icon: faUsers,
 				action: () => { this.startGroup() }
 			}], ev.currentTarget || ev.target);
@@ -141,14 +141,14 @@ export default defineComponent({
 			if (groups1.length === 0 && groups2.length === 0) {
 				os.dialog({
 					type: 'warning',
-					title: this.$ts.youHaveNoGroups,
-					text: this.$ts.joinOrCreateGroup,
+					title: this.$t('youHaveNoGroups'),
+					text: this.$t('joinOrCreateGroup'),
 				});
 				return;
 			}
 			const { canceled, result: group } = await os.dialog({
 				type: null,
-				title: this.$ts.group,
+				title: this.$t('group'),
 				select: {
 					items: groups1.concat(groups2).map(group => ({
 						value: group, text: group.name

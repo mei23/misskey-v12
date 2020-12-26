@@ -19,7 +19,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.favorites,
+				title: this.$t('favorites'),
 				icon: faStar
 			},
 			pagination: {

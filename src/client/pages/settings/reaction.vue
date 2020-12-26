@@ -1,7 +1,7 @@
 <template>
 <FormBase>
 	<div class="_formItem">
-		<div class="_formLabel">{{ $ts.reactionSettingDescription }}</div>
+		<div class="_formLabel">{{ $t('reactionSettingDescription') }}</div>
 		<div class="_formPanel">
 			<XDraggable class="zoaiodol" v-model="reactions" :item-key="item => item" animation="150" delay="100" delay-on-touch-only="true">
 				<template #item="{element}">
@@ -14,23 +14,23 @@
 				</template>
 			</XDraggable>
 		</div>
-		<div class="_formCaption">{{ $ts.reactionSettingDescription2 }} <button class="_textButton" @click="preview">{{ $ts.preview }}</button></div>
+		<div class="_formCaption">{{ $t('reactionSettingDescription2') }} <button class="_textButton" @click="preview">{{ $t('preview') }}</button></div>
 	</div>
 
 	<FormRadios v-model="reactionPickerWidth">
-		<template #desc>{{ $ts.width }}</template>
-		<option :value="1">{{ $ts.small }}</option>
-		<option :value="2">{{ $ts.medium }}</option>
-		<option :value="3">{{ $ts.large }}</option>
+		<template #desc>{{ $t('width') }}</template>
+		<option :value="1">{{ $t('small') }}</option>
+		<option :value="2">{{ $t('medium') }}</option>
+		<option :value="3">{{ $t('large') }}</option>
 	</FormRadios>
 	<FormRadios v-model="reactionPickerHeight">
-		<template #desc>{{ $ts.height }}</template>
-		<option :value="1">{{ $ts.small }}</option>
-		<option :value="2">{{ $ts.medium }}</option>
-		<option :value="3">{{ $ts.large }}</option>
+		<template #desc>{{ $t('height') }}</template>
+		<option :value="1">{{ $t('small') }}</option>
+		<option :value="2">{{ $t('medium') }}</option>
+		<option :value="3">{{ $t('large') }}</option>
 	</FormRadios>
-	<FormButton @click="preview"><Fa :icon="faEye"/> {{ $ts.preview }}</FormButton>
-	<FormButton danger @click="setDefault"><Fa :icon="faUndo"/> {{ $ts.default }}</FormButton>
+	<FormButton @click="preview"><Fa :icon="faEye"/> {{ $t('preview') }}</FormButton>
+	<FormButton danger @click="setDefault"><Fa :icon="faUndo"/> {{ $t('default') }}</FormButton>
 </FormBase>
 </template>
 
@@ -60,7 +60,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.reaction,
+				title: this.$t('reaction'),
 				icon: faLaugh,
 				action: {
 					icon: faEye,
@@ -97,7 +97,7 @@ export default defineComponent({
 
 		remove(reaction, ev) {
 			os.modalMenu([{
-				text: this.$ts.remove,
+				text: this.$t('remove'),
 				action: () => {
 					this.reactions = this.reactions.filter(x => x !== reaction)
 				}
@@ -114,7 +114,7 @@ export default defineComponent({
 		async setDefault() {
 			const { canceled } = await os.dialog({
 				type: 'warning',
-				text: this.$ts.resetAreYouSure,
+				text: this.$t('resetAreYouSure'),
 				showCancelButton: true
 			});
 			if (canceled) return;

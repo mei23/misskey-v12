@@ -24,18 +24,18 @@
 				<XFolder v-for="f in folders" :key="f.id" class="folder" :folder="f" :select-mode="select === 'folder'" :is-selected="selectedFolders.some(x => x.id === f.id)" @chosen="chooseFolder"/>
 				<!-- SEE: https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid -->
 				<div class="padding" v-for="(n, i) in 16" :key="i"></div>
-				<MkButton ref="moreFolders" v-if="moreFolders">{{ $ts.loadMore }}</MkButton>
+				<MkButton ref="moreFolders" v-if="moreFolders">{{ $t('loadMore') }}</MkButton>
 			</div>
 			<div class="files" ref="filesContainer" v-show="files.length > 0">
 				<XFile v-for="file in files" :key="file.id" class="file" :file="file" :select-mode="select === 'file'" :is-selected="selectedFiles.some(x => x.id === file.id)" @chosen="chooseFile"/>
 				<!-- SEE: https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid -->
 				<div class="padding" v-for="(n, i) in 16" :key="i"></div>
-				<MkButton ref="loadMoreFiles" @click="fetchMoreFiles" v-show="moreFiles">{{ $ts.loadMore }}</MkButton>
+				<MkButton ref="loadMoreFiles" @click="fetchMoreFiles" v-show="moreFiles">{{ $t('loadMore') }}</MkButton>
 			</div>
 			<div class="empty" v-if="files.length == 0 && folders.length == 0 && !fetching">
 				<p v-if="draghover">{{ $t('empty-draghover') }}</p>
-				<p v-if="!draghover && folder == null"><strong>{{ $ts.emptyDrive }}</strong><br/>{{ $t('empty-drive-description') }}</p>
-				<p v-if="!draghover && folder != null">{{ $ts.emptyFolder }}</p>
+				<p v-if="!draghover && folder == null"><strong>{{ $t('emptyDrive') }}</strong><br/>{{ $t('empty-drive-description') }}</p>
+				<p v-if="!draghover && folder != null">{{ $t('emptyFolder') }}</p>
 			</div>
 		</div>
 		<MkLoading v-if="fetching"/>
@@ -277,14 +277,14 @@ export default defineComponent({
 					switch (err) {
 						case 'detected-circular-definition':
 							os.dialog({
-								title: this.$ts.unableToProcess,
-								text: this.$ts.circularReferenceFolder
+								title: this.$t('unableToProcess'),
+								text: this.$t('circularReferenceFolder')
 							});
 							break;
 						default:
 							os.dialog({
 								type: 'error',
-								text: this.$ts.somethingHappened
+								text: this.$t('somethingHappened')
 							});
 					}
 				});
@@ -298,9 +298,9 @@ export default defineComponent({
 
 		urlUpload() {
 			os.dialog({
-				title: this.$ts.uploadFromUrl,
+				title: this.$t('uploadFromUrl'),
 				input: {
-					placeholder: this.$ts.uploadFromUrlDescription
+					placeholder: this.$t('uploadFromUrlDescription')
 				}
 			}).then(({ canceled, result: url }) => {
 				if (canceled) return;
@@ -310,17 +310,17 @@ export default defineComponent({
 				});
 
 				os.dialog({
-					title: this.$ts.uploadFromUrlRequested,
-					text: this.$ts.uploadFromUrlMayTakeTime
+					title: this.$t('uploadFromUrlRequested'),
+					text: this.$t('uploadFromUrlMayTakeTime')
 				});
 			});
 		},
 
 		createFolder() {
 			os.dialog({
-				title: this.$ts.createFolder,
+				title: this.$t('createFolder'),
 				input: {
-					placeholder: this.$ts.folderName
+					placeholder: this.$t('folderName')
 				}
 			}).then(({ canceled, result: name }) => {
 				if (canceled) return;
@@ -335,9 +335,9 @@ export default defineComponent({
 
 		renameFolder(folder) {
 			os.dialog({
-				title: this.$ts.renameFolder,
+				title: this.$t('renameFolder'),
 				input: {
-					placeholder: this.$ts.inputNewFolderName,
+					placeholder: this.$t('inputNewFolderName'),
 					default: folder.name
 				}
 			}).then(({ canceled, result: name }) => {
@@ -363,14 +363,14 @@ export default defineComponent({
 					case 'b0fc8a17-963c-405d-bfbc-859a487295e1':
 						os.dialog({
 							type: 'error',
-							title: this.$ts.unableToDelete,
-							text: this.$ts.hasChildFilesOrFolders
+							title: this.$t('unableToDelete'),
+							text: this.$t('hasChildFilesOrFolders')
 						});
 						break;
 					default:
 						os.dialog({
 							type: 'error',
-							text: this.$ts.unableToDelete
+							text: this.$t('unableToDelete')
 						});
 					}
 			});
@@ -602,29 +602,29 @@ export default defineComponent({
 
 		getMenu() {
 			return [{
-				text: this.$ts.addFile,
+				text: this.$t('addFile'),
 				type: 'label'
 			}, {
-				text: this.$ts.upload,
+				text: this.$t('upload'),
 				icon: faUpload,
 				action: () => { this.selectLocalFile(); }
 			}, {
-				text: this.$ts.fromUrl,
+				text: this.$t('fromUrl'),
 				icon: faLink,
 				action: () => { this.urlUpload(); }
 			}, null, {
-				text: this.folder ? this.folder.name : this.$ts.drive,
+				text: this.folder ? this.folder.name : this.$t('drive'),
 				type: 'label'
 			}, this.folder ? {
-				text: this.$ts.renameFolder,
+				text: this.$t('renameFolder'),
 				icon: faICursor,
 				action: () => { this.renameFolder(this.folder); }
 			} : undefined, this.folder ? {
-				text: this.$ts.deleteFolder,
+				text: this.$t('deleteFolder'),
 				icon: faTrashAlt,
 				action: () => { this.deleteFolder(this.folder); }
 			} : undefined, {
-				text: this.$ts.createFolder,
+				text: this.$t('createFolder'),
 				icon: faFolderPlus,
 				action: () => { this.createFolder(); }
 			}];

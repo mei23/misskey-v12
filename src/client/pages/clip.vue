@@ -81,24 +81,24 @@ export default defineComponent({
 		menu(ev) {
 			os.modalMenu([this.isOwned ? {
 				icon: faPencilAlt,
-				text: this.$ts.edit,
+				text: this.$t('edit'),
 				action: async () => {
 					const { canceled, result } = await os.form(this.clip.name, {
 						name: {
 							type: 'string',
-							label: this.$ts.name,
+							label: this.$t('name'),
 							default: this.clip.name
 						},
 						description: {
 							type: 'string',
 							required: false,
 							multiline: true,
-							label: this.$ts.description,
+							label: this.$t('description'),
 							default: this.clip.description
 						},
 						isPublic: {
 							type: 'boolean',
-							label: this.$ts.public,
+							label: this.$t('public'),
 							default: this.clip.isPublic
 						}
 					});
@@ -111,7 +111,7 @@ export default defineComponent({
 				}
 			} : undefined, this.isOwned ? {
 				icon: faTrashAlt,
-				text: this.$ts.delete,
+				text: this.$t('delete'),
 				danger: true,
 				action: async () => {
 					const { canceled } = await os.dialog({

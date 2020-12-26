@@ -1,19 +1,19 @@
 <template>
 <FormBase>
 	<FormTextarea v-model:value="items" tall>
-		<span>{{ $ts.sidebar }}</span>
-		<template #desc><button class="_textButton" @click="addItem">{{ $ts.addItem }}</button></template>
+		<span>{{ $t('sidebar') }}</span>
+		<template #desc><button class="_textButton" @click="addItem">{{ $t('addItem') }}</button></template>
 	</FormTextarea>
 
 	<FormRadios v-model="sidebarDisplay">
-		<template #desc>{{ $ts.display }}</template>
-		<option value="full">{{ $ts._sidebar.full }}</option>
-		<option value="icon">{{ $ts._sidebar.icon }}</option>
-		<!-- <MkRadio v-model="sidebarDisplay" value="hide" disabled>{{ $ts._sidebar.hide }}</MkRadio>--> <!-- TODO: サイドバーを完全に隠せるようにすると、別途ハンバーガーボタンのようなものをUIに表示する必要があり面倒 -->
+		<template #desc>{{ $t('display') }}</template>
+		<option value="full">{{ $t('_sidebar.full') }}</option>
+		<option value="icon">{{ $t('_sidebar.icon') }}</option>
+		<!-- <MkRadio v-model="sidebarDisplay" value="hide" disabled>{{ $t('_sidebar.hide') }}</MkRadio>--> <!-- TODO: サイドバーを完全に隠せるようにすると、別途ハンバーガーボタンのようなものをUIに表示する必要があり面倒 -->
 	</FormRadios>
 
-	<FormButton @click="save()" primary><Fa :icon="faSave"/> {{ $ts.save }}</FormButton>
-	<FormButton @click="reset()" danger><Fa :icon="faRedo"/> {{ $ts.default }}</FormButton>
+	<FormButton @click="save()" primary><Fa :icon="faSave"/> {{ $t('save') }}</FormButton>
+	<FormButton @click="reset()" danger><Fa :icon="faRedo"/> {{ $t('default') }}</FormButton>
 </FormBase>
 </template>
 
@@ -43,7 +43,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.sidebar,
+				title: this.$t('sidebar'),
 				icon: faListUl
 			},
 			menuDef: sidebarDef,
@@ -73,12 +73,12 @@ export default defineComponent({
 			const menu = Object.keys(this.menuDef).filter(k => !this.$store.state.menu.includes(k));
 			const { canceled, result: item } = await os.dialog({
 				type: null,
-				title: this.$ts.addItem,
+				title: this.$t('addItem'),
 				select: {
 					items: [...menu.map(k => ({
 						value: k, text: this.$t(this.menuDef[k].title)
 					})), ...[{
-						value: '-', text: this.$ts.divider
+						value: '-', text: this.$t('divider')
 					}]]
 				},
 				showCancelButton: true

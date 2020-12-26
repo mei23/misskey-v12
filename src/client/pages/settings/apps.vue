@@ -4,7 +4,7 @@
 		<template #empty>
 			<div class="_fullinfo">
 				<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
-				<div>{{ $ts.nothing }}</div>
+				<div>{{ $t('nothing') }}</div>
 			</div>
 		</template>
 		<template #default="{items}">
@@ -14,18 +14,18 @@
 					<div class="name">{{ token.name }}</div>
 					<div class="description">{{ token.description }}</div>
 					<div class="_keyValue">
-						<div>{{ $ts.installedDate }}:</div>
+						<div>{{ $t('installedDate') }}:</div>
 						<div><MkTime :time="token.createdAt"/></div>
 					</div>
 					<div class="_keyValue">
-						<div>{{ $ts.lastUsedDate }}:</div>
+						<div>{{ $t('lastUsedDate') }}:</div>
 						<div><MkTime :time="token.lastUsedAt"/></div>
 					</div>
 					<div class="actions">
 						<button class="_button" @click="revoke(token)"><Fa :icon="faTrashAlt"/></button>
 					</div>
 					<details>
-						<summary>{{ $ts.details }}</summary>
+						<summary>{{ $t('details') }}</summary>
 						<ul>
 							<li v-for="p in token.permission" :key="p">{{ $t(`_permissions.${p}`) }}</li>
 						</ul>
@@ -59,7 +59,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.installedApps,
+				title: this.$t('installedApps'),
 				icon: faPlug,
 			},
 			pagination: {

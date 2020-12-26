@@ -48,7 +48,7 @@ export default defineComponent({
 	created() {
 		this.menu = [{
 			icon: faCog,
-			text: this.$ts.selectList,
+			text: this.$t('selectList'),
 			action: this.setList
 		}];
 	},
@@ -63,7 +63,7 @@ export default defineComponent({
 		async setList() {
 			const lists = await os.api('users/lists/list');
 			const { canceled, result: list } = await os.dialog({
-				title: this.$ts.selectList,
+				title: this.$t('selectList'),
 				type: null,
 				select: {
 					items: lists.map(x => ({

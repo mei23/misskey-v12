@@ -90,29 +90,29 @@ export default defineComponent({
 				text: this.path,
 			}, {
 				icon: faExpandAlt,
-				text: this.$ts.showInPage,
+				text: this.$t('showInPage'),
 				action: this.expand
 			}, this.sideViewHook ? {
 				icon: faColumns,
-				text: this.$ts.openInSideView,
+				text: this.$t('openInSideView'),
 				action: () => {
 					this.sideViewHook(this.path);
 					this.$refs.window.close();
 				}
 			} : undefined, {
 				icon: faExternalLinkAlt,
-				text: this.$ts.popout,
+				text: this.$t('popout'),
 				action: this.popout
 			}, null, {
 				icon: faExternalLinkAlt,
-				text: this.$ts.openInNewTab,
+				text: this.$t('openInNewTab'),
 				action: () => {
 					window.open(this.url, '_blank');
 					this.$refs.window.close();
 				}
 			}, {
 				icon: faLink,
-				text: this.$ts.copyLink,
+				text: this.$t('copyLink'),
 				action: () => {
 					copyToClipboard(this.url);
 				}

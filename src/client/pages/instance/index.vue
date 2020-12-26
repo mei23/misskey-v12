@@ -1,13 +1,13 @@
 <template>
 <div v-if="meta" v-show="page === 'index'" class="xhexznfu _section">
 	<MkFolder>
-		<template #header><Fa :icon="faTachometerAlt"/> {{ $ts.overview }}</template>
+		<template #header><Fa :icon="faTachometerAlt"/> {{ $t('overview') }}</template>
 
 		<div class="sboqnrfi" :style="{ gridTemplateRows: overviewHeight }">
 			<MkInstanceStats :chart-limit="300" :detailed="true" class="_vMargin" ref="stats"/>
 
 			<MkContainer :body-togglable="true" class="_vMargin">
-				<template #header><Fa :icon="faInfoCircle"/>{{ $ts.instanceInfo }}</template>
+				<template #header><Fa :icon="faInfoCircle"/>{{ $t('instanceInfo') }}</template>
 
 				<div class="_content">
 					<div class="_keyValue"><b>Misskey</b><span>v{{ version }}</span></div>
@@ -20,7 +20,7 @@
 			</MkContainer>
 			
 			<MkContainer :body-togglable="true" :scrollable="true" class="_vMargin" style="height: 300px;">
-				<template #header><Fa :icon="faDatabase"/>{{ $ts.database }}</template>
+				<template #header><Fa :icon="faDatabase"/>{{ $t('database') }}</template>
 
 				<div class="_content" v-if="dbInfo">
 					<table style="border-collapse: collapse; width: 100%;">
@@ -42,7 +42,7 @@
 </div>
 <div v-if="page === 'logs'" class="_section">
 	<MkFolder>
-		<template #header><Fa :icon="faStream"/> {{ $ts.logs }}</template>
+		<template #header><Fa :icon="faStream"/> {{ $t('logs') }}</template>
 
 		<div class="_keyValue" v-for="log in modLogs">
 			<b>{{ log.type }}</b><span>by {{ log.user.username }}</span><MkTime :time="log.createdAt" style="opacity: 0.7;"/>
@@ -89,21 +89,21 @@ export default defineComponent({
 				tabs: [{
 					id: 'index',
 					title: null,
-					tooltip: this.$ts.instance,
+					tooltip: this.$t('instance'),
 					icon: faServer,
 					onClick: () => { this.page = 'index'; },
 					selected: computed(() => this.page === 'index')
 				}, {
 					id: 'metrics',
 					title: null,
-					tooltip: this.$ts.metrics,
+					tooltip: this.$t('metrics'),
 					icon: faHeartbeat,
 					onClick: () => { this.page = 'metrics'; },
 					selected: computed(() => this.page === 'metrics')
 				}, {
 					id: 'logs',
 					title: null,
-					tooltip: this.$ts.logs,
+					tooltip: this.$t('logs'),
 					icon: faStream,
 					onClick: () => { this.page = 'logs'; },
 					selected: computed(() => this.page === 'logs')

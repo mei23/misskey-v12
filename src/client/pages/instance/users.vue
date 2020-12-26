@@ -2,53 +2,53 @@
 <div class="mk-instance-users">
 	<div class="_section">
 		<div class="_content">
-			<MkButton inline primary @click="addUser()"><Fa :icon="faPlus"/> {{ $ts.addUser }}</MkButton>
+			<MkButton inline primary @click="addUser()"><Fa :icon="faPlus"/> {{ $t('addUser') }}</MkButton>
 		</div>
 	</div>
 
 	<div class="_section lookup">
-		<div class="_title"><Fa :icon="faSearch"/> {{ $ts.lookup }}</div>
+		<div class="_title"><Fa :icon="faSearch"/> {{ $t('lookup') }}</div>
 		<div class="_content">
 			<MkInput class="target" v-model:value="target" type="text" @enter="showUser()">
-				<span>{{ $ts.usernameOrUserId }}</span>
+				<span>{{ $t('usernameOrUserId') }}</span>
 			</MkInput>
-			<MkButton @click="showUser()" primary><Fa :icon="faSearch"/> {{ $ts.lookup }}</MkButton>
+			<MkButton @click="showUser()" primary><Fa :icon="faSearch"/> {{ $t('lookup') }}</MkButton>
 		</div>
 	</div>
 
 	<div class="_section users">
-		<div class="_title"><Fa :icon="faUsers"/> {{ $ts.users }}</div>
+		<div class="_title"><Fa :icon="faUsers"/> {{ $t('users') }}</div>
 		<div class="_content">
 			<div class="inputs" style="display: flex;">
 				<MkSelect v-model:value="sort" style="margin: 0; flex: 1;">
-					<template #label>{{ $ts.sort }}</template>
-					<option value="-createdAt">{{ $ts.registeredDate }} ({{ $ts.ascendingOrder }})</option>
-					<option value="+createdAt">{{ $ts.registeredDate }} ({{ $ts.descendingOrder }})</option>
-					<option value="-updatedAt">{{ $ts.lastUsed }} ({{ $ts.ascendingOrder }})</option>
-					<option value="+updatedAt">{{ $ts.lastUsed }} ({{ $ts.descendingOrder }})</option>
+					<template #label>{{ $t('sort') }}</template>
+					<option value="-createdAt">{{ $t('registeredDate') }} ({{ $t('ascendingOrder') }})</option>
+					<option value="+createdAt">{{ $t('registeredDate') }} ({{ $t('descendingOrder') }})</option>
+					<option value="-updatedAt">{{ $t('lastUsed') }} ({{ $t('ascendingOrder') }})</option>
+					<option value="+updatedAt">{{ $t('lastUsed') }} ({{ $t('descendingOrder') }})</option>
 				</MkSelect>
 				<MkSelect v-model:value="state" style="margin: 0; flex: 1;">
-					<template #label>{{ $ts.state }}</template>
-					<option value="all">{{ $ts.all }}</option>
-					<option value="available">{{ $ts.normal }}</option>
-					<option value="admin">{{ $ts.administrator }}</option>
-					<option value="moderator">{{ $ts.moderator }}</option>
-					<option value="silenced">{{ $ts.silence }}</option>
-					<option value="suspended">{{ $ts.suspend }}</option>
+					<template #label>{{ $t('state') }}</template>
+					<option value="all">{{ $t('all') }}</option>
+					<option value="available">{{ $t('normal') }}</option>
+					<option value="admin">{{ $t('administrator') }}</option>
+					<option value="moderator">{{ $t('moderator') }}</option>
+					<option value="silenced">{{ $t('silence') }}</option>
+					<option value="suspended">{{ $t('suspend') }}</option>
 				</MkSelect>
 				<MkSelect v-model:value="origin" style="margin: 0; flex: 1;">
-					<template #label>{{ $ts.instance }}</template>
-					<option value="combined">{{ $ts.all }}</option>
-					<option value="local">{{ $ts.local }}</option>
-					<option value="remote">{{ $ts.remote }}</option>
+					<template #label>{{ $t('instance') }}</template>
+					<option value="combined">{{ $t('all') }}</option>
+					<option value="local">{{ $t('local') }}</option>
+					<option value="remote">{{ $t('remote') }}</option>
 				</MkSelect>
 			</div>
 			<div class="inputs" style="display: flex; padding-top: 1.2em;">
 				<MkInput v-model:value="searchUsername" style="margin: 0; flex: 1;" type="text" spellcheck="false" @update:value="$refs.users.reload()">
-					<span>{{ $ts.username }}</span>
+					<span>{{ $t('username') }}</span>
 				</MkInput>
 				<MkInput v-model:value="searchHost" style="margin: 0; flex: 1;" type="text" spellcheck="false" @update:value="$refs.users.reload()" :disabled="pagination.params().origin === 'local'">
-					<span>{{ $ts.host }}</span>
+					<span>{{ $t('host') }}</span>
 				</MkInput>
 			</div>
 
@@ -65,10 +65,10 @@
 							<span class="punished" v-if="user.isSuspended"><Fa :icon="faSnowflake"/></span>
 						</header>
 						<div>
-							<span>{{ $ts.lastUsed }}: <MkTime v-if="user.updatedAt" :time="user.updatedAt" mode="detail"/></span>
+							<span>{{ $t('lastUsed') }}: <MkTime v-if="user.updatedAt" :time="user.updatedAt" mode="detail"/></span>
 						</div>
 						<div>
-							<span>{{ $ts.registeredDate }}: <MkTime :time="user.createdAt" mode="detail"/></span>
+							<span>{{ $t('registeredDate') }}: <MkTime :time="user.createdAt" mode="detail"/></span>
 						</div>
 					</div>
 				</button>
@@ -101,7 +101,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.users,
+				title: this.$t('users'),
 				icon: faUsers,
 				action: {
 					icon: faSearch,
@@ -153,7 +153,7 @@ export default defineComponent({
 					if (_notFound) {
 						os.dialog({
 							type: 'error',
-							text: this.$ts.noSuchUser
+							text: this.$t('noSuchUser')
 						});
 					} else {
 						_notFound = true;
@@ -185,13 +185,13 @@ export default defineComponent({
 
 		async addUser() {
 			const { canceled: canceled1, result: username } = await os.dialog({
-				title: this.$ts.username,
+				title: this.$t('username'),
 				input: true
 			});
 			if (canceled1) return;
 
 			const { canceled: canceled2, result: password } = await os.dialog({
-				title: this.$ts.password,
+				title: this.$t('password'),
 				input: { type: 'password' }
 			});
 			if (canceled2) return;

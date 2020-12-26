@@ -8,17 +8,17 @@
 	@close="$refs.dialog.close()"
 	@closed="$emit('closed')"
 >
-	<template #header>{{ $ts.notificationSetting }}</template>
+	<template #header>{{ $t('notificationSetting') }}</template>
 	<div v-if="showGlobalToggle" class="_section">
 		<MkSwitch v-model:value="useGlobalSetting">
-			{{ $ts.useGlobalSetting }}
-			<template #desc>{{ $ts.useGlobalSettingDesc }}</template>
+			{{ $t('useGlobalSetting') }}
+			<template #desc>{{ $t('useGlobalSettingDesc') }}</template>
 		</MkSwitch>
 	</div>
 	<div v-if="!useGlobalSetting" class="_section">
-		<MkInfo>{{ $ts.notificationSettingDesc }}</MkInfo>
-		<MkButton inline @click="disableAll">{{ $ts.disableAll }}</MkButton>
-		<MkButton inline @click="enableAll">{{ $ts.enableAll }}</MkButton>
+		<MkInfo>{{ $t('notificationSettingDesc') }}</MkInfo>
+		<MkButton inline @click="disableAll">{{ $t('disableAll') }}</MkButton>
+		<MkButton inline @click="enableAll">{{ $t('enableAll') }}</MkButton>
 		<MkSwitch v-for="type in notificationTypes" :key="type" v-model:value="typesMap[type]">{{ $t(`_notification._types.${type}`) }}</MkSwitch>
 	</div>
 </XModalWindow>

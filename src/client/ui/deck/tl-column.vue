@@ -63,7 +63,7 @@ export default defineComponent({
 	created() {
 		this.menu = [{
 			icon: faCog,
-			text: this.$ts.timeline,
+			text: this.$t('timeline'),
 			action: this.setType
 		}];
 	},
@@ -81,17 +81,17 @@ export default defineComponent({
 	methods: {
 		async setType() {
 			const { canceled, result: src } = await os.dialog({
-				title: this.$ts.timeline,
+				title: this.$t('timeline'),
 				type: null,
 				select: {
 					items: [{
-						value: 'home', text: this.$ts._timelines.home
+						value: 'home', text: this.$t('_timelines.home')
 					}, {
-						value: 'local', text: this.$ts._timelines.local
+						value: 'local', text: this.$t('_timelines.local')
 					}, {
-						value: 'social', text: this.$ts._timelines.social
+						value: 'social', text: this.$t('_timelines.social')
 					}, {
-						value: 'global', text: this.$ts._timelines.global
+						value: 'global', text: this.$t('_timelines.global')
 					}]
 				},
 			});

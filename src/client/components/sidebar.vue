@@ -15,7 +15,7 @@
 					<MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
 				</button>
 				<MkA class="item index" active-class="active" to="/" exact>
-					<Fa :icon="faHome" fixed-width/><span class="text">{{ $ts.timeline }}</span>
+					<Fa :icon="faHome" fixed-width/><span class="text">{{ $t('timeline') }}</span>
 				</MkA>
 				<template v-for="item in menu">
 					<div v-if="item === '-'" class="divider"></div>
@@ -26,14 +26,14 @@
 				</template>
 				<div class="divider"></div>
 				<button class="item _button" :class="{ active: $route.path === '/instance' || $route.path.startsWith('/instance/') }" v-if="$i.isAdmin || $i.isModerator" @click="oepnInstanceMenu">
-					<Fa :icon="faServer" fixed-width/><span class="text">{{ $ts.instance }}</span>
+					<Fa :icon="faServer" fixed-width/><span class="text">{{ $t('instance') }}</span>
 				</button>
 				<button class="item _button" @click="more">
-					<Fa :icon="faEllipsisH" fixed-width/><span class="text">{{ $ts.more }}</span>
+					<Fa :icon="faEllipsisH" fixed-width/><span class="text">{{ $t('more') }}</span>
 					<i v-if="otherNavItemIndicated"><Fa :icon="faCircle"/></i>
 				</button>
 				<MkA class="item" active-class="active" to="/settings">
-					<Fa :icon="faCog" fixed-width/><span class="text">{{ $ts.settings }}</span>
+					<Fa :icon="faCog" fixed-width/><span class="text">{{ $t('settings') }}</span>
 				</MkA>
 			</div>
 		</nav>
@@ -121,7 +121,7 @@ export default defineComponent({
 			if (this.searching) return;
 
 			os.dialog({
-				title: this.$ts.search,
+				title: this.$t('search'),
 				input: true
 			}).then(async ({ canceled, result: query }) => {
 				if (canceled || query == null || query === '') return;
@@ -145,18 +145,18 @@ export default defineComponent({
 
 			os.modalMenu([...[{
 				type: 'link',
-				text: this.$ts.profile,
+				text: this.$t('profile'),
 				to: `/@${ this.$i.username }`,
 				avatar: this.$i,
 			}, null, ...accountItems, {
 				icon: faPlus,
-				text: this.$ts.addAcount,
+				text: this.$t('addAcount'),
 				action: () => {
 					os.modalMenu([{
-						text: this.$ts.existingAcount,
+						text: this.$t('existingAcount'),
 						action: () => { this.addAcount(); },
 					}, {
-						text: this.$ts.createAccount,
+						text: this.$t('createAccount'),
 						action: () => { this.createAccount(); },
 					}], ev.currentTarget || ev.target);
 				},
@@ -168,57 +168,57 @@ export default defineComponent({
 		oepnInstanceMenu(ev) {
 			os.modalMenu([{
 				type: 'link',
-				text: this.$ts.dashboard,
+				text: this.$t('dashboard'),
 				to: '/instance',
 				icon: faTachometerAlt,
 			}, null, this.$i.isAdmin ? {
 				type: 'link',
-				text: this.$ts.settings,
+				text: this.$t('settings'),
 				to: '/instance/settings',
 				icon: faCog,
 			} : undefined, {
 				type: 'link',
-				text: this.$ts.customEmojis,
+				text: this.$t('customEmojis'),
 				to: '/instance/emojis',
 				icon: faLaugh,
 			}, {
 				type: 'link',
-				text: this.$ts.users,
+				text: this.$t('users'),
 				to: '/instance/users',
 				icon: faUsers,
 			}, {
 				type: 'link',
-				text: this.$ts.files,
+				text: this.$t('files'),
 				to: '/instance/files',
 				icon: faCloud,
 			}, {
 				type: 'link',
-				text: this.$ts.jobQueue,
+				text: this.$t('jobQueue'),
 				to: '/instance/queue',
 				icon: faExchangeAlt,
 			}, {
 				type: 'link',
-				text: this.$ts.federation,
+				text: this.$t('federation'),
 				to: '/instance/federation',
 				icon: faGlobe,
 			}, {
 				type: 'link',
-				text: this.$ts.relays,
+				text: this.$t('relays'),
 				to: '/instance/relays',
 				icon: faProjectDiagram,
 			}, {
 				type: 'link',
-				text: this.$ts.announcements,
+				text: this.$t('announcements'),
 				to: '/instance/announcements',
 				icon: faBroadcastTower,
 			}, {
 				type: 'link',
-				text: this.$ts.abuseReports,
+				text: this.$t('abuseReports'),
 				to: '/instance/abuses',
 				icon: faExclamationCircle,
 			}, {
 				type: 'link',
-				text: this.$ts.logs,
+				text: this.$t('logs'),
 				to: '/instance/logs',
 				icon: faStream,
 			}], ev.currentTarget || ev.target);

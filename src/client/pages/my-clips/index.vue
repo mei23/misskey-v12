@@ -1,6 +1,6 @@
 <template>
 <div class="_section qtcaoidl">
-	<MkButton @click="create" primary class="add"><Fa :icon="faPlus"/> {{ $ts.add }}</MkButton>
+	<MkButton @click="create" primary class="add"><Fa :icon="faPlus"/> {{ $t('add') }}</MkButton>
 
 	<div class="_content">
 		<MkPagination :pagination="pagination" #default="{items}" ref="list" class="list">
@@ -29,7 +29,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.clip,
+				title: this.$t('clip'),
 				icon: faPaperclip,
 				action: {
 					icon: faPlus,
@@ -47,20 +47,20 @@ export default defineComponent({
 
 	methods: {
 		async create() {
-			const { canceled, result } = await os.form(this.$ts.createNewClip, {
+			const { canceled, result } = await os.form(this.$t('createNewClip'), {
 				name: {
 					type: 'string',
-					label: this.$ts.name
+					label: this.$t('name')
 				},
 				description: {
 					type: 'string',
 					required: false,
 					multiline: true,
-					label: this.$ts.description
+					label: this.$t('description')
 				},
 				isPublic: {
 					type: 'boolean',
-					label: this.$ts.public,
+					label: this.$t('public'),
 					default: false
 				}
 			});

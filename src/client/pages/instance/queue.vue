@@ -8,7 +8,7 @@
 	</XQueue>
 	<section class="_section">
 		<div class="_content">
-			<MkButton @click="clear()"><Fa :icon="faTrashAlt"/> {{ $ts.clearQueue }}</MkButton>
+			<MkButton @click="clear()"><Fa :icon="faTrashAlt"/> {{ $t('clearQueue') }}</MkButton>
 		</div>
 	</section>
 </div>
@@ -31,7 +31,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.jobQueue,
+				title: this.$t('jobQueue'),
 				icon: faExchangeAlt,
 			},
 			connection: os.stream.useSharedConnection('queueStats'),
@@ -56,8 +56,8 @@ export default defineComponent({
 		clear() {
 			os.dialog({
 				type: 'warning',
-				title: this.$ts.clearQueueConfirmTitle,
-				text: this.$ts.clearQueueConfirmText,
+				title: this.$t('clearQueueConfirmTitle'),
+				text: this.$t('clearQueueConfirmText'),
 				showCancelButton: true
 			}).then(({ canceled }) => {
 				if (canceled) return;

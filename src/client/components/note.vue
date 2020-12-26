@@ -10,13 +10,13 @@
 >
 	<XSub v-for="note in conversation" class="reply-to-more" :key="note.id" :note="note"/>
 	<XSub :note="appearNote.reply" class="reply-to" v-if="appearNote.reply"/>
-	<div class="info" v-if="pinned"><Fa :icon="faThumbtack"/> {{ $ts.pinnedNote }}</div>
-	<div class="info" v-if="appearNote._prId_"><Fa :icon="faBullhorn"/> {{ $ts.promotion }}<button class="_textButton hide" @click="readPromo()">{{ $ts.hideThisNote }} <Fa :icon="faTimes"/></button></div>
-	<div class="info" v-if="appearNote._featuredId_"><Fa :icon="faBolt"/> {{ $ts.featured }}</div>
+	<div class="info" v-if="pinned"><Fa :icon="faThumbtack"/> {{ $t('pinnedNote') }}</div>
+	<div class="info" v-if="appearNote._prId_"><Fa :icon="faBullhorn"/> {{ $t('promotion') }}<button class="_textButton hide" @click="readPromo()">{{ $t('hideThisNote') }} <Fa :icon="faTimes"/></button></div>
+	<div class="info" v-if="appearNote._featuredId_"><Fa :icon="faBolt"/> {{ $t('featured') }}</div>
 	<div class="renote" v-if="isRenote">
 		<MkAvatar class="avatar" :user="note.user"/>
 		<Fa :icon="faRetweet"/>
-		<I18n :src="$ts.renotedBy" tag="span">
+		<I18n src="renotedBy" tag="span">
 			<template #user>
 				<MkA class="name" :to="userPage(note.user)" v-user-preview="note.userId">
 					<MkUserName :user="note.user"/>
@@ -48,7 +48,7 @@
 				</p>
 				<div class="content" v-show="appearNote.cw == null || showContent">
 					<div class="text">
-						<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ $ts.private }})</span>
+						<span v-if="appearNote.isHidden" style="opacity: 0.5">({{ $t('private') }})</span>
 						<MkA class="reply" v-if="appearNote.replyId" :to="`/notes/${appearNote.replyId}`"><Fa :icon="faReply"/></MkA>
 						<Mfm v-if="appearNote.text" :text="appearNote.text" :author="appearNote.user" :i="$i" :custom-emojis="appearNote.emojis"/>
 						<a class="rp" v-if="appearNote.renote != null">RN:</a>
@@ -90,7 +90,7 @@
 	<XSub v-for="note in replies" :key="note.id" :note="note" class="reply" :detail="true"/>
 </div>
 <div v-else class="_panel muted" @click="muted = false">
-	<I18n :src="$ts.userSaysSomething" tag="small">
+	<I18n src="userSaysSomething" tag="small">
 		<template #name>
 			<MkA class="name" :to="userPage(appearNote.user)" v-user-preview="appearNote.userId">
 				<MkUserName :user="appearNote.user"/>
@@ -469,7 +469,7 @@ export default defineComponent({
 			pleaseLogin();
 			this.blur();
 			os.modalMenu([{
-				text: this.$ts.renote,
+				text: this.$t('renote'),
 				icon: faRetweet,
 				action: () => {
 					os.api('notes/create', {
@@ -477,7 +477,7 @@ export default defineComponent({
 					});
 				}
 			}, {
-				text: this.$ts.quote,
+				text: this.$t('quote'),
 				icon: faQuoteRight,
 				action: () => {
 					os.post({
@@ -495,18 +495,18 @@ export default defineComponent({
 			}, undefined, (res: any) => {
 				os.dialog({
 					type: 'success',
-					text: this.$ts.renoted,
+					text: this.$t('renoted'),
 				});
 			}, (e: Error) => {
 				if (e.id === 'b5c90186-4ab0-49c8-9bba-a1f76c282ba4') {
 					os.dialog({
 						type: 'error',
-						text: this.$ts.cantRenote,
+						text: this.$t('cantRenote'),
 					});
 				} else if (e.id === 'fd4cc33e-2a37-48dd-99cc-9b806eb2031a') {
 					os.dialog({
 						type: 'error',
-						text: this.$ts.cantReRenote,
+						text: this.$t('cantReRenote'),
 					});
 				}
 			});
@@ -553,18 +553,18 @@ export default defineComponent({
 			}, undefined, (res: any) => {
 				os.dialog({
 					type: 'success',
-					text: this.$ts.favorited,
+					text: this.$t('favorited'),
 				});
 			}, (e: Error) => {
 				if (e.id === 'a402c12b-34dd-41d2-97d8-4d2ffd96a1a6') {
 					os.dialog({
 						type: 'error',
-						text: this.$ts.alreadyFavorited,
+						text: this.$t('alreadyFavorited'),
 					});
 				} else if (e.id === '6dd26674-e060-4816-909a-45ba3f4da458') {
 					os.dialog({
 						type: 'error',
-						text: this.$ts.cantFavorite,
+						text: this.$t('cantFavorite'),
 					});
 				}
 			});
@@ -573,7 +573,7 @@ export default defineComponent({
 		del() {
 			os.dialog({
 				type: 'warning',
-				text: this.$ts.noteDeleteConfirm,
+				text: this.$t('noteDeleteConfirm'),
 				showCancelButton: true
 			}).then(({ canceled }) => {
 				if (canceled) return;
@@ -587,7 +587,7 @@ export default defineComponent({
 		delEdit() {
 			os.dialog({
 				type: 'warning',
-				text: this.$ts.deleteAndEditConfirm,
+				text: this.$t('deleteAndEditConfirm'),
 				showCancelButton: true
 			}).then(({ canceled }) => {
 				if (canceled) return;
@@ -621,15 +621,15 @@ export default defineComponent({
 
 				menu = [{
 					icon: faCopy,
-					text: this.$ts.copyContent,
+					text: this.$t('copyContent'),
 					action: this.copyContent
 				}, {
 					icon: faLink,
-					text: this.$ts.copyLink,
+					text: this.$t('copyLink'),
 					action: this.copyLink
 				}, (this.appearNote.url || this.appearNote.uri) ? {
 					icon: faExternalLinkSquareAlt,
-					text: this.$ts.showOnRemote,
+					text: this.$t('showOnRemote'),
 					action: () => {
 						window.open(this.appearNote.url || this.appearNote.uri, '_blank');
 					}
@@ -637,41 +637,41 @@ export default defineComponent({
 				null,
 				statePromise.then(state => state.isFavorited ? {
 					icon: faStar,
-					text: this.$ts.unfavorite,
+					text: this.$t('unfavorite'),
 					action: () => this.toggleFavorite(false)
 				} : {
 					icon: faStar,
-					text: this.$ts.favorite,
+					text: this.$t('favorite'),
 					action: () => this.toggleFavorite(true)
 				}),
 				{
 					icon: faPaperclip,
-					text: this.$ts.clip,
+					text: this.$t('clip'),
 					action: () => this.clip()
 				},
 				(this.appearNote.userId != this.$i.id) ? statePromise.then(state => state.isWatching ? {
 					icon: faEyeSlash,
-					text: this.$ts.unwatch,
+					text: this.$t('unwatch'),
 					action: () => this.toggleWatch(false)
 				} : {
 					icon: faEye,
-					text: this.$ts.watch,
+					text: this.$t('watch'),
 					action: () => this.toggleWatch(true)
 				}) : undefined,
 				this.appearNote.userId == this.$i.id ? (this.$i.pinnedNoteIds || []).includes(this.appearNote.id) ? {
 					icon: faThumbtack,
-					text: this.$ts.unpin,
+					text: this.$t('unpin'),
 					action: () => this.togglePin(false)
 				} : {
 					icon: faThumbtack,
-					text: this.$ts.pin,
+					text: this.$t('pin'),
 					action: () => this.togglePin(true)
 				} : undefined,
 				...(this.$i.isModerator || this.$i.isAdmin ? [
 					null,
 					{
 						icon: faBullhorn,
-						text: this.$ts.promote,
+						text: this.$t('promote'),
 						action: this.promote
 					}]
 					: []
@@ -680,7 +680,7 @@ export default defineComponent({
 					null,
 					{
 						icon: faExclamationCircle,
-						text: this.$ts.reportAbuse,
+						text: this.$t('reportAbuse'),
 						action: () => {
 							const u = `${url}/notes/${this.appearNote.id}`;
 							os.popup(import('@/components/abuse-report-window.vue'), {
@@ -695,12 +695,12 @@ export default defineComponent({
 					null,
 					this.appearNote.userId == this.$i.id ? {
 						icon: faEdit,
-						text: this.$ts.deleteAndEdit,
+						text: this.$t('deleteAndEdit'),
 						action: this.delEdit
 					} : undefined,
 					{
 						icon: faTrashAlt,
-						text: this.$ts.delete,
+						text: this.$t('delete'),
 						danger: true,
 						action: this.del
 					}]
@@ -710,15 +710,15 @@ export default defineComponent({
 			} else {
 				menu = [{
 					icon: faCopy,
-					text: this.$ts.copyContent,
+					text: this.$t('copyContent'),
 					action: this.copyContent
 				}, {
 					icon: faLink,
-					text: this.$ts.copyLink,
+					text: this.$t('copyLink'),
 					action: this.copyLink
 				}, (this.appearNote.url || this.appearNote.uri) ? {
 					icon: faExternalLinkSquareAlt,
-					text: this.$ts.showOnRemote,
+					text: this.$t('showOnRemote'),
 					action: () => {
 						window.open(this.appearNote.url || this.appearNote.uri, '_blank');
 					}
@@ -760,7 +760,7 @@ export default defineComponent({
 		showRenoteMenu(viaKeyboard = false) {
 			if (!this.isMyRenote) return;
 			os.modalMenu([{
-				text: this.$ts.unrenote,
+				text: this.$t('unrenote'),
 				icon: faTrashAlt,
 				danger: true,
 				action: () => {
@@ -795,7 +795,7 @@ export default defineComponent({
 				if (e.id === '72dab508-c64d-498f-8740-a8eec1ba385a') {
 					os.dialog({
 						type: 'error',
-						text: this.$ts.pinLimitExceeded
+						text: this.$t('pinLimitExceeded')
 					});
 				}
 			});
@@ -805,22 +805,22 @@ export default defineComponent({
 			const clips = await os.api('clips/list');
 			os.modalMenu([{
 				icon: faPlus,
-				text: this.$ts.createNew,
+				text: this.$t('createNew'),
 				action: async () => {
-					const { canceled, result } = await os.form(this.$ts.createNewClip, {
+					const { canceled, result } = await os.form(this.$t('createNewClip'), {
 						name: {
 							type: 'string',
-							label: this.$ts.name
+							label: this.$t('name')
 						},
 						description: {
 							type: 'string',
 							required: false,
 							multiline: true,
-							label: this.$ts.description
+							label: this.$t('description')
 						},
 						isPublic: {
 							type: 'boolean',
-							label: this.$ts.public,
+							label: this.$t('public'),
 							default: false
 						}
 					});
@@ -841,7 +841,7 @@ export default defineComponent({
 
 		async promote() {
 			const { canceled, result: days } = await os.dialog({
-				title: this.$ts.numberOfDays,
+				title: this.$t('numberOfDays'),
 				input: { type: 'number' }
 			});
 

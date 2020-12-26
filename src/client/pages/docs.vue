@@ -21,7 +21,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.help,
+				title: this.$t('help'),
 				icon: faQuestionCircle
 			},
 			docs: [],

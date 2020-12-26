@@ -1,19 +1,19 @@
 <template>
 <FormBase>
 	<FormRange v-model:value="masterVolume" :min="0" :max="1" :step="0.05">
-		<template #label><Fa :icon="volumeIcon" :key="volumeIcon"/> {{ $ts.masterVolume }}</template>
+		<template #label><Fa :icon="volumeIcon" :key="volumeIcon"/> {{ $t('masterVolume') }}</template>
 	</FormRange>
 
 	<FormGroup>
-		<template #label>{{ $ts.sounds }}</template>
+		<template #label>{{ $t('sounds') }}</template>
 		<FormButton v-for="type in Object.keys(sounds)" :key="type" :center="false" @click="edit(type)">
 			{{ $t('_sfx.' + type) }}
-			<template #suffix>{{ sounds[type].type || $ts.none }}</template>
+			<template #suffix>{{ sounds[type].type || $t('none') }}</template>
 			<template #suffixIcon><Fa :icon="faChevronDown"/></template>
 		</FormButton>
 	</FormGroup>
 
-	<FormButton @click="reset()" danger><Fa :icon="faRedo"/> {{ $ts.default }}</FormButton>
+	<FormButton @click="reset()" danger><Fa :icon="faRedo"/> {{ $t('default') }}</FormButton>
 </FormBase>
 </template>
 
@@ -69,7 +69,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.sounds,
+				title: this.$t('sounds'),
 				icon: faMusic
 			},
 			sounds: {},
@@ -110,9 +110,9 @@ export default defineComponent({
 					type: 'enum',
 					enum: soundsTypes.map(x => ({
 						value: x,
-						label: x == null ? this.$ts.none : x,
+						label: x == null ? this.$t('none') : x,
 					})),
-					label: this.$ts.sound,
+					label: this.$t('sound'),
 					default: this.sounds[type].type,
 				},
 				volume: {
@@ -120,12 +120,12 @@ export default defineComponent({
 					mim: 0,
 					max: 1,
 					step: 0.05,
-					label: this.$ts.volume,
+					label: this.$t('volume'),
 					default: this.sounds[type].volume
 				},
 				listen: {
 					type: 'button',
-					content: this.$ts.listen,
+					content: this.$t('listen'),
 					action: (_, values) => {
 						playFile(values.type, values.volume);
 					}

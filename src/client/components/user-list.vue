@@ -3,13 +3,13 @@
 
 <div v-else class="efvhhmdq">
 	<div class="no-users" v-if="empty">
-		<p>{{ $ts.noUsers }}</p>
+		<p>{{ $t('noUsers') }}</p>
 	</div>
 	<div class="users">
 		<MkUserInfo class="user" v-for="user in users" :user="user" :key="user.id"/>
 	</div>
 	<button class="more" v-appear="$store.state.enableInfiniteScroll ? fetchMore : null" @click="fetchMore" :class="{ fetching: moreFetching }" v-show="more" :disabled="moreFetching">
-		<template v-if="moreFetching"><Fa icon="spinner" pulse fixed-width/></template>{{ moreFetching ? $ts.loading : $ts.loadMore }}
+		<template v-if="moreFetching"><Fa icon="spinner" pulse fixed-width/></template>{{ moreFetching ? $t('loading') : $t('loadMore') }}
 	</button>
 </div>
 </template>

@@ -148,7 +148,7 @@ export default defineComponent({
 			];
 
 			const { canceled, result: column } = await os.dialog({
-				title: this.$ts._deck.addColumn,
+				title: this.$t('_deck.addColumn'),
 				type: null,
 				select: {
 					items: columns.map(column => ({

@@ -4,7 +4,7 @@
 		<template #empty>
 			<div class="_fullinfo">
 				<img src="https://xn--931a.moe/assets/info.jpg" class="_ghost"/>
-				<div>{{ $ts.noFollowRequests }}</div>
+				<div>{{ $t('noFollowRequests') }}</div>
 			</div>
 		</template>
 		<template #default="{items}">
@@ -44,7 +44,7 @@ export default defineComponent({
 	data() {
 		return {
 			INFO: {
-				title: this.$ts.followRequests,
+				title: this.$t('followRequests'),
 				icon: faUserClock,
 			},
 			pagination: {
