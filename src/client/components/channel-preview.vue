@@ -6,19 +6,19 @@
 		<div class="status">
 			<div>
 				<Fa :icon="faUsers" fixed-width/>
-				<I18n src="_channel.usersCount" tag="span" style="margin-left: 4px;">
+				<i18n-t keypath="_channel.usersCount" tag="span" style="margin-left: 4px;">
 					<template #n>
 						<b>{{ channel.usersCount }}</b>
 					</template>
-				</I18n>
+				</i18n-t>
 			</div>
 			<div>
 				<Fa :icon="faPencilAlt" fixed-width/>
-				<I18n src="_channel.notesCount" tag="span" style="margin-left: 4px;">
+				<i18n-t keypath="_channel.notesCount" tag="span" style="margin-left: 4px;">
 					<template #n>
 						<b>{{ channel.notesCount }}</b>
 					</template>
-				</I18n>
+				</i18n-t>
 			</div>
 		</div>
 	</div>

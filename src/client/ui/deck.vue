@@ -177,7 +177,7 @@ export default defineComponent({
 	// TODO: この値を設定で変えられるようにする？
 	$columnMargin: 12px;
 
-	$deckMargin: $columnMargin;
+	$deckMargin: 12px;
 
 	--margin: var(--marginHalf);
 

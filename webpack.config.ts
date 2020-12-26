@@ -34,9 +34,7 @@ const postcss = {
 	},
 };
 
-module.exports = Object.keys(isProduction ? locales : {
-	'ja-JP': locales['ja-JP']
-}).map(lang => ({
+module.exports = {
 	entry: {
 		app: './src/client/init.ts',
 		sw: './src/client/sw.ts'
@@ -134,9 +132,7 @@ module.exports = Object.keys(isProduction ? locales : {
 		new webpack.ProgressPlugin({}),
 		new webpack.DefinePlugin({
 			_VERSION_: JSON.stringify(meta.version),
-			_LANG_: JSON.stringify(lang),
 			_LANGS_: JSON.stringify(Object.entries(locales).map(([k, v]: [string, any]) => [k, v._lang_])),
-			_LOCALE_: JSON.stringify(locales[lang]),
 			_ENV_: JSON.stringify(process.env.NODE_ENV),
 			_DEV_: process.env.NODE_ENV !== 'production',
 			_PERF_PREFIX_: JSON.stringify('Misskey:'),
@@ -154,7 +150,7 @@ module.exports = Object.keys(isProduction ? locales : {
 	],
 	output: {
 		path: __dirname + '/built/client/assets',
-		filename: `[name].${meta.version}.${lang}.js`,
+		filename: `[name].${meta.version}.js`,
 		publicPath: `/assets/`
 	},
 	resolve: {
@@ -179,4 +175,4 @@ module.exports = Object.keys(isProduction ? locales : {
 	},
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
-}));
+};

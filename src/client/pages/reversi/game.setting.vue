@@ -35,18 +35,18 @@
 			<div>
 				<MkRadio v-model="game.bw" value="random" @update:modelValue="updateSettings('bw')">{{ $t('random') }}</MkRadio>
 				<MkRadio v-model="game.bw" :value="'1'" @update:modelValue="updateSettings('bw')">
-					<I18n src="_reversi.blackIs" tag="span">
+					<i18n-t keypath="_reversi.blackIs" tag="span">
 						<template #name>
 							<b><MkUserName :user="game.user1"/></b>
 						</template>
-					</I18n>
+					</i18n-t>
 				</MkRadio>
 				<MkRadio v-model="game.bw" :value="'2'" @update:modelValue="updateSettings('bw')">
-					<I18n src="_reversi.blackIs" tag="span">
+					<i18n-t keypath="_reversi.blackIs" tag="span">
 						<template #name>
 							<b><MkUserName :user="game.user2"/></b>
 						</template>
-					</I18n>
+					</i18n-t>
 				</MkRadio>
 			</div>
 		</div>

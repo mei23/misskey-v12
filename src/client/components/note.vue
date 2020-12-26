@@ -16,13 +16,13 @@
 	<div class="renote" v-if="isRenote">
 		<MkAvatar class="avatar" :user="note.user"/>
 		<Fa :icon="faRetweet"/>
-		<I18n src="renotedBy" tag="span">
+		<i18n-t keypath="renotedBy" tag="span">
 			<template #user>
 				<MkA class="name" :to="userPage(note.user)" v-user-preview="note.userId">
 					<MkUserName :user="note.user"/>
 				</MkA>
 			</template>
-		</I18n>
+		</i18n-t>
 		<div class="info">
 			<button class="_button time" @click="showRenoteMenu()" ref="renoteTime">
 				<Fa class="dropdownIcon" v-if="isMyRenote" :icon="faEllipsisH"/>
@@ -90,13 +90,13 @@
 	<XSub v-for="note in replies" :key="note.id" :note="note" class="reply" :detail="true"/>
 </div>
 <div v-else class="_panel muted" @click="muted = false">
-	<I18n src="userSaysSomething" tag="small">
+	<i18n-t keypath="userSaysSomething" tag="small">
 		<template #name>
 			<MkA class="name" :to="userPage(appearNote.user)" v-user-preview="appearNote.userId">
 				<MkUserName :user="appearNote.user"/>
 			</MkA>
 		</template>
-	</I18n>
+	</i18n-t>
 </div>
 </template>
 

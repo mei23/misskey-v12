@@ -2,11 +2,11 @@
 <XWindow ref="window" :initial-width="400" :initial-height="500" :can-resize="true" @closed="$emit('closed')">
 	<template #header>
 		<Fa :icon="faExclamationCircle" style="margin-right: 0.5em;"/>
-		<I18n src="reportAbuseOf" tag="span">
+		<i18n-t keypath="reportAbuseOf" tag="span">
 			<template #name>
 				<b><MkAcct :user="user"/></b>
 			</template>
-		</I18n>
+		</i18n-t>
 	</template>
 	<div class="dpvffvvy">
 		<div class="_section">
