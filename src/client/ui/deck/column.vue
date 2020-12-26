@@ -318,9 +318,8 @@ export default defineComponent({
 	}
 
 	&.naked {
-		background: var(--acrylicBg) !important;
-		-webkit-backdrop-filter: blur(10px);
-		backdrop-filter: blur(10px);
+		//background: var(--deckAcrylicColumnBg);
+		background: transparent !important;
 
 		> header {
 			background: transparent;
