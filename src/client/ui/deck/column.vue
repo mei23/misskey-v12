@@ -5,7 +5,6 @@
 	@dragleave="onDragleave"
 	@drop.prevent.stop="onDrop"
 	v-hotkey="keymap"
-	:style="{ '--deckColumnHeaderHeight': deckStore.reactiveState.columnHeaderHeight.value + 'px' }"
 >
 	<header :class="{ indicated }"
 		draggable="true"
@@ -36,7 +35,6 @@ import { faArrowUp, faArrowDown, faAngleUp, faAngleDown, faCaretDown, faArrowRig
 import { faWindowMaximize, faTrashAlt, faWindowRestore } from '@fortawesome/free-regular-svg-icons';
 import * as os from '@/os';
 import { updateColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn } from './deck-store';
-import { deckStore } from './deck-store';
 
 export default defineComponent({
 	props: {
@@ -69,7 +67,6 @@ export default defineComponent({
 
 	data() {
 		return {
-			deckStore,
 			active: true,
 			dragging: false,
 			draghover: false,
@@ -264,6 +261,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .dnpfarvg {
+	$header-height: 42px;
+
 	--section-padding: 10px;
 
 	height: 100%;
@@ -297,8 +296,8 @@ export default defineComponent({
 	}
 
 	&:not(.active) {
-		flex-basis: var(--deckColumnHeaderHeight);
-		min-height: var(--deckColumnHeaderHeight);
+		flex-basis: $header-height;
+		min-height: $header-height;
 
 		> header.indicated {
 			box-shadow: 4px 0px var(--accent) inset;
@@ -330,8 +329,8 @@ export default defineComponent({
 		position: relative;
 		display: flex;
 		z-index: 2;
-		line-height: var(--deckColumnHeaderHeight);
-		height: var(--deckColumnHeaderHeight);
+		line-height: $header-height;
+		height: $header-height;
 		padding: 0 16px;
 		font-size: 0.9em;
 		color: var(--panelHeaderFg);
@@ -363,8 +362,8 @@ export default defineComponent({
 		> .action > *,
 		> .menu {
 			z-index: 1;
-			width: var(--deckColumnHeaderHeight);
-			line-height: var(--deckColumnHeaderHeight);
+			width: $header-height;
+			line-height: $header-height;
 			font-size: 16px;
 			color: var(--faceTextButton);
 
@@ -396,7 +395,7 @@ export default defineComponent({
 	}
 
 	> div {
-		height: calc(100% - var(--deckColumnHeaderHeight));
+		height: calc(100% - #{$header-height});
 		overflow: auto;
 		overflow-x: hidden;
 		-webkit-overflow-scrolling: touch;
