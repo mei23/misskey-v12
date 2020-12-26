@@ -66,7 +66,7 @@ export default defineComponent({
 
 	setup(props, context) {
 		const INFO = ref({
-			title: i18n.locale.settings,
+			title: i18n.global.t('settings'),
 			icon: faCog
 		});
 		const narrow = ref(false);

@@ -39,9 +39,9 @@ export function selectFile(src: any, label: string | null, multiple = false) {
 
 		const chooseFileFromUrl = () => {
 			os.dialog({
-				title: i18n.locale.uploadFromUrl,
+				title: i18n.global.t('uploadFromUrl'),
 				input: {
-					placeholder: i18n.locale.uploadFromUrlDescription
+					placeholder: i18n.global.t('uploadFromUrlDescription')
 				}
 			}).then(({ canceled, result: url }) => {
 				if (canceled) return;
@@ -62,8 +62,8 @@ export function selectFile(src: any, label: string | null, multiple = false) {
 				});
 
 				os.dialog({
-					title: i18n.locale.uploadFromUrlRequested,
-					text: i18n.locale.uploadFromUrlMayTakeTime
+					title: i18n.global.t('uploadFromUrlRequested'),
+					text: i18n.global.t('uploadFromUrlMayTakeTime')
 				});
 			});
 		};
@@ -72,15 +72,15 @@ export function selectFile(src: any, label: string | null, multiple = false) {
 			text: label,
 			type: 'label'
 		} : undefined, {
-			text: i18n.locale.upload,
+			text: i18n.global.t('upload'),
 			icon: faUpload,
 			action: chooseFileFromPc
 		}, {
-			text: i18n.locale.fromDrive,
+			text: i18n.global.t('fromDrive'),
 			icon: faCloud,
 			action: chooseFileFromDrive
 		}, {
-			text: i18n.locale.fromUrl,
+			text: i18n.global.t('fromUrl'),
 			icon: faLink,
 			action: chooseFileFromUrl
 		}], src);

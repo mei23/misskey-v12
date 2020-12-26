@@ -130,19 +130,19 @@ export const sidebarDef = {
 		icon: faColumns,
 		action: (ev) => {
 			os.modalMenu([{
-				text: i18n.locale.default,
+				text: i18n.global.t('default'),
 				action: () => {
 					localStorage.setItem('ui', 'default');
 					location.reload();
 				}
 			}, {
-				text: i18n.locale.deck,
+				text: i18n.global.t('deck'),
 				action: () => {
 					localStorage.setItem('ui', 'deck');
 					location.reload();
 				}
 			}, {
-				text: i18n.locale.desktop + ' (β)',
+				text: i18n.global.t('desktop') + ' (β)',
 				action: () => {
 					localStorage.setItem('ui', 'desktop');
 					location.reload();

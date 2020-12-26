@@ -89,7 +89,7 @@ export default defineComponent({
 
 	setup(props, { emit }) {
 		const INFO = {
-			title: i18n.locale.theme,
+			title: i18n.global.t('theme'),
 			icon: faPalette
 		};
 
