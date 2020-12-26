@@ -3,8 +3,9 @@
  */
 declare var self: ServiceWorkerGlobalScope;
 
-import composeNotification from '@/sw/compose-notification';
+import composeNotification from '@/scripts/compose-notification';
 
+// eslint-disable-next-line no-undef
 const version = _VERSION_;
 const cacheName = `mk-cache-${version}`;
 
