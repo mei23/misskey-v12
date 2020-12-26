@@ -37,7 +37,7 @@ const postcss = {
 module.exports = {
 	entry: {
 		app: './src/client/init.ts',
-		sw: './src/client/sw.ts'
+		sw: './src/client/sw/sw.ts'
 	},
 	module: {
 		rules: [{

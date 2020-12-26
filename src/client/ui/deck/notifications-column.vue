@@ -13,6 +13,7 @@ import { faBell } from '@fortawesome/free-regular-svg-icons';
 import XColumn from './column.vue';
 import XNotifications from '@/components/notifications.vue';
 import * as os from '@/os';
+import { updateColumn } from './deck-store';
 
 export default defineComponent({
 	components: {
@@ -41,15 +42,14 @@ export default defineComponent({
 	created() {
 		this.menu = [{
 			icon: faCog,
-			text: this.$t('notificationSetting'),
+			text: this.$ts.notificationSetting,
 			action: () => {
 				os.popup(import('@/components/notification-setting-window.vue'), {
 					includingTypes: this.column.includingTypes,
 				}, {
 					done: async (res) => {
 						const { includingTypes } = res;
-						this.$store.commit('deviceUser/updateDeckColumn', {
-							...this.column,
+						updateColumn(this.column.id, {
 							includingTypes: includingTypes
 						});
 					},
