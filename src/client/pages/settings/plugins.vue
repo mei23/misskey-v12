@@ -15,7 +15,7 @@
 		<details>
 			<summary><Fa :icon="faFolderOpen"/> {{ $t('manage') }}</summary>
 			<MkSelect v-model:value="selectedPluginId">
-				<option v-for="x in plugins" :value="x.id" :key="x.id">{{ x.name }}</option>
+				<option v-for="x in $store.state.deviceUser.plugins" :value="x.id" :key="x.id">{{ x.name }}</option>
 			</MkSelect>
 			<template v-if="selectedPlugin">
 				<div style="margin: -8px 0 8px 0;">
@@ -55,7 +55,6 @@ import MkSelect from '@/components/ui/select.vue';
 import MkInfo from '@/components/ui/info.vue';
 import MkSwitch from '@/components/ui/switch.vue';
 import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
 
 export default defineComponent({
 	components: {
@@ -69,7 +68,6 @@ export default defineComponent({
 	data() {
 		return {
 			script: '',
-			plugins: ColdDeviceStorage.get('plugins'),
 			selectedPluginId: null,
 			faPlug, faSave, faTrashAlt, faFolderOpen, faDownload, faCog
 		}
@@ -78,22 +76,11 @@ export default defineComponent({
 	computed: {
 		selectedPlugin() {
 			if (this.selectedPluginId == null) return null;
-			return this.plugins.find(x => x.id === this.selectedPluginId);
+			return this.$store.state.deviceUser.plugins.find(x => x.id === this.selectedPluginId);
 		},
 	},
 
 	methods: {
-		installPlugin({ id, meta, ast, token }) {
-			ColdDeviceStorage.set('plugins', this.plugins.concat({
-				...meta,
-				id,
-				active: true,
-				configData: {},
-				token: token,
-				ast: ast
-			}));
-		},
-
 		async install() {
 			let ast;
 			try {
@@ -150,7 +137,7 @@ export default defineComponent({
 				}, 'closed');
 			});
 
-			this.installPlugin({
+			this.$store.commit('deviceUser/installPlugin', {
 				id: uuid(),
 				meta: {
 					name, version, author, description, permissions, config
@@ -167,7 +154,7 @@ export default defineComponent({
 		},
 
 		uninstall() {
-			ColdDeviceStorage.set('plugins', this.plugins.filter(x => x.id !== this.selectedPluginId));
+			this.$store.commit('deviceUser/uninstallPlugin', this.selectedPluginId);
 			os.success();
 			this.$nextTick(() => {
 				location.reload();
@@ -184,9 +171,10 @@ export default defineComponent({
 			const { canceled, result } = await os.form(this.selectedPlugin.name, config);
 			if (canceled) return;
 
-			const plugins = ColdDeviceStorage.get('plugins');
-			plugins.find(p => p.id === this.selectedPluginId).configData = result;
-			ColdDeviceStorage.set('plugins', plugins);
+			this.$store.commit('deviceUser/configPlugin', {
+				id: this.selectedPluginId,
+				config: result
+			});
 
 			this.$nextTick(() => {
 				location.reload();
@@ -194,9 +182,10 @@ export default defineComponent({
 		},
 
 		changeActive(plugin, active) {
-			const plugins = ColdDeviceStorage.get('plugins');
-			plugins.find(p => p.id === plugin.id).active = active;
-			ColdDeviceStorage.set('plugins', plugins);
+			this.$store.commit('deviceUser/changePluginActive', {
+				id: plugin.id,
+				active: active
+			});
 
 			this.$nextTick(() => {
 				location.reload();

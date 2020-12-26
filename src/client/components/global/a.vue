@@ -12,7 +12,6 @@ import copyToClipboard from '@/scripts/copy-to-clipboard';
 import { router } from '@/router';
 import { ui, url } from '@/config';
 import { popout } from '@/scripts/popout';
-import { ColdDeviceStorage } from '@/store';
 
 export default defineComponent({
 	inject: {
@@ -99,8 +98,8 @@ export default defineComponent({
 
 		nav() {
 			if (this.to.startsWith('/my/messaging')) {
-				if (ColdDeviceStorage.get('chatOpenBehavior') === 'window') return this.window();
-				if (ColdDeviceStorage.get('chatOpenBehavior') === 'popout') return this.popout();
+				if (this.$store.state.device.chatOpenBehavior === 'window') return this.window();
+				if (this.$store.state.device.chatOpenBehavior === 'popout') return this.popout();
 			}
 
 			if (this.behavior) {
@@ -112,13 +111,12 @@ export default defineComponent({
 			if (this.navHook) {
 				this.navHook(this.to);
 			} else {
-				if (this.$store.state.defaultSideView && this.sideViewHook && this.to !== '/') {
+				if (this.$store.state.device.defaultSideView && this.sideViewHook && this.to !== '/') {
 					return this.sideViewHook(this.to);
 				}
-				// TODO: a.vueからdeck-sotreを参照したくないのでなんとかする
-				//if (deckStore.state.device.deckNavWindow && (ui === 'deck') && this.to !== '/') {
-				//	return this.window();
-				//}
+				if (this.$store.state.device.deckNavWindow && (ui === 'deck') && this.to !== '/') {
+					return this.window();
+				}
 				if (ui === 'desktop') {
 					return this.window();
 				}

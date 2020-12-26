@@ -1,5 +1,5 @@
 <template>
-<div v-if="$i">
+<div v-if="$store.getters.isSignedIn">
 	<div class="waiting _section" v-if="state == 'waiting'">
 		<div class="_content">
 			<MkLoading/>
@@ -41,7 +41,6 @@ import { defineComponent } from 'vue';
 import MkSignin from '@/components/signin.vue';
 import MkButton from '@/components/ui/button.vue';
 import * as os from '@/os';
-import { login } from '@/account';
 
 export default defineComponent({
 	components: {
@@ -89,7 +88,8 @@ export default defineComponent({
 			this.state = 'denied';
 		},
 		onLogin(res) {
-			login(res.i);
+			localStorage.setItem('i', res.i);
+			location.reload();
 		}
 	}
 });

@@ -57,7 +57,7 @@ export default defineComponent({
 	},
 	mounted() {
 		os.api('charts/user/notes', {
-			userId: this.$i.id,
+			userId: this.$store.state.i.id,
 			span: 'day',
 			limit: 7 * 21
 		}).then(activity => {

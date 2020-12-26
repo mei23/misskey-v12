@@ -74,7 +74,7 @@ export default defineComponent({
 		},
 
 		thumbnail(image: any): string {
-			return this.$store.state.disableShowingAnimatedImages
+			return this.$store.state.device.disableShowingAnimatedImages
 				? getStaticImageUrl(image.thumbnailUrl)
 				: image.thumbnailUrl;
 		},

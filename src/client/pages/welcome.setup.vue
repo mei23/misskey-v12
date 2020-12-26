@@ -26,7 +26,6 @@ import MkButton from '@/components/ui/button.vue';
 import MkInput from '@/components/ui/input.vue';
 import { host } from '@/config';
 import * as os from '@/os';
-import { login } from '@/account';
 
 export default defineComponent({
 	components: {
@@ -53,7 +52,8 @@ export default defineComponent({
 				username: this.username,
 				password: this.password,
 			}).then(res => {
-				login(res.i);
+				localStorage.setItem('i', res.token);
+				location.href = '/';
 			}).catch(() => {
 				this.submitting = false;
 

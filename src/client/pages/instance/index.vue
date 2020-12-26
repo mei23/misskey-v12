@@ -122,7 +122,7 @@ export default defineComponent({
 
 	computed: {
 		meta() {
-			return this.$instance;
+			return this.$store.state.instance.meta;
 		},
 	},
 

@@ -56,7 +56,6 @@ import MkInput from './ui/input.vue';
 import { apiUrl, host } from '@/config';
 import { byteify, hexify } from '@/scripts/2fa';
 import * as os from '@/os';
-import { login } from '@/account';
 
 export default defineComponent({
 	components: {
@@ -98,7 +97,7 @@ export default defineComponent({
 
 	computed: {
 		meta() {
-			return this.$instance;
+			return this.$store.state.instance.meta;
 		},
 	},
 
@@ -115,7 +114,8 @@ export default defineComponent({
 
 		onLogin(res) {
 			if (this.autoSet) {
-				login(res.i);
+				localStorage.setItem('i', res.i);
+				location.reload();
 			}
 		},
 

@@ -4,53 +4,25 @@
 
 import '@/style.scss';
 
-// TODO: そのうち消す
-if (localStorage.getItem('vuex') != null) {
-	const vuex = JSON.parse(localStorage.getItem('vuex'));
-
-	localStorage.setItem('accounts', JSON.stringify(vuex.device.accounts));
-	localStorage.setItem('miux:themes', JSON.stringify(vuex.device.themes));
-
-	for (const [k, v] of 	Object.entries(vuex.device.userData)) {
-		localStorage.setItem('pizzax::base::' + k, JSON.stringify({
-			widgets: v.widgets
-		}));
-
-		if (v.deck) {
-			localStorage.setItem('pizzax::deck::' + k, JSON.stringify({
-				columns: v.deck.columns,
-				layout: v.deck.layout,
-			}));
-		}
-	}
-
-	localStorage.removeItem('vuex');
-}
-
-import { createApp, watch } from 'vue';
+import { createApp } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import widgets from '@/widgets';
-import directives from '@/directives';
+import widgets from './widgets';
+import directives from './directives';
 import components from '@/components';
-import { version, ui } from '@/config';
-import { router } from '@/router';
+import { version, apiUrl, ui } from '@/config';
+import { store } from './store';
+import { router } from './router';
 import { applyTheme } from '@/scripts/theme';
 import { isDeviceDarkmode } from '@/scripts/is-device-darkmode';
-import { i18n, lang } from '@/i18n';
+import { i18n, lang } from './i18n';
 import { stream, isMobile, dialog } from '@/os';
-import * as sound from '@/scripts/sound';
-import { $i, refreshAccount, login, updateAccount, signout } from '@/account';
-import { defaultStore, ColdDeviceStorage } from '@/store';
-import { fetchInstance, instance } from '@/instance';
+import * as sound from './scripts/sound';
 
 console.info(`Misskey v${version}`);
 
 if (_DEV_) {
 	console.warn('Development mode!!!');
-
-	(window as any).$i = $i;
-	(window as any).$store = defaultStore;
 
 	window.addEventListener('error', event => {
 		console.error(event);
@@ -109,52 +81,80 @@ html.setAttribute('lang', lang);
 //#endregion
 
 //#region Fetch user
-if ($i && $i.token) {
-	if (_DEV_) {
-		console.log('account cache found. refreshing...');
-	}
+const signout = () => {
+	store.dispatch('logout');
+	location.href = '/';
+};
 
-	refreshAccount();
-} else {
-	if (_DEV_) {
-		console.log('no account cache found.');
-	}
-
-	// 連携ログインの場合用にCookieを参照する
-	const i = (document.cookie.match(/igi=(\w+)/) || [null, null])[1];
-
-	if (i != null && i !== 'null') {
-		if (_DEV_) {
-			console.log('signing...');
+// ユーザーをフェッチしてコールバックする
+const fetchme = (token) => new Promise((done, fail) => {
+	// Fetch user
+	fetch(`${apiUrl}/i`, {
+		method: 'POST',
+		body: JSON.stringify({
+			i: token
+		})
+	})
+	.then(res => {
+		// When failed to authenticate user
+		if (res.status !== 200 && res.status < 500) {
+			return signout();
 		}
 
+		// Parse response
+		res.json().then(i => {
+			i.token = token;
+			done(i);
+		});
+	})
+	.catch(fail);
+});
+
+// キャッシュがあったとき
+if (store.state.i != null) {
+	// TODO: i.token が null になるケースってどんな時だっけ？
+	if (store.state.i.token == null) {
+		signout();
+	}
+
+	// 後から新鮮なデータをフェッチ
+	fetchme(store.state.i.token).then(freshData => {
+		store.dispatch('mergeMe', freshData);
+	});
+} else {
+	// Get token from localStorage
+	let i = localStorage.getItem('i');
+
+	// 連携ログインの場合用にCookieを参照する
+	if (i == null || i === 'null') {
+		i = (document.cookie.match(/igi=(\w+)/) || [null, null])[1];
+	}
+
+	if (i != null && i !== 'null') {
 		try {
 			document.body.innerHTML = '<div>Please wait...</div>';
-			await login(i);
+			const me = await fetchme(i);
+			await store.dispatch('login', me);
 			location.reload();
 		} catch (e) {
 			// Render the error screen
 			// TODO: ちゃんとしたコンポーネントをレンダリングする(v10とかのトラブルシューティングゲーム付きのやつみたいな)
 			document.body.innerHTML = '<div id="err">Oops!</div>';
 		}
-	} else {
-		if (_DEV_) {
-			console.log('not signed in');
-		}
 	}
 }
 //#endregion
 
-fetchInstance().then(() => {
+store.dispatch('instance/fetch').then(() => {
 	// Init service worker
 	//if (this.store.state.instance.meta.swPublickey) this.registerSw(this.store.state.instance.meta.swPublickey);
 });
 
-stream.init($i);
+stream.init(store.state.i);
 
 const app = createApp(await (
 	window.location.search === '?zen' ? import('@/ui/zen.vue') :
-	!$i                               ? import('@/ui/visitor.vue') :
+	!store.getters.isSignedIn         ? import('@/ui/visitor.vue') :
 	ui === 'deck'                     ? import('@/ui/deck.vue') :
 	ui === 'desktop'                  ? import('@/ui/desktop.vue') :
 	import('@/ui/default.vue')
@@ -164,12 +164,7 @@ if (_DEV_) {
 	app.config.performance = true;
 }
 
-app.config.globalProperties = {
-	$i,
-	$store: defaultStore,
-	$instance: instance,
-};
-
+app.use(store);
 app.use(router);
 app.use(i18n);
 // eslint-disable-next-line vue/component-definition-name-casing
@@ -185,34 +180,46 @@ await router.isReady();
 
 app.mount('body');
 
-watch(defaultStore.reactiveState.darkMode, (darkMode) => {
+// 他のタブと永続化されたstateを同期
+window.addEventListener('storage', e => {
+	if (e.key === 'vuex') {
+		store.replaceState({
+			...store.state,
+			...JSON.parse(e.newValue)
+		});
+	} else if (e.key === 'i') {
+		location.reload();
+	}
+}, false);
+
+store.watch(state => state.device.darkMode, darkMode => {
 	import('@/scripts/theme').then(({ builtinThemes }) => {
-		const themes = builtinThemes.concat(ColdDeviceStorage.get('themes'));
-		applyTheme(themes.find(x => x.id === (darkMode ? ColdDeviceStorage.get('darkTheme') : ColdDeviceStorage.get('lightTheme'))));
+		const themes = builtinThemes.concat(store.state.device.themes);
+		applyTheme(themes.find(x => x.id === (darkMode ? store.state.device.darkTheme : store.state.device.lightTheme)));
 	});
 });
 
 //#region Sync dark mode
-if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
-	defaultStore.set('darkMode', isDeviceDarkmode());
+if (store.state.device.syncDeviceDarkMode) {
+	store.commit('device/set', { key: 'darkMode', value: isDeviceDarkmode() });
 }
 
 window.matchMedia('(prefers-color-scheme: dark)').addListener(mql => {
-	if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
-		defaultStore.set('darkMode', mql.matches);
+	if (store.state.device.syncDeviceDarkMode) {
+		store.commit('device/set', { key: 'darkMode', value: mql.matches });
 	}
 });
 //#endregion
 
-watch(defaultStore.reactiveState.useBlurEffectForModal, v => {
+store.watch(state => state.device.useBlurEffectForModal, v => {
 	document.documentElement.style.setProperty('--modalBgFilter', v ? 'blur(4px)' : 'none');
 }, { immediate: true });
 
 let reloadDialogShowing = false;
 stream.on('_disconnected_', async () => {
-	if (defaultStore.state.serverDisconnectedBehavior === 'reload') {
+	if (store.state.device.serverDisconnectedBehavior === 'reload') {
 		location.reload();
-	} else if (defaultStore.state.serverDisconnectedBehavior === 'dialog') {
+	} else if (store.state.device.serverDisconnectedBehavior === 'dialog') {
 		if (reloadDialogShowing) return;
 		reloadDialogShowing = true;
 		const { canceled } = await dialog({
@@ -233,13 +240,13 @@ stream.on('emojiAdded', data => {
 	//store.commit('instance/set', );
 });
 
-for (const plugin of ColdDeviceStorage.get('plugins').filter(p => p.active)) {
+for (const plugin of store.state.deviceUser.plugins.filter(p => p.active)) {
 	import('./plugin').then(({ install }) => {
 		install(plugin);
 	});
 }
 
-if ($i) {
+if (store.getters.isSignedIn) {
 	if ('Notification' in window) {
 		// 許可を得ていなかったらリクエスト
 		if (Notification.permission === 'default') {
@@ -251,73 +258,103 @@ if ($i) {
 
 	// 自分の情報が更新されたとき
 	main.on('meUpdated', i => {
-		updateAccount(i);
+		store.dispatch('mergeMe', i);
 	});
 
 	main.on('readAllNotifications', () => {
-		updateAccount({ hasUnreadNotification: false });
+		store.dispatch('mergeMe', {
+			hasUnreadNotification: false
+		});
 	});
 
 	main.on('unreadNotification', () => {
-		updateAccount({ hasUnreadNotification: true });
+		store.dispatch('mergeMe', {
+			hasUnreadNotification: true
+		});
 	});
 
 	main.on('unreadMention', () => {
-		updateAccount({ hasUnreadMentions: true });
+		store.dispatch('mergeMe', {
+			hasUnreadMentions: true
+		});
 	});
 
 	main.on('readAllUnreadMentions', () => {
-		updateAccount({ hasUnreadMentions: false });
+		store.dispatch('mergeMe', {
+			hasUnreadMentions: false
+		});
 	});
 
 	main.on('unreadSpecifiedNote', () => {
-		updateAccount({ hasUnreadSpecifiedNotes: true });
+		store.dispatch('mergeMe', {
+			hasUnreadSpecifiedNotes: true
+		});
 	});
 
 	main.on('readAllUnreadSpecifiedNotes', () => {
-		updateAccount({ hasUnreadSpecifiedNotes: false });
+		store.dispatch('mergeMe', {
+			hasUnreadSpecifiedNotes: false
+		});
 	});
 
 	main.on('readAllMessagingMessages', () => {
-		updateAccount({ hasUnreadMessagingMessage: false });
+		store.dispatch('mergeMe', {
+			hasUnreadMessagingMessage: false
+		});
 	});
 
 	main.on('unreadMessagingMessage', () => {
-		updateAccount({ hasUnreadMessagingMessage: true });
+		store.dispatch('mergeMe', {
+			hasUnreadMessagingMessage: true
+		});
+
 		sound.play('chatBg');
 	});
 
 	main.on('readAllAntennas', () => {
-		updateAccount({ hasUnreadAntenna: false });
+		store.dispatch('mergeMe', {
+			hasUnreadAntenna: false
+		});
 	});
 
 	main.on('unreadAntenna', () => {
-		updateAccount({ hasUnreadAntenna: true });
+		store.dispatch('mergeMe', {
+			hasUnreadAntenna: true
+		});
+
 		sound.play('antenna');
 	});
 
 	main.on('readAllAnnouncements', () => {
-		updateAccount({ hasUnreadAnnouncement: false });
+		store.dispatch('mergeMe', {
+			hasUnreadAnnouncement: false
+		});
 	});
 
 	main.on('readAllChannels', () => {
-		updateAccount({ hasUnreadChannel: false });
+		store.dispatch('mergeMe', {
+			hasUnreadChannel: false
+		});
 	});
 
 	main.on('unreadChannel', () => {
-		updateAccount({ hasUnreadChannel: true });
+		store.dispatch('mergeMe', {
+			hasUnreadChannel: true
+		});
+
 		sound.play('channel');
 	});
 
 	main.on('readAllAnnouncements', () => {
-		updateAccount({ hasUnreadAnnouncement: false });
+		store.dispatch('mergeMe', {
+			hasUnreadAnnouncement: false
+		});
 	});
 
 	main.on('clientSettingUpdated', x => {
-		updateAccount({
-			clientData: {
-				[x.key]: x.value
-			}
+		store.commit('settings/set', {
+			key: x.key,
+			value: x.value
 		});
 	});
 
@@ -327,3 +364,4 @@ if ($i) {
 		signout();
 	});
 }
+

@@ -62,7 +62,6 @@ import MkButton from '@/components/ui/button.vue';
 import MkSelect from '@/components/ui/select.vue';
 import { selectFile } from '@/scripts/select-file';
 import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
 
 let room: Room;
 
@@ -108,7 +107,7 @@ export default defineComponent({
 			...parseAcct(this.acct)
 		});
 
-		this.isMyRoom = this.$i && (this.$i.id === this.user.id);
+		this.isMyRoom = this.$store.getters.isSignedIn && (this.$store.state.i.id === this.user.id);
 
 		const roomInfo = await os.api('room/show', {
 			userId: this.user.id
@@ -118,7 +117,7 @@ export default defineComponent({
 		this.carpetColor = roomInfo.carpetColor;
 
 		room = new Room(this.user, this.isMyRoom, roomInfo, this.$el, {
-			graphicsQuality: ColdDeviceStorage.get('roomGraphicsQuality'),
+			graphicsQuality: this.$store.state.device.roomGraphicsQuality,
 			onChangeSelect: obj => {
 				this.objectSelected = obj != null;
 				if (obj) {
@@ -133,7 +132,7 @@ export default defineComponent({
 					});
 				}
 			},
-			useOrthographicCamera: ColdDeviceStorage.get('roomUseOrthographicCamera'),
+			useOrthographicCamera: this.$store.state.device.roomUseOrthographicCamera
 		});
 	},
 

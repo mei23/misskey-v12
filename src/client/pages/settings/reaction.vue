@@ -43,8 +43,8 @@ import FormInput from '@/components/form/input.vue';
 import FormRadios from '@/components/form/radios.vue';
 import FormBase from '@/components/form/base.vue';
 import FormButton from '@/components/form/button.vue';
+import { defaultSettings } from '@/store';
 import * as os from '@/os';
-import { defaultStore } from '@/store';
 
 export default defineComponent({
 	components: {
@@ -67,14 +67,24 @@ export default defineComponent({
 					handler: this.preview
 				}
 			},
-			reactions: JSON.parse(JSON.stringify(this.$store.state.reactions)),
+			reactions: JSON.parse(JSON.stringify(this.$store.state.settings.reactions)),
 			faLaugh, faSave, faEye, faUndo, faPlus
 		}
 	},
 
 	computed: {
-		reactionPickerWidth: defaultStore.makeGetterSetter('reactionPickerWidth'),
-		reactionPickerHeight: defaultStore.makeGetterSetter('reactionPickerHeight'),
+		useFullReactionPicker: {
+			get() { return this.$store.state.device.useFullReactionPicker; },
+			set(value) { this.$store.commit('device/set', { key: 'useFullReactionPicker', value: value }); }
+		},
+		reactionPickerWidth: {
+			get() { return this.$store.state.device.reactionPickerWidth; },
+			set(value) { this.$store.commit('device/set', { key: 'reactionPickerWidth', value: value }); }
+		},
+		reactionPickerHeight: {
+			get() { return this.$store.state.device.reactionPickerHeight; },
+			set(value) { this.$store.commit('device/set', { key: 'reactionPickerHeight', value: value }); }
+		},
 	},
 
 	watch: {
@@ -92,7 +102,7 @@ export default defineComponent({
 
 	methods: {
 		save() {
-			this.$store.set('reactions', this.reactions);
+			this.$store.dispatch('settings/set', { key: 'reactions', value: this.reactions });
 		},
 
 		remove(reaction, ev) {
@@ -119,7 +129,7 @@ export default defineComponent({
 			});
 			if (canceled) return;
 
-			this.reactions = JSON.parse(JSON.stringify(this.$store.def.reactions.default));
+			this.reactions = JSON.parse(JSON.stringify(defaultSettings.reactions));
 		},
 
 		chooseEmoji(ev) {

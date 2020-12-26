@@ -51,7 +51,7 @@ export default defineComponent({
 		os.api('users/notes', {
 			userId: this.user.id,
 			fileType: image,
-			excludeNsfw: this.$store.state.nsfw !== 'ignore',
+			excludeNsfw: this.$store.state.device.nsfw !== 'ignore',
 			limit: 9,
 		}).then(notes => {
 			for (const note of notes) {
@@ -69,7 +69,7 @@ export default defineComponent({
 	},
 	methods: {
 		thumbnail(image: any): string {
-			return this.$store.state.disableShowingAnimatedImages
+			return this.$store.state.device.disableShowingAnimatedImages
 				? getStaticImageUrl(image.thumbnailUrl)
 				: image.thumbnailUrl;
 		},

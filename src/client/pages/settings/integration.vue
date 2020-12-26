@@ -57,11 +57,11 @@ export default defineComponent({
 
 	computed: {
 		integrations() {
-			return this.$i.integrations;
+			return this.$store.state.i.integrations;
 		},
 		
 		meta() {
-			return this.$instance;
+			return this.$store.state.instance.meta;
 		},
 	},
 
@@ -74,7 +74,7 @@ export default defineComponent({
 	mounted() {
 		this.$emit('info', this.INFO);
 
-		document.cookie = `igi=${this.$i.token}; path=/;` +
+		document.cookie = `igi=${this.$store.state.i.token}; path=/;` +
 			` max-age=31536000;` +
 			(document.location.protocol.startsWith('https') ? ' secure' : '');
 

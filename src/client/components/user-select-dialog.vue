@@ -79,7 +79,7 @@ export default defineComponent({
 		});
 
 		this.recentUsers = await os.api('users/show', {
-			userIds: this.$store.state.recentlyUsedUsers
+			userIds: this.$store.state.device.recentlyUsedUsers
 		});
 	},
 
@@ -108,10 +108,10 @@ export default defineComponent({
 			this.$refs.dialog.close();
 
 			// 最近使ったユーザー更新
-			let recents = this.$store.state.recentlyUsedUsers;
+			let recents = this.$store.state.device.recentlyUsedUsers;
 			recents = recents.filter(x => x !== this.selected.id);
 			recents.unshift(this.selected.id);
-			this.$store.set('recentlyUsedUsers', recents.splice(0, 16));
+			this.$store.commit('device/set', { key: 'recentlyUsedUsers', value: recents.splice(0, 16) });
 		},
 
 		cancel() {

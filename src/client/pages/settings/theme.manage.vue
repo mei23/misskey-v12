@@ -34,7 +34,6 @@ import FormButton from '@/components/form/button.vue';
 import { Theme, builtinThemes } from '@/scripts/theme';
 import copyToClipboard from '@/scripts/copy-to-clipboard';
 import * as os from '@/os';
-import { ColdDeviceStorage } from '@/store';
 
 export default defineComponent({
 	components: {
@@ -55,7 +54,6 @@ export default defineComponent({
 				title: this.$t('_theme.manage'),
 				icon: faFolderOpen
 			},
-			installedThemes: ColdDeviceStorage.ref('themes'),
 			builtinThemes,
 			selectedThemeId: null,
 			faPalette, faDownload, faFolderOpen, faCheck, faTrashAlt, faEye
@@ -64,7 +62,11 @@ export default defineComponent({
 
 	computed: {
 		themes(): Theme[] {
-			return this.builtinThemes.concat(this.installedThemes.value);
+			return builtinThemes.concat(this.$store.state.device.themes);
+		},
+
+		installedThemes(): Theme[] {
+			return this.$store.state.device.themes;
 		},
 	
 		selectedTheme() {
@@ -90,8 +92,10 @@ export default defineComponent({
 
 		uninstall() {
 			const theme = this.selectedTheme;
-			const themes = ColdDeviceStorage.get('themes').filter(t => t.id != theme.id);
-			ColdDeviceStorage.set('themes', themes);
+			const themes = this.$store.state.device.themes.filter(t => t.id != theme.id);
+			this.$store.commit('device/set', {
+				key: 'themes', value: themes
+			});
 			os.success();
 		},
 	}

@@ -25,7 +25,6 @@ import { faMinusCircle, faHome, faComments, faShareAlt, faGlobe, faCog } from '@
 import XColumn from './column.vue';
 import XTimeline from '@/components/timeline.vue';
 import * as os from '@/os';
-import { removeColumn, updateColumn } from './deck-store';
 
 export default defineComponent({
 	components: {
@@ -72,9 +71,9 @@ export default defineComponent({
 		if (this.column.tl == null) {
 			this.setType();
 		} else {
-			this.disabled = !this.$i.isModerator && !this.$i.isAdmin && (
-				this.$instance.disableLocalTimeline && ['local', 'social'].includes(this.column.tl) ||
-				this.$instance.disableGlobalTimeline && ['global'].includes(this.column.tl));
+			this.disabled = !this.$store.state.i.isModerator && !this.$store.state.i.isAdmin && (
+				this.$store.state.instance.meta.disableLocalTimeline && ['local', 'social'].includes(this.column.tl) ||
+				this.$store.state.instance.meta.disableGlobalTimeline && ['global'].includes(this.column.tl));
 		}
 	},
 
@@ -97,13 +96,12 @@ export default defineComponent({
 			});
 			if (canceled) {
 				if (this.column.tl == null) {
-					removeColumn(this.column.id);
+					this.$store.commit('deviceUser/removeDeckColumn', this.column.id);
 				}
 				return;
 			}
-			updateColumn(this.column.id, {
-				tl: src
-			});
+			this.column.tl = src;
+			this.$store.commit('deviceUser/updateDeckColumn', this.column);
 		},
 
 		queueUpdated(q) {

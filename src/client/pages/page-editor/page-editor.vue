@@ -141,7 +141,7 @@ export default defineComponent({
 				title: this.$t('_pages.newPage'),
 				icon: faPencilAlt,
 			}),
-			author: this.$i,
+			author: this.$store.state.i,
 			readonly: false,
 			page: null,
 			pageId: null,

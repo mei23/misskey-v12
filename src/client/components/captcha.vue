@@ -28,6 +28,7 @@ declare global {
 	interface Window extends CaptchaContainer {
 	}
 }
+import * as os from '@/os';
 
 export default defineComponent({
 	props: {
@@ -100,7 +101,7 @@ export default defineComponent({
 			if (this.captcha.render && this.$refs.captcha instanceof Element) {
 				this.captcha.render(this.$refs.captcha, {
 					sitekey: this.sitekey,
-					theme: this.$store.state.darkMode ? 'dark' : 'light',
+					theme: this.$store.state.device.darkMode ? 'dark' : 'light',
 					callback: this.callback,
 					'expired-callback': this.callback,
 					'error-callback': this.callback,

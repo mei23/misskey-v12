@@ -54,13 +54,13 @@ export default defineComponent({
 		},
 
 		useOsNativeEmojis(): boolean {
-			return this.$store.state.useOsNativeEmojis && !this.isReaction;
+			return this.$store.state.device.useOsNativeEmojis && !this.isReaction;
 		},
 
 		ce() {
 			let ce = [];
 			if (this.customEmojis) ce = ce.concat(this.customEmojis);
-			if (this.$instance && this.$instance.emojis) ce = ce.concat(this.$instance.emojis);
+			if (this.$store.state.instance.meta && this.$store.state.instance.meta.emojis) ce = ce.concat(this.$store.state.instance.meta.emojis);
 			return ce;
 		}
 	},
@@ -72,7 +72,7 @@ export default defineComponent({
 					const customEmoji = this.ce.find(x => x.name === this.emoji.substr(1, this.emoji.length - 2));
 					if (customEmoji) {
 						this.customEmoji = customEmoji;
-						this.url = this.$store.state.disableShowingAnimatedImages
+						this.url = this.$store.state.device.disableShowingAnimatedImages
 							? getStaticImageUrl(customEmoji.url)
 							: customEmoji.url;
 					}

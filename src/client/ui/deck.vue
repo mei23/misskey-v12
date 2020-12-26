@@ -1,9 +1,9 @@
 <template>
-<div class="mk-deck" :class="`${deckStore.state.columnAlign}`" v-hotkey.global="keymap">
+<div class="mk-deck" :class="`${$store.state.device.deckColumnAlign}`" v-hotkey.global="keymap">
 	<XSidebar ref="nav"/>
 
 	<!-- TODO: deckMainColumnPlace を見て位置変える -->
-	<DeckColumn class="column" v-if="deckStore.state.alwaysShowMainColumn || $route.name !== 'index'">
+	<DeckColumn class="column" v-if="$store.state.device.deckAlwaysShowMainColumn || $route.name !== 'index'">
 		<template #header>
 			<XHeader :info="pageInfo"/>
 		</template>
@@ -26,8 +26,8 @@
 
 	<button @click="addColumn" class="_button add"><Fa :icon="faPlus"/></button>
 
-	<button v-if="$i" class="nav _button" @click="showNav()"><Fa :icon="faBars"/><i v-if="navIndicated"><Fa :icon="faCircle"/></i></button>
-	<button v-if="$i" class="post _buttonPrimary" @click="post()"><Fa :icon="faPencilAlt"/></button>
+	<button v-if="$store.getters.isSignedIn" class="nav _button" @click="showNav()"><Fa :icon="faBars"/><i v-if="navIndicated"><Fa :icon="faCircle"/></i></button>
+	<button v-if="$store.getters.isSignedIn" class="post _buttonPrimary" @click="post()"><Fa :icon="faPencilAlt"/></button>
 
 	<XCommon/>
 </div>
@@ -48,7 +48,6 @@ import { getScrollContainer } from '@/scripts/scroll';
 import * as os from '@/os';
 import { sidebarDef } from '@/sidebar';
 import XCommon from './_common_/common.vue';
-import { deckStore, addColumn } from './deck/deck-store';
 
 export default defineComponent({
 	components: {
@@ -61,7 +60,6 @@ export default defineComponent({
 
 	data() {
 		return {
-			deckStore,
 			host: host,
 			pageInfo: null,
 			pageKey: 0,
@@ -72,14 +70,17 @@ export default defineComponent({
 	},
 
 	computed: {
-		columns() {
-			return deckStore.reactiveState.columns.value;
+		deck() {
+			return this.$store.state.deviceUser.deck;
 		},
-		layout() {
-			return deckStore.reactiveState.layout.value;
+		columns(): any[] {
+			return this.deck.columns;
+		},
+		layout(): any[] {
+			return this.deck.layout;
 		},
 		navIndicated(): boolean {
-			if (!this.$i) return false;
+			if (!this.$store.getters.isSignedIn) return false;
 			for (const def in this.menuDef) {
 				if (this.menuDef[def].indicated) return true;
 			}
@@ -159,7 +160,7 @@ export default defineComponent({
 			});
 			if (canceled) return;
 
-			addColumn({
+			this.$store.commit('deviceUser/addDeckColumn', {
 				type: column,
 				id: uuid(),
 				name: this.$t('_deck._columns.' + column),

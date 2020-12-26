@@ -5,12 +5,11 @@ import copyToClipboard from '@/scripts/copy-to-clipboard';
 import { host } from '@/config';
 import getAcct from '../../misc/acct/render';
 import * as os from '@/os';
-import { userActions } from '@/store';
+import { store, userActions } from '@/store';
 import { router } from '@/router';
-import { $i } from '@/account';
 
 export function getUserMenu(user) {
-	const meId = $i ? $i.id : null;
+	const meId = store.getters.isSignedIn ? store.state.i.id : null;
 
 	async function pushList() {
 		const t = i18n.global.t('selectList'); // なぜか後で参照すると null になるので最初にメモリに確保しておく
@@ -147,7 +146,7 @@ export function getUserMenu(user) {
 		action: inviteGroup
 	} : undefined] as any;
 
-	if ($i && meId != user.id) {
+	if (store.getters.isSignedIn && meId != user.id) {
 		menu = menu.concat([null, {
 			icon: user.isMuted ? faEye : faEyeSlash,
 			text: user.isMuted ? i18n.global.t('unmute') : i18n.global.t('mute'),
@@ -164,7 +163,7 @@ export function getUserMenu(user) {
 			action: reportAbuse
 		}]);
 
-		if ($i && ($i.isAdmin || $i.isModerator)) {
+		if (store.getters.isSignedIn && (store.state.i.isAdmin || store.state.i.isModerator)) {
 			menu = menu.concat([null, {
 				icon: faMicrophoneSlash,
 				text: user.isSilenced ? i18n.global.t('unsilence') : i18n.global.t('silence'),
@@ -177,7 +176,7 @@ export function getUserMenu(user) {
 		}
 	}
 
-	if ($i && meId === user.id) {
+	if (store.getters.isSignedIn && meId === user.id) {
 		menu = menu.concat([null, {
 			icon: faPencilAlt,
 			text: i18n.global.t('editProfile'),

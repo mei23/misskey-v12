@@ -1,11 +1,12 @@
 import { Component, defineAsyncComponent, markRaw, reactive, Ref, ref } from 'vue';
 import { EventEmitter } from 'eventemitter3';
 import Stream from '@/scripts/stream';
+import { store } from '@/store';
 import { apiUrl, debug } from '@/config';
 import MkPostFormDialog from '@/components/post-form-dialog.vue';
 import MkWaitingDialog from '@/components/waiting-dialog.vue';
 import { resolve } from '@/router';
-import { $i } from './account';
+import { device } from './cold-storage';
 
 const ua = navigator.userAgent.toLowerCase();
 export const isMobile = /mobile|iphone|ipad|android/.test(ua);
@@ -39,7 +40,7 @@ export function api(endpoint: string, data: Record<string, any> = {}, token?: st
 
 	const promise = new Promise((resolve, reject) => {
 		// Append a credential
-		if ($i) (data as any).i = $i.token;
+		if (store.getters.isSignedIn) (data as any).i = store.state.i.token;
 		if (token !== undefined) (data as any).i = token;
 
 		// Send request
@@ -367,7 +368,7 @@ export function upload(file: File, folder?: any, name?: string) {
 			uploads.value.push(ctx);
 
 			const data = new FormData();
-			data.append('i', $i.token);
+			data.append('i', store.state.i.token);
 			data.append('force', 'true');
 			data.append('file', file);
 

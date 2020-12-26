@@ -14,7 +14,6 @@ import { faSatellite, faCog } from '@fortawesome/free-solid-svg-icons';
 import XColumn from './column.vue';
 import XTimeline from '@/components/timeline.vue';
 import * as os from '@/os';
-import { updateColumn } from './deck-store';
 
 export default defineComponent({
 	components: {
@@ -74,9 +73,8 @@ export default defineComponent({
 				showCancelButton: true
 			});
 			if (canceled) return;
-			updateColumn(this.column.id, {
-				antennaId: antenna.id
-			});
+			this.column.antennaId = antenna.id;
+			this.$store.commit('deviceUser/updateDeckColumn', this.column);
 		},
 
 		focus() {

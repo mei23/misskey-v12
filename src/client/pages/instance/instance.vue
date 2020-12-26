@@ -206,7 +206,7 @@ export default defineComponent({
 		},
 
 		meta() {
-			return this.$instance;
+			return this.$store.state.instance.meta;
 		},
 
 		isBlocked() {

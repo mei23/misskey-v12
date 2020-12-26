@@ -14,7 +14,6 @@ import XCommon from './_common_/common.vue';
 import * as os from '@/os';
 import XSidebar from '@/components/sidebar.vue';
 import { sidebarDef } from '@/sidebar';
-import { ColdDeviceStorage } from '@/store';
 
 export default defineComponent({
 	components: {
@@ -34,8 +33,8 @@ export default defineComponent({
 		keymap(): any {
 			return {
 				'd': () => {
-					if (ColdDeviceStorage.get('syncDeviceDarkMode')) return;
-					this.$store.set('darkMode', !this.$store.state.darkMode);
+					if (this.$store.state.device.syncDeviceDarkMode) return;
+					this.$store.commit('device/set', { key: 'darkMode', value: !this.$store.state.device.darkMode });
 				},
 				'p': os.post,
 				'n': os.post,
@@ -45,7 +44,7 @@ export default defineComponent({
 		},
 
 		menu(): string[] {
-			return this.$store.state.menu;
+			return this.$store.state.deviceUser.menu;
 		},
 	},
 
