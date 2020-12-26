@@ -5,6 +5,7 @@
 	@dragleave="onDragleave"
 	@drop.prevent.stop="onDrop"
 	v-hotkey="keymap"
+	:style="{ width: `${width}px` }"
 >
 	<header :class="{ indicated }"
 		draggable="true"
@@ -13,7 +14,7 @@
 		@dragend="onDragend"
 		@contextmenu.prevent.stop="onContextmenu"
 	>
-		<button class="toggleActive _button" @click="toggleActive" v-if="isStacked && !isMainColumn">
+		<button class="toggleActive _button" @click="toggleActive" v-if="isStacked">
 			<template v-if="active"><Fa :icon="faAngleUp"/></template>
 			<template v-else><Fa :icon="faAngleDown"/></template>
 		</button>
@@ -34,7 +35,7 @@ import { defineComponent } from 'vue';
 import { faArrowUp, faArrowDown, faAngleUp, faAngleDown, faCaretDown, faArrowRight, faArrowLeft, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { faWindowMaximize, faTrashAlt, faWindowRestore } from '@fortawesome/free-regular-svg-icons';
 import * as os from '@/os';
-import { updateColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn } from './deck-store';
+import { renameColumn, swapLeftColumn, swapRightColumn, swapUpColumn, swapDownColumn, stackLeftColumn, popRightColumn, removeColumn, swapColumn } from './deck-store';
 
 export default defineComponent({
 	props: {
@@ -77,7 +78,11 @@ export default defineComponent({
 
 	computed: {
 		isMainColumn(): boolean {
-			return this.column.type === 'main';
+			return this.column == null;
+		},
+
+		width(): number {
+			return this.isMainColumn ? 350 : this.column.width;
 		},
 
 		keymap(): any {
@@ -101,13 +106,17 @@ export default defineComponent({
 	},
 
 	mounted() {
-		os.deckGlobalEvents.on('column.dragStart', this.onOtherDragStart);
-		os.deckGlobalEvents.on('column.dragEnd', this.onOtherDragEnd);
+		if (!this.isMainColumn) {
+			os.deckGlobalEvents.on('column.dragStart', this.onOtherDragStart);
+			os.deckGlobalEvents.on('column.dragEnd', this.onOtherDragEnd);
+		}
 	},
 
 	beforeUnmount() {
-		os.deckGlobalEvents.off('column.dragStart', this.onOtherDragStart);
-		os.deckGlobalEvents.off('column.dragEnd', this.onOtherDragEnd);
+		if (!this.isMainColumn) {
+			os.deckGlobalEvents.off('column.dragStart', this.onOtherDragStart);
+			os.deckGlobalEvents.off('column.dragEnd', this.onOtherDragEnd);
+		}
 	},
 
 	methods: {
@@ -127,27 +136,18 @@ export default defineComponent({
 		getMenu() {
 			const items = [{
 				icon: faPencilAlt,
-				text: this.$ts.edit,
-				action: async () => {
-					const { canceled, result } = await os.form(this.column.name, {
-						name: {
-							type: 'string',
-							label: this.$ts.name,
-							default: this.column.name
-						},
-						width: {
-							type: 'number',
-							label: this.$ts.width,
-							default: this.column.width
-						},
-						flexible: {
-							type: 'boolean',
-							label: this.$ts.flexible,
-							default: this.column.flexible
+				text: this.$ts.rename,
+				action: () => {
+					os.dialog({
+						title: this.$ts.rename,
+						input: {
+							default: this.column.name,
+							allowEmpty: false
 						}
+					}).then(({ canceled, result: name }) => {
+						if (canceled) return;
+						renameColumn(this.column.id, name);
 					});
-					if (canceled) return;
-					updateColumn(this.column.id, result);
 				}
 			}, null, {
 				icon: faArrowLeft,
@@ -203,7 +203,8 @@ export default defineComponent({
 		},
 
 		onContextmenu(e) {
-			os.contextMenu(this.getMenu(), e);
+			if (this.isMainColumn) return;
+			this.showMenu();
 		},
 
 		showMenu() {
@@ -218,6 +219,12 @@ export default defineComponent({
 		},
 
 		onDragstart(e) {
+			// メインカラムはドラッグさせない
+			if (this.isMainColumn) {
+				e.preventDefault();
+				return;
+			}
+
 			e.dataTransfer.effectAllowed = 'move';
 			e.dataTransfer.setData(_DATA_TRANSFER_DECK_COLUMN_, this.column.id);
 			this.dragging = true;
@@ -228,6 +235,12 @@ export default defineComponent({
 		},
 
 		onDragover(e) {
+			// メインカラムにはドロップさせない
+			if (this.isMainColumn) {
+				e.dataTransfer.dropEffect = 'none';
+				return;
+			}
+
 			// 自分自身がドラッグされている場合
 			if (this.dragging) {
 				// 自分自身にはドロップさせない
