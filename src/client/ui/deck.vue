@@ -1,5 +1,5 @@
 <template>
-<div class="mk-deck" :class="`${deckStore.reactiveState.columnAlign.value}`" v-hotkey.global="keymap" @contextmenu.self.prevent="onContextmenu"
+<div class="mk-deck" :class="`${deckStore.reactiveState.columnAlign.value}`" @contextmenu.self.prevent="onContextmenu"
 	:style="{ '--deckMargin': deckStore.reactiveState.columnMargin.value + 'px' }"
 >
 	<XSidebar ref="nav"/>
@@ -18,7 +18,7 @@
 			:key="ids[0]"
 			:column="columns.find(c => c.id === ids[0])"
 			@parent-focus="moveFocus(ids[0], $event)"
-			:style="columns.find(c => c.id === ids[0]).flexible ? { flex: 1 } : { width: columns.find(c => c.id === ids[0]).width + 'px' }"
+			:style="columns.find(c => c.id === ids[0]).flexible ? { flex: 1, minWidth: '350px' } : { width: columns.find(c => c.id === ids[0]).width + 'px' }"
 		/>
 	</template>
 
@@ -35,7 +35,6 @@ import { faPlus, faPencilAlt, faChevronLeft, faBars, faCircle } from '@fortaweso
 import {  } from '@fortawesome/free-regular-svg-icons';
 import { v4 as uuid } from 'uuid';
 import { host } from '@/config';
-import { search } from '@/scripts/search';
 import DeckColumnCore from '@/ui/deck/column-core.vue';
 import XSidebar from '@/components/sidebar.vue';
 import { getScrollContainer } from '@/scripts/scroll';
@@ -49,6 +48,14 @@ export default defineComponent({
 		XCommon,
 		XSidebar,
 		DeckColumnCore,
+	},
+
+	provide() {
+		return deckStore.state.navWindow ? {
+			navHook: (url) => {
+				os.pageWindow(url);
+			}
+		} : {};
 	},
 
 	data() {
@@ -75,14 +82,6 @@ export default defineComponent({
 			}
 			return false;
 		},
-		keymap(): any {
-			return {
-				'p': this.post,
-				'n': this.post,
-				's': this.search,
-				'h|/': this.help
-			};
-		},
 	},
 
 	created() {
@@ -103,10 +102,6 @@ export default defineComponent({
 
 		showNav() {
 			this.$refs.nav.show();
-		},
-
-		help() {
-			this.$router.push('/docs/keyboard-shortcut');
 		},
 
 		post() {
@@ -204,6 +199,10 @@ export default defineComponent({
 		border-radius: 100%;
 		box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 		font-size: 22px;
+
+		@media (min-width: ($nav-hide-threshold + 1px)) {
+			display: none;
+		}
 	}
 
 	> .post {
@@ -214,10 +213,6 @@ export default defineComponent({
 		left: 32px;
 		background: var(--panel);
 		color: var(--fg);
-
-		@media (min-width: ($nav-hide-threshold + 1px)) {
-			display: none;
-		}
 
 		&:hover {
 			background: var(--X2);

@@ -21,9 +21,9 @@
 
 	<FormGroup>
 		<div class="rfqxtzch _formItem _formPanel">
-			<div class="darkMode" :class="{ disabled: syncDeviceDarkMode }">
+			<div class="darkMode">
 				<div class="toggleWrapper">
-					<input type="checkbox" class="dn" id="dn" v-model="darkMode" :disabled="syncDeviceDarkMode"/>
+					<input type="checkbox" class="dn" id="dn" v-model="darkMode"/>
 					<label for="dn" class="toggle">
 						<span class="before">{{ $ts.light }}</span>
 						<span class="after">{{ $ts.dark }}</span>
