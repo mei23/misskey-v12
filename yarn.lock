@@ -656,10 +656,10 @@
     "@types/linkify-it" "*"
     "@types/mdurl" "*"
 
-"@types/matter-js@0.14.8":
-  version "0.14.8"
-  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.14.8.tgz#387ed5f8f30a81b7c9685ad7b685b88ebf8bf275"
-  integrity sha512-7Vjbb7VfkKA062tMwbeAFI5dBzdzvMoYXf2/7ROygjGTmWg7KxGJLPl0Vlck5kpFQOjLzdDqhuN2TWkrX/co+Q==
+"@types/matter-js@0.14.9":
+  version "0.14.9"
+  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.14.9.tgz#afb937d86d90424c4c3dd38b9e196852fec6309e"
+  integrity sha512-hyS0bfcPuCreRs+eFqRMwOsLSUco10kO5FACvH/nXEE6NiqFNedmarbGZkzQh5jjuw9YwUQ5RtQem6CtWcdXFg==
 
 "@types/mdurl@*":
   version "1.0.2"
