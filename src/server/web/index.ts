@@ -195,10 +195,14 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 	const user = await Users.findOne({
 		usernameLower: username.toLowerCase(),
 		host,
-		isSuspended: false
 	});
 
-	if (user != null) {
+	if (user == null) {
+		ctx.status = 404;
+	} else if (user.isSuspended) {
+		// モデレータがAPI経由で参照可能にするために404にはしない
+		await next();
+	} else {
 		const profile = await UserProfiles.findOne(user.id).then(ensure);
 		const meta = await fetchMeta();
 		const me = profile.fields
@@ -214,10 +218,6 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			icon: meta.iconUrl
 		});
 		ctx.set('Cache-Control', 'public, max-age=30');
-	} else {
-		// リモートユーザーなので
-		// モデレータがAPI経由で参照可能にするために404にはしない
-		await next();
 	}
 });
 
