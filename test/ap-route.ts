@@ -1,0 +1,91 @@
+/*
+ * Tests of Note
+ *
+ * How to run the tests:
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/ap-route.ts --require ts-node/register
+ *
+ * To specify test:
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/ap-route.ts --require ts-node/register -g 'test name'
+ */
+
+process.env.NODE_ENV = 'test';
+
+import * as childProcess from 'child_process';
+import * as assert from 'assert';
+import { async, signup, simpleGet, launchServer } from './utils';
+
+// Request Accept
+const ONLY_AP = 'application/activity+json';
+const PREFER_AP = 'application/activity+json, */*';
+const PREFER_HTML = 'text/html, */*';
+const UNSPECIFIED = '*/*';
+
+// Response Contet-Type
+const AP = 'application/activity+json; charset=utf-8';
+const HTML = 'text/html; charset=utf-8';
+
+describe('ap-route', () => {
+	let p: childProcess.ChildProcess;
+
+	let alice: any;
+
+	before(launchServer(g => p = g, async () => {
+		alice = await signup({ username: 'alice' });
+	}));
+
+	after(() => {
+		p.kill();
+	});
+
+	describe('/@:username', () => {
+		it('Only AP => AP', async(async () => {
+			const res = await simpleGet(`/@${alice.username}`, ONLY_AP);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, AP);
+		}));
+
+		it('Prefer AP => AP', async(async () => {
+			const res = await simpleGet(`/@${alice.username}`, PREFER_AP);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, AP);
+		}));
+
+		it('Prefer HTML => HTML', async(async () => {
+			const res = await simpleGet(`/@${alice.username}`, PREFER_HTML);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+		}));
+
+		it('Unspecified => HTML', async(async () => {
+			const res = await simpleGet(`/@${alice.username}`, UNSPECIFIED);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+		}));
+	});
+
+	describe('/users/:id', () => {
+		it('Only AP => AP', async(async () => {
+			const res = await simpleGet(`/users/${alice.id}`, ONLY_AP);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, AP);
+		}));
+
+		it('Prefer AP => AP', async(async () => {
+			const res = await simpleGet(`/users/${alice.id}`, PREFER_AP);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, AP);
+		}));
+
+		it('Prefer HTML => Redirect to /@:username', async(async () => {
+			const res = await simpleGet(`/users/${alice.id}`, PREFER_HTML);
+			assert.strictEqual(res.status, 302);
+			assert.strictEqual(res.location, `/@${alice.username}`);
+		}));
+
+		it('Undecided => Redirect to /@:username', async(async () => {
+			const res = await simpleGet(`/users/${alice.id}`, UNSPECIFIED);
+			assert.strictEqual(res.status, 302);
+			assert.strictEqual(res.location, `/@${alice.username}`);
+		}));
+	});
+});

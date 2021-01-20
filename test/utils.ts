@@ -3,6 +3,7 @@ import * as WebSocket from 'ws';
 import fetch from 'node-fetch';
 const FormData = require('form-data');
 import * as childProcess from 'child_process';
+import * as http from 'http';
 
 export const async = (fn: Function) => (done: Function) => {
 	fn().then(() => {
@@ -18,7 +19,7 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 	} : {};
 
 	try {
-		const res = await fetch('http://localhost:8080/api' + endpoint, {
+		const res = await fetch('http://localhost:61812/api' + endpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -72,7 +73,7 @@ export const uploadFile = (user: any, path?: string): Promise<any> => {
 		formData.append('i', user.token);
 		formData.append('file', fs.createReadStream(path || __dirname + '/resources/Lenna.png'));
 
-		return fetch('http://localhost:8080/api/drive/files/create', {
+		return fetch('http://localhost:61812/api/drive/files/create', {
 			method: 'post',
 			body: formData,
 			timeout: 30 * 1000,
@@ -87,7 +88,7 @@ export const uploadFile = (user: any, path?: string): Promise<any> => {
 
 export function connectStream(user: any, channel: string, listener: (message: Record<string, any>) => any, params?: any): Promise<WebSocket> {
 	return new Promise((res, rej) => {
-		const ws = new WebSocket(`ws://localhost:8080/streaming?i=${user.token}`);
+		const ws = new WebSocket(`ws://localhost:61812/streaming?i=${user.token}`);
 
 		ws.on('open', () => {
 			ws.on('message', data => {
@@ -111,6 +112,29 @@ export function connectStream(user: any, channel: string, listener: (message: Re
 		});
 	});
 }
+
+export const simpleGet = async (path: string, accept: string): Promise<{ status: number, type: string, location: string }> => {
+	// node-fetchだと3xxを取れない
+	return await new Promise((resolve, reject) => {
+		const req = http.request('http://localhost:61812' + path, {
+			headers: {
+				Accept: accept
+			}
+		}, res => {
+			if (res.statusCode! >= 400) {
+				reject(res);
+			} else {
+				resolve({
+					status: res.statusCode,
+					type: res.headers['content-type'],
+					location: res.headers.location,
+				});
+			}
+		});
+
+		req.end();
+	});
+};
 
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {
 	return (done: (err?: Error) => any) => {
