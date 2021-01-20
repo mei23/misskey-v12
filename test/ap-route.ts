@@ -1,5 +1,5 @@
 /*
- * Tests of Note
+ * Tests of AP route negotiation
  *
  * How to run the tests:
  * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/ap-route.ts --require ts-node/register
