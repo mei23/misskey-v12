@@ -86,10 +86,10 @@ describe('AP route negotiation', () => {
 			assert.strictEqual(res.location, `/@${alice.username}`);
 		}));
 
-		it('Undecided => Redirect to /@:username', async(async () => {
+		it('Undecided => AP', async(async () => {
 			const res = await simpleGet(`/users/${alice.id}`, UNSPECIFIED);
-			assert.strictEqual(res.status, 302);
-			assert.strictEqual(res.location, `/@${alice.username}`);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, AP);
 		}));
 	});
 
