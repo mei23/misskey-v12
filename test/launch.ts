@@ -25,7 +25,7 @@ describe('Launch server', () => {
 	});
 
 	it('meta', async(async () => {
-		const res = await request('meta', {
+		const res = await request('/meta', {
 		});
 
 		assert.strictEqual(res.status, 200);
