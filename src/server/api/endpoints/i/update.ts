@@ -15,6 +15,7 @@ import { User } from '../../../../models/entities/user';
 import { UserProfile } from '../../../../models/entities/user-profile';
 import { ensure } from '../../../../prelude/ensure';
 import { notificationTypes } from '../../../../types';
+import { normalizeTag } from '../../../../misc/normalize-tag';
 
 export const meta = {
 	desc: {
@@ -281,7 +282,7 @@ export default define(meta, async (ps, user, token) => {
 	if (newDescription != null) {
 		const tokens = parse(newDescription);
 		emojis = emojis.concat(extractEmojis(tokens!));
-		tags = extractHashtags(tokens!).map(tag => tag.toLowerCase()).splice(0, 32);
+		tags = extractHashtags(tokens!).map(tag => normalizeTag(tag) as string).splice(0, 32);
 	}
 
 	updates.emojis = emojis;
