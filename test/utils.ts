@@ -18,26 +18,20 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 		i: me.token
 	} : {};
 
-	try {
-		const res = await fetch('http://localhost:61812/api' + endpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(Object.assign(auth, params))
-		});
+	const res = await fetch('http://localhost:61812/api' + endpoint, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(Object.assign(auth, params))
+	});
 
-		const status = res.status;
-		const body = res.status !== 204 ? await res.json().catch() : null;
+	const status = res.status;
+	const body = res.status !== 204 ? await res.json().catch() : null;
 
-		return {
-			body, status
-		};
-	} catch (e) {
-		return {
-			body: null, status: 500
-		};
-	}
+	return {
+		body, status
+	};
 };
 
 export const signup = async (params?: any): Promise<any> => {
