@@ -43,7 +43,7 @@ async function getCaptchaResponse(url: string, secret: string, response: string)
 			'User-Agent': config.userAgent
 		},
 		timeout: 10 * 1000,
-		agent: getAgentByUrl(url)
+		agent: getAgentByUrl
 	}).catch(e => {
 		throw `${e.message || e}`;
 	});
