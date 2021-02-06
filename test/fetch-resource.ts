@@ -70,7 +70,6 @@ describe('Fetch resource', () => {
 		}));
 	});
 
-
 	describe('/@:username', () => {
 		it('Only AP => AP', async(async () => {
 			const res = await simpleGet(`/@${alice.username}`, ONLY_AP);
