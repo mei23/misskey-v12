@@ -27,7 +27,7 @@ import { getConnection } from 'typeorm';
 import { ensure } from '../../../prelude/ensure';
 import { toArray } from '../../../prelude/array';
 import { fetchInstanceMetadata } from '../../../services/fetch-instance-metadata';
-import { normalizeTag } from '../../../misc/normalize-tag';
+import { normalizeForSearch } from '../../../misc/normalize-for-search';
 
 const logger = apLogger;
 
@@ -135,7 +135,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 	const { fields } = analyzeAttachments(person.attachment || []);
 
-	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 32);
+	const tags = extractApHashtags(person.tag).map(tag => normalizeForSearch(tag)).splice(0, 32);
 
 	const isBot = object.type === 'Service';
 
@@ -324,7 +324,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 
 	const { fields } = analyzeAttachments(person.attachment || []);
 
-	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 32);
+	const tags = extractApHashtags(person.tag).map(tag => normalizeForSearch(tag)).splice(0, 32);
 
 	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
 

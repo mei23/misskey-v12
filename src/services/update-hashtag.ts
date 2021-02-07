@@ -3,7 +3,7 @@ import { Hashtags, Users } from '../models';
 import { hashtagChart } from './chart';
 import { genId } from '../misc/gen-id';
 import { Hashtag } from '../models/entities/hashtag';
-import { normalizeTag } from '../misc/normalize-tag';
+import { normalizeForSearch } from '../misc/normalize-for-search';
 
 export async function updateHashtags(user: User, tags: string[]) {
 	for (const tag of tags) {
@@ -22,7 +22,7 @@ export async function updateUsertags(user: User, tags: string[]) {
 }
 
 export async function updateHashtag(user: User, tag: string, isUserAttached = false, inc = true) {
-	tag = normalizeTag(tag) as string;
+	tag = normalizeForSearch(tag);
 
 	const index = await Hashtags.findOne({ name: tag });
 
