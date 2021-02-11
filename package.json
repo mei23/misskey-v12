@@ -262,7 +262,7 @@
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@types/chai": "4.2.14",
+		"@types/chai": "4.2.15",
 		"chai": "4.3.0",
 		"cross-env": "7.0.3"
 	}
