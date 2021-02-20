@@ -146,7 +146,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 	try {
 		// Start transaction
 		await getConnection().transaction(async transactionalEntityManager => {
-			user = await transactionalEntityManager.save(new User({
+			user = await transactionalEntityManager.insert(User, {
 				id: genId(),
 				avatarId: null,
 				bannerId: null,
@@ -166,9 +166,9 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				tags,
 				isBot,
 				isCat: (person as any).isCat === true
-			})) as IRemoteUser;
+			}).then(x => transactionalEntityManager.findOneOrFail(User, x.identifiers[0])) as IRemoteUser;
 
-			await transactionalEntityManager.save(new UserProfile({
+			await transactionalEntityManager.insert(UserProfile, {
 				userId: user.id,
 				description: person.summary ? htmlToMfm(person.summary, person.tag) : null,
 				url: getOneApHrefNullable(person.url),
@@ -176,13 +176,13 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				birthday: bday ? bday[0] : null,
 				location: person['vcard:Address'] || null,
 				userHost: host
-			}));
+			});
 
-			await transactionalEntityManager.save(new UserPublickey({
+			await transactionalEntityManager.insert(UserPublickey, {
 				userId: user.id,
 				keyId: person.publicKey.id,
 				keyPem: person.publicKey.publicKeyPem
-			}));
+			});
 		});
 	} catch (e) {
 		// duplicate key error
