@@ -2284,10 +2284,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cbor@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/cbor/-/cbor-7.0.1.tgz#b939a0ae1ce9bb76338e1d193ab2ccd9a85d55d0"
-  integrity sha512-+SVEDS4B2x9aat+if8rtUbm8WdxArH2/tVKiSD8eCxy7hnVNlESd4EQQM16EOFrUCvSHECscsvq61N1FPejZtw==
+cbor@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/cbor/-/cbor-7.0.2.tgz#9f0b74f3dfc5896775e0802e7d68f9b6af530ce3"
+  integrity sha512-YR6TF7LBhTqdz0vjtoY5lDnOhHXg8/mdHd2qZYQz5q8Pl7i56/ndiIGLkms1RpkFAqrT9IHGO3cjo58SfFsF2A==
   dependencies:
     nofilter "^2.0.0"
 
