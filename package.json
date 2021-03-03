@@ -264,7 +264,7 @@
 	},
 	"devDependencies": {
 		"@types/chai": "4.2.15",
-		"chai": "4.3.0",
+		"chai": "4.3.1",
 		"cross-env": "7.0.3"
 	}
 }
