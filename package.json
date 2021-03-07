@@ -19,7 +19,6 @@
 		"build": "webpack && gulp build",
 		"build-product": "cross-env NODE_ENV=production webpack && gulp build",
 		"webpack": "webpack",
-		"watch": "webpack --watch",
 		"gulp": "gulp build",
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
