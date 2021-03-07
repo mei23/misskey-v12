@@ -36,8 +36,8 @@ cp docker_example.env docker.env
 ### `default.yml`
 
 Edit this file the same as non-Docker environment.  
-However hostname of Postgresql, Redis and Elasticsearch are not `localhost`, they are set in `docker-compose.yml`.  
-The following is default hostname:
+However, the host name of Postgresql, Redis, Elasticsearch in `default.yml` should be the service name of `docker-compose.yml` instead of the `localhost`.  
+If you are using the default `docker-compose.yml`, use the following values:
 
 | Service       | Hostname |
 |---------------|----------|

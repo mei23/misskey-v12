@@ -36,8 +36,8 @@ cp docker_example.env docker.env
 ### `default.yml`の編集
 
 非Docker環境と同じ様に編集してください。  
-ただし、Postgresql、RedisとElasticsearchのホストは`localhost`ではなく、`docker-compose.yml`で設定されたサービス名になっています。  
-標準設定では次の通りです。
+ただし、`default.yml`のPostgresql, Redis, Elasticsearchのホスト名は、`localhost`ではなく`docker-compose.yml`のサービス名にする必要があります。  
+標準の`docker-compose.yml`を使用している場合は、以下の値を使用します。
 
 | サービス       | ホスト名 |
 |---------------|---------|
