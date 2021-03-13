@@ -84,8 +84,3 @@ gulp.task('build', gulp.parallel(
 ));
 
 gulp.task('default', gulp.task('build'));
-
-gulp.watch([
-	'./src/**/*',
-	'!./src/client/**/*'
-], gulp.task('build'));
