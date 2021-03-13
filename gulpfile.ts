@@ -14,7 +14,7 @@ const locales: { [x: string]: any } = require('./locales');
 const meta = require('./package.json');
 
 gulp.task('build:ts', () => {
-	const tsProject = ts.createProject('./tsconfig.json');
+	const tsProject = ts.createProject('./src/tsconfig.json');
 
 	return tsProject
 		.src()
@@ -78,17 +78,9 @@ gulp.task('cleanall', gulp.parallel('clean', cb =>
 	rimraf('./node_modules', cb)
 ));
 
-gulp.task('copy:docs', () =>
-		gulp.src([
-			'./src/docs/**/*',
-		])
-		.pipe(gulp.dest('./built/assets/docs/'))
-);
-
 gulp.task('build', gulp.parallel(
 	'build:ts',
 	'build:copy',
-	'copy:docs',
 ));
 
 gulp.task('default', gulp.task('build'));

@@ -2,10 +2,10 @@
  * Tests for Fetch resource
  *
  * How to run the tests:
- * > TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register
  *
  * To specify test:
- * > TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register -g 'test name'
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register -g 'test name'
  */
 
 process.env.NODE_ENV = 'test';
@@ -66,6 +66,16 @@ describe('Fetch resource', () => {
 
 		it('GET api.json', async(async () => {
 			const res = await simpleGet('/api.json', 'application/json');
+			assert.strictEqual(res.status, 200);
+		}));
+
+		it('GET favicon.ico', async(async () => {
+			const res = await simpleGet('/favicon.ico', 'image/png');
+			assert.strictEqual(res.status, 200);
+		}));
+
+		it('GET apple-touch-icon.png', async(async () => {
+			const res = await simpleGet('/apple-touch-icon.png', 'image/png');
 			assert.strictEqual(res.status, 200);
 		}));
 	});
