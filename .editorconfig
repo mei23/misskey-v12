@@ -8,3 +8,6 @@ insert_final_newline = true
 
 [*.yml]
 indent_style = space
+
+[*.nginx]
+indent_style = space

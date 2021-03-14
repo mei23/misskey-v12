@@ -49,9 +49,9 @@ if (!['production', 'test'].includes(process.env.NODE_ENV || '')) {
 
 // HSTS
 // 6months (15552000sec)
-if (config.url.startsWith('https') && !config.disableHsts) {
+if (config.https && !config.disableHsts) {
 	app.use(async (ctx, next) => {
-		ctx.set('strict-transport-security', 'max-age=15552000; preload');
+		ctx.set('strict-transport-security', 'max-age=15552000');
 		await next();
 	});
 }
