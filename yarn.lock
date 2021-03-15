@@ -2373,10 +2373,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cbor@7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/cbor/-/cbor-7.0.3.tgz#216d292f2aedd1bb61414a8f949b63e4de11b33b"
-  integrity sha512-Io+lJytjYBJKgJqZQUz2bFaMPj+HtlsnT9kHSUiIJFqzWa05lm5/ycQ+NiZWpks3DR2Fz7j7axiTGeT57w/syg==
+cbor@7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/cbor/-/cbor-7.0.4.tgz#8a3ef39f07ac3fdb69dda461b87db7113233481b"
+  integrity sha512-9hBTn31l7+9qteBso7+HPp2R5ytqFRBd98fHK4ZTpvrba8V7CuoOsEL0S6vf7+11gubMTd3RW97lOgMTl5SNfg==
   dependencies:
     "@cto.af/textdecoder" "^0.0.0"
     nofilter "^2.0.3"
