@@ -259,21 +259,21 @@ export default async (user: User, data: Option, silent = false) => new Promise<N
 	});
 
 	// Antenna
-	Antennas.find().then(async antennas => {
-		const followings = await Followings.createQueryBuilder('following')
-			.andWhere(`following.followeeId = :userId`, { userId: note.userId })
-			.getMany();
-
-		const followers = followings.map(f => f.followerId);
-
-		for (const antenna of antennas) {
-			await checkHitAntenna(antenna, note, user, followers).then(async hit => {
-				if (hit) {
-					await addNoteToAntenna(antenna, note, user);
+	Followings.createQueryBuilder('following')
+		.andWhere(`following.followeeId = :userId`, { userId: note.userId })
+		.getMany()
+		.then(followings => {
+			const followers = followings.map(f => f.followerId);
+			Antennas.find().then(async antennas => {
+				for (const antenna of antennas) {
+					await checkHitAntenna(antenna, note, user, followers).then(async hit => {
+						if (hit) {
+							await addNoteToAntenna(antenna, note, user);
+						}
+					});
 				}
-			}).catch(() => {});
-		}
-	});
+			});
+		});
 
 	// Channel
 	if (note.channelId) {
@@ -444,8 +444,13 @@ async function renderNoteOrRenoteActivity(data: Option, note: Note) {
 }
 
 function incRenoteCount(renote: Note) {
-	Notes.increment({ id: renote.id }, 'renoteCount', 1);
-	Notes.increment({ id: renote.id }, 'score', 1);
+	Notes.createQueryBuilder().update()
+		.set({
+			renoteCount: () => '"renoteCount" + 1',
+			score: () => '"score" + 1'
+		})
+		.where('id = :id', { id: renote.id })
+		.execute();
 }
 
 async function insertNote(user: User, data: Option, tags: string[], emojis: string[], mentionedUsers: User[]) {
@@ -525,7 +530,7 @@ async function insertNote(user: User, data: Option, tags: string[], emojis: stri
 			await Notes.insert(insert);
 		}
 
-		return await Notes.findOneOrFail(insert.id);
+		return insert;
 	} catch (e) {
 		// duplicate key error
 		if (isDuplicateKeyValueError(e)) {
@@ -594,10 +599,13 @@ function saveReply(reply: Note, note: Note) {
 }
 
 function incNotesCountOfUser(user: User) {
-	Users.increment({ id: user.id }, 'notesCount', 1);
-	Users.update({ id: user.id }, {
-		updatedAt: new Date()
-	});
+	Users.createQueryBuilder().update()
+		.set({
+			updatedAt: new Date(),
+			notesCount: () => '"notesCount" + 1'
+		})
+		.where('id = :id', { id: user.id })
+		.execute();
 }
 
 async function extractMentionedUsers(user: User, tokens: ReturnType<typeof parse>): Promise<User[]> {
