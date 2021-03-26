@@ -109,7 +109,7 @@ module.exports = {
 			}, postcss]
 		}, {
 			test: /\.(eot|woff|woff2|svg|ttf)([?]?.*)$/,
-			loader: 'url-loader'
+			type: 'asset/resource'
 		}, {
 			test: /\.json5$/,
 			loader: 'json5-loader',
@@ -161,7 +161,8 @@ module.exports = {
 			'.js', '.ts', '.json'
 		],
 		alias: {
-			'@': __dirname + '/src/client',
+			'@client': __dirname + '/src/client',
+			'@': __dirname + '/src',
 			'const.styl': __dirname + '/src/client/const.styl'
 		}
 	},
