@@ -232,7 +232,7 @@
 		"throttle-debounce": "3.0.1",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
-		"ts-loader": "8.0.18",
+		"ts-loader": "8.1.0",
 		"ts-node": "9.1.1",
 		"tsc-alias": "1.2.8",
 		"tsconfig-paths": "3.9.0",
