@@ -122,7 +122,7 @@
 		"cbor": "7.0.4",
 		"chalk": "4.1.0",
 		"chart.js": "2.9.4",
-		"cli-highlight": "2.1.10",
+		"cli-highlight": "2.1.11",
 		"commander": "4.1.1",
 		"concurrently": "6.0.0",
 		"content-disposition": "0.5.3",
