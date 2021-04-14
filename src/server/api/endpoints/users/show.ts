@@ -3,10 +3,9 @@ import { resolveUser } from '../../../../remote/resolve-user';
 import define from '../../define';
 import { apiLogger } from '../../logger';
 import { ApiError } from '../../error';
-import { ID } from '@/misc/cafy-id';
+import { ID } from '../../../../misc/cafy-id';
 import { Users } from '../../../../models';
 import { In } from 'typeorm';
-import { User } from '@/models/entities/user';
 
 export const meta = {
 	desc: {
@@ -82,9 +81,9 @@ export default define(meta, async (ps, me) => {
 		});
 
 		// リクエストされた通りに並べ替え
-		const _users: User[] = [];
+		const _users = [];
 		for (const id of ps.userIds) {
-			_users.push(users.find(x => x.id === id)!);
+			_users.push(users.find(x => x.id === id));
 		}
 
 		return await Promise.all(_users.map(u => Users.pack(u, me, {

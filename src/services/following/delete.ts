@@ -11,7 +11,7 @@ import { instanceChart, perUserFollowingChart } from '../chart';
 
 const logger = new Logger('following/delete');
 
-export default async function(follower: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox']; }, followee: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox']; }, silent = false) {
+export default async function(follower: User, followee: User, silent = false) {
 	const following = await Followings.findOne({
 		followerId: follower.id,
 		followeeId: followee.id
@@ -28,7 +28,7 @@ export default async function(follower: { id: User['id']; host: User['host']; ur
 
 	// Publish unfollow event
 	if (!silent && Users.isLocalUser(follower)) {
-		Users.pack(followee.id, follower, {
+		Users.pack(followee, follower, {
 			detail: true
 		}).then(packed => {
 			publishUserEvent(follower.id, 'unfollow', packed);
@@ -42,7 +42,7 @@ export default async function(follower: { id: User['id']; host: User['host']; ur
 	}
 }
 
-export async function decrementFollowing(follower: { id: User['id']; host: User['host']; }, followee: { id: User['id']; host: User['host']; }) {
+export async function decrementFollowing(follower: User, followee: User) {
 	//#region Decrement following count
 	Users.decrement({ id: follower.id }, 'followingCount', 1);
 	//#endregion

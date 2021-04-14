@@ -1,6 +1,6 @@
-import { $i } from '@client/account';
-import { i18n } from '@client/i18n';
-import { dialog } from '@client/os';
+import { $i } from '@/account';
+import { i18n } from '@/i18n';
+import { dialog } from '@/os';
 
 export function pleaseLogin() {
 	if ($i) return;

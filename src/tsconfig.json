@@ -5,7 +5,7 @@
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noUnusedParameters": false,
-		"noUnusedLocals": false,
+		"noUnusedLocals": true,
 		"noFallthroughCasesInSwitch": true,
 		"declaration": false,
 		"sourceMap": true,
@@ -21,12 +21,6 @@
 		"emitDecoratorMetadata": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
-		"rootDir": "./",
-		"baseUrl": "./",
-		"paths": {
-			"@/*": ["./*"]
-		},
-		"outDir": "../built",
 		"typeRoots": [
 			"../node_modules/@types",
 			"./@types"

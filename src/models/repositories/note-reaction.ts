@@ -1,9 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { NoteReaction } from '../entities/note-reaction';
 import { Users } from '..';
-import { SchemaType } from '@/misc/schema';
-import { convertLegacyReaction } from '@/misc/reaction-lib';
-import { User } from '../entities/user';
+import { SchemaType } from '../../misc/schema';
+import { convertLegacyReaction } from '../../misc/reaction-lib';
 
 export type PackedNoteReaction = SchemaType<typeof packedNoteReactionSchema>;
 
@@ -11,7 +10,7 @@ export type PackedNoteReaction = SchemaType<typeof packedNoteReactionSchema>;
 export class NoteReactionRepository extends Repository<NoteReaction> {
 	public async pack(
 		src: NoteReaction['id'] | NoteReaction,
-		me?: { id: User['id'] } | null | undefined
+		me?: any
 	): Promise<PackedNoteReaction> {
 		const reaction = typeof src === 'object' ? src : await this.findOneOrFail(src);
 

@@ -18,9 +18,9 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import XDetails from '@client/components/reactions-viewer.details.vue';
-import XReactionIcon from '@client/components/reaction-icon.vue';
-import * as os from '@client/os';
+import XDetails from '@/components/reactions-viewer.details.vue';
+import XReactionIcon from '@/components/reaction-icon.vue';
+import * as os from '@/os';
 
 export default defineComponent({
 	components: {

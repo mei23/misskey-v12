@@ -2,8 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Users } from '..';
 import { Blocking } from '../entities/blocking';
 import { awaitAll } from '../../prelude/await-all';
-import { SchemaType } from '@/misc/schema';
-import { User } from '../entities/user';
+import { SchemaType } from '../../misc/schema';
 
 export type PackedBlocking = SchemaType<typeof packedBlockingSchema>;
 
@@ -11,7 +10,7 @@ export type PackedBlocking = SchemaType<typeof packedBlockingSchema>;
 export class BlockingRepository extends Repository<Blocking> {
 	public async pack(
 		src: Blocking['id'] | Blocking,
-		me?: { id: User['id'] } | null | undefined
+		me?: any
 	): Promise<PackedBlocking> {
 		const blocking = typeof src === 'object' ? src : await this.findOneOrFail(src);
 
@@ -27,7 +26,7 @@ export class BlockingRepository extends Repository<Blocking> {
 
 	public packMany(
 		blockings: any[],
-		me: { id: User['id'] }
+		me: any
 	) {
 		return Promise.all(blockings.map(x => this.pack(x, me)));
 	}

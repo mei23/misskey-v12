@@ -1,11 +1,11 @@
 import autobind from 'autobind-decorator';
 import { PageVar, envVarsDef, Fn, HpmlScope, HpmlError } from '.';
-import { version } from '@client/config';
+import { version } from '@/config';
 import { AiScript, utils, values } from '@syuilo/aiscript';
 import { createAiScriptEnv } from '../aiscript/api';
 import { collectPageVars } from '../collect-page-vars';
 import { initHpmlLib, initAiLib } from './lib';
-import * as os from '@client/os';
+import * as os from '@/os';
 import { markRaw, ref, Ref, unref } from 'vue';
 import { Expr, isLiteralValue, Variable } from './expr';
 

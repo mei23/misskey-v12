@@ -1,4 +1,3 @@
-import { User } from '@/models/entities/user';
 import { EntityRepository, Repository } from 'typeorm';
 import { Users } from '../../..';
 import { ReversiGame } from '../../../entities/games/reversi/game';
@@ -7,7 +6,7 @@ import { ReversiGame } from '../../../entities/games/reversi/game';
 export class ReversiGameRepository extends Repository<ReversiGame> {
 	public async pack(
 		src: ReversiGame['id'] | ReversiGame,
-		me?: { id: User['id'] } | null | undefined,
+		me?: any,
 		options?: {
 			detail?: boolean
 		}
@@ -17,6 +16,7 @@ export class ReversiGameRepository extends Repository<ReversiGame> {
 		}, options);
 
 		const game = typeof src === 'object' ? src : await this.findOneOrFail(src);
+		const meId = me ? typeof me === 'string' ? me : me.id : null;
 
 		return {
 			id: game.id,
@@ -30,10 +30,10 @@ export class ReversiGameRepository extends Repository<ReversiGame> {
 			user2Accepted: game.user2Accepted,
 			user1Id: game.user1Id,
 			user2Id: game.user2Id,
-			user1: await Users.pack(game.user1Id, me),
-			user2: await Users.pack(game.user2Id, me),
+			user1: await Users.pack(game.user1Id, meId),
+			user2: await Users.pack(game.user2Id, meId),
 			winnerId: game.winnerId,
-			winner: game.winnerId ? await Users.pack(game.winnerId, me) : null,
+			winner: game.winnerId ? await Users.pack(game.winnerId, meId) : null,
 			surrendered: game.surrendered,
 			black: game.black,
 			bw: game.bw,

@@ -2,8 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Users } from '..';
 import { Following } from '../entities/following';
 import { awaitAll } from '../../prelude/await-all';
-import { SchemaType } from '@/misc/schema';
-import { User } from '../entities/user';
+import { SchemaType } from '../../misc/schema';
 
 type LocalFollowerFollowing = Following & {
 	followerHost: null;
@@ -51,7 +50,7 @@ export class FollowingRepository extends Repository<Following> {
 
 	public async pack(
 		src: Following['id'] | Following,
-		me?: { id: User['id'] } | null | undefined,
+		me?: any,
 		opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;
@@ -77,7 +76,7 @@ export class FollowingRepository extends Repository<Following> {
 
 	public packMany(
 		followings: any[],
-		me?: { id: User['id'] } | null | undefined,
+		me?: any,
 		opts?: {
 			populateFollowee?: boolean;
 			populateFollower?: boolean;

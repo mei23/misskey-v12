@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue';
 import GameSetting from './game.setting.vue';
 import GameBoard from './game.board.vue';
-import * as os from '@client/os';
+import * as os from '@/os';
 import { faGamepad } from '@fortawesome/free-solid-svg-icons';
 
 export default defineComponent({

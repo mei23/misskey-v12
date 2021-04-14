@@ -38,10 +38,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MkSignin from '@client/components/signin.vue';
-import MkButton from '@client/components/ui/button.vue';
-import * as os from '@client/os';
-import { login } from '@client/account';
+import MkSignin from '@/components/signin.vue';
+import MkButton from '@/components/ui/button.vue';
+import * as os from '@/os';
+import { login } from '@/account';
 
 export default defineComponent({
 	components: {

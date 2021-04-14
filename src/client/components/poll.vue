@@ -25,7 +25,7 @@
 import { defineComponent } from 'vue';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { sum } from '../../prelude/array';
-import * as os from '@client/os';
+import * as os from '@/os';
 
 export default defineComponent({
 	props: {

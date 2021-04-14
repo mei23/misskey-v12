@@ -14,5 +14,5 @@ export const meta = {
 };
 
 export default define(meta, async (ps) => {
-	await Logs.clear();	// TRUNCATE
+	await Logs.delete({});
 });

@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { faSpinner, faPlus, faMinus, faHourglassHalf } from '@fortawesome/free-solid-svg-icons';
-import * as os from '@client/os';
+import * as os from '@/os';
 
 export default defineComponent({
 	props: {

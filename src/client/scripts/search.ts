@@ -1,7 +1,7 @@
 import { faHistory } from '@fortawesome/free-solid-svg-icons';
-import * as os from '@client/os';
-import { i18n } from '@client/i18n';
-import { router } from '@client/router';
+import * as os from '@/os';
+import { i18n } from '@/i18n';
+import { router } from '@/router';
 
 export async function search() {
 	const { canceled, result: query } = await os.dialog({

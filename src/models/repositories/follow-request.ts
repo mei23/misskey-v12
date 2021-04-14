@@ -1,13 +1,12 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { FollowRequest } from '../entities/follow-request';
 import { Users } from '..';
-import { User } from '../entities/user';
 
 @EntityRepository(FollowRequest)
 export class FollowRequestRepository extends Repository<FollowRequest> {
 	public async pack(
 		src: FollowRequest['id'] | FollowRequest,
-		me?: { id: User['id'] } | null | undefined
+		me?: any
 	) {
 		const request = typeof src === 'object' ? src : await this.findOneOrFail(src);
 

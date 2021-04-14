@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue';
 import FormButton from './button.vue';
 import FormGroup from './group.vue';
-import paging from '@client/scripts/paging';
+import paging from '@/scripts/paging';
 
 export default defineComponent({
 	components: {

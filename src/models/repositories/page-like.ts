@@ -1,13 +1,12 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { PageLike } from '../entities/page-like';
 import { Pages } from '..';
-import { User } from '../entities/user';
 
 @EntityRepository(PageLike)
 export class PageLikeRepository extends Repository<PageLike> {
 	public async pack(
 		src: PageLike['id'] | PageLike,
-		me?: { id: User['id'] } | null | undefined
+		me?: any
 	) {
 		const like = typeof src === 'object' ? src : await this.findOneOrFail(src);
 
@@ -19,7 +18,7 @@ export class PageLikeRepository extends Repository<PageLike> {
 
 	public packMany(
 		likes: any[],
-		me: { id: User['id'] }
+		me: any
 	) {
 		return Promise.all(likes.map(x => this.pack(x, me)));
 	}

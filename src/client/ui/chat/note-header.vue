@@ -26,9 +26,9 @@
 import { defineComponent } from 'vue';
 import { faHome, faUnlock, faEnvelope, faMobileAlt, faBookmark, faBiohazard } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark as farBookmark } from '@fortawesome/free-regular-svg-icons';
-import notePage from '@client/filters/note';
-import { userPage } from '@client/filters/user';
-import * as os from '@client/os';
+import notePage from '@/filters/note';
+import { userPage } from '@/filters/user';
+import * as os from '@/os';
 
 export default defineComponent({
 	props: {

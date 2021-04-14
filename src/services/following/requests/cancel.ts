@@ -3,17 +3,14 @@ import renderFollow from '../../../remote/activitypub/renderer/follow';
 import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { deliver } from '../../../queue';
 import { publishMainStream } from '../../stream';
-import { IdentifiableError } from '@/misc/identifiable-error';
+import { IdentifiableError } from '../../../misc/identifiable-error';
 import { User, ILocalUser } from '../../../models/entities/user';
 import { Users, FollowRequests } from '../../../models';
 
-export default async function(followee: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox'] }, follower: { id: User['id']; host: User['host']; uri: User['host'] }) {
+export default async function(followee: User, follower: User) {
 	if (Users.isRemoteUser(followee)) {
 		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
-
-		if (Users.isLocalUser(follower)) { // 本来このチェックは不要だけどTSに怒られるので
-			deliver(follower, content, followee.inbox);
-		}
+		deliver(follower as ILocalUser, content, followee.inbox);
 	}
 
 	const request = await FollowRequests.findOne({
@@ -30,7 +27,7 @@ export default async function(followee: { id: User['id']; host: User['host']; ur
 		followerId: follower.id
 	});
 
-	Users.pack(followee.id, followee, {
+	Users.pack(followee, followee, {
 		detail: true
 	}).then(packed => publishMainStream(followee.id, 'meUpdated', packed));
 }

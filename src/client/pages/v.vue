@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { version } from '@client/config';
+import { version } from '@/config';
 
 export default defineComponent({
 	data() {

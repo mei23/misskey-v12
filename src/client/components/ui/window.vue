@@ -39,8 +39,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
-import contains from '@client/scripts/contains';
-import * as os from '@client/os';
+import contains from '@/scripts/contains';
+import * as os from '@/os';
 
 const minHeight = 50;
 const minWidth = 250;

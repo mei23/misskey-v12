@@ -1,13 +1,12 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { NoteFavorite } from '../entities/note-favorite';
 import { Notes } from '..';
-import { User } from '../entities/user';
 
 @EntityRepository(NoteFavorite)
 export class NoteFavoriteRepository extends Repository<NoteFavorite> {
 	public async pack(
 		src: NoteFavorite['id'] | NoteFavorite,
-		me?: { id: User['id'] } | null | undefined
+		me?: any
 	) {
 		const favorite = typeof src === 'object' ? src : await this.findOneOrFail(src);
 
@@ -21,7 +20,7 @@ export class NoteFavoriteRepository extends Repository<NoteFavorite> {
 
 	public packMany(
 		favorites: any[],
-		me: { id: User['id'] }
+		me: any
 	) {
 		return Promise.all(favorites.map(x => this.pack(x, me)));
 	}

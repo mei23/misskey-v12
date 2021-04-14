@@ -1,4 +1,4 @@
-import { ColdDeviceStorage } from '@client/store';
+import { ColdDeviceStorage } from '@/store';
 
 const cache = new Map<string, HTMLAudioElement>();
 

@@ -1,13 +1,13 @@
 import * as Limiter from 'ratelimiter';
-import { redisClient } from '../../db/redis';
+import limiterDB from '../../db/redis';
 import { IEndpoint } from './endpoints';
-import getAcct from '@/misc/acct/render';
+import getAcct from '../../misc/acct/render';
 import { User } from '../../models/entities/user';
 import Logger from '../../services/logger';
 
 const logger = new Logger('limiter');
 
-export default (endpoint: IEndpoint, user: User) => new Promise<void>((ok, reject) => {
+export default (endpoint: IEndpoint, user: User) => new Promise((ok, reject) => {
 	const limitation = endpoint.meta.limit!;
 
 	const key = limitation.hasOwnProperty('key')
@@ -35,7 +35,7 @@ export default (endpoint: IEndpoint, user: User) => new Promise<void>((ok, rejec
 			id: `${user.id}:${key}:min`,
 			duration: limitation.minInterval,
 			max: 1,
-			db: redisClient
+			db: limiterDB!
 		});
 
 		minIntervalLimiter.get((err, info) => {
@@ -63,7 +63,7 @@ export default (endpoint: IEndpoint, user: User) => new Promise<void>((ok, rejec
 			id: `${user.id}:${key}`,
 			duration: limitation.duration,
 			max: limitation.max,
-			db: redisClient
+			db: limiterDB!
 		});
 
 		limiter.get((err, info) => {

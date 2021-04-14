@@ -19,7 +19,7 @@ import { defineComponent, defineAsyncComponent } from 'vue';
 import { faTimesCircle, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faExclamationTriangle, faICursor } from '@fortawesome/free-solid-svg-icons';
 import MkDriveFileThumbnail from './drive-file-thumbnail.vue'
-import * as os from '@client/os';
+import * as os from '@/os';
 
 export default defineComponent({
 	components: {

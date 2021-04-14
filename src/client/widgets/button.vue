@@ -9,10 +9,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import define from './define';
-import MkButton from '@client/components/ui/button.vue';
-import * as os from '@client/os';
+import MkButton from '@/components/ui/button.vue';
+import * as os from '@/os';
 import { AiScript, parse, utils } from '@syuilo/aiscript';
-import { createAiScriptEnv } from '@client/scripts/aiscript/api';
+import { createAiScriptEnv } from '@/scripts/aiscript/api';
 
 const widget = define({
 	name: 'button',
