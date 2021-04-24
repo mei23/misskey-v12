@@ -27,4 +27,8 @@ export const kinds = [
 	'write:user-groups',
 	'read:channels',
 	'write:channels',
+	'read:gallery',
+	'read:gallery-likes',
+	'write:gallery',
+	'write:gallery-likes',
 ];
