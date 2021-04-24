@@ -1,7 +1,5 @@
 <script lang="ts">
 import { defineComponent, h, TransitionGroup } from 'vue';
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default defineComponent({
 	props: {
@@ -18,7 +16,12 @@ export default defineComponent({
 			type: Boolean,
 			required: false,
 			default: false
-		}
+		},
+		noGap: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	methods: {
@@ -37,18 +40,16 @@ export default defineComponent({
 	},
 
 	render() {
-		const noGap = [...document.querySelectorAll('._noGap_')].some(el => el.contains(this.$parent.$el));
-
 		if (this.items.length === 0) return;
 
 		return h(this.$store.state.animation ? TransitionGroup : 'div', this.$store.state.animation ? {
-			class: 'sqadhkmv' + (noGap ? ' _block' : ''),
+			class: 'sqadhkmv' + (this.noGap ? ' noGap _block' : ''),
 			name: 'list',
 			tag: 'div',
 			'data-direction': this.direction,
 			'data-reversed': this.reversed ? 'true' : 'false',
 		} : {
-			class: 'sqadhkmv',
+			class: 'sqadhkmv' + (this.noGap ? ' noGap _block' : ''),
 		}, this.items.map((item, i) => {
 			const el = this.$slots.default({
 				item: item
@@ -70,17 +71,15 @@ export default defineComponent({
 					class: 'date'
 				}, [
 					h('span', [
-						h(FontAwesomeIcon, {
-							class: 'icon',
-							icon: faAngleUp,
+						h('i', {
+							class: 'fas fa-angle-up icon',
 						}),
 						this.getDateText(item.createdAt)
 					]),
 					h('span', [
 						this.getDateText(this.items[i + 1].createdAt),
-						h(FontAwesomeIcon, {
-							class: 'icon',
-							icon: faAngleDown,
+						h('i', {
+							class: 'fas fa-angle-down icon',
 						})
 					])
 				]));
@@ -154,26 +153,18 @@ export default defineComponent({
 			}
 		}
 	}
-}
 
-._noGap_ .sqadhkmv {
-	> * {
-		margin: 0 !important;
-		border: none;
-		border-radius: 0;
-		box-shadow: none;
+	&.noGap {
+		> * {
+			margin: 0 !important;
+			border: none;
+			border-radius: 0;
+			box-shadow: none;
 
-		&:not(:last-child) {
-			border-bottom: solid 0.5px var(--divider);
+			&:not(:last-child) {
+				border-bottom: solid 0.5px var(--divider);
+			}
 		}
 	}
-}
-
-._inContainer_ .sqadhkmv > * {
-	margin: 0 !important;
-	border: none;
-	border-bottom: solid 0.5px var(--divider);
-	border-radius: 0;
-	box-shadow: none;
 }
 </style>

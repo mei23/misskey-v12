@@ -20,11 +20,19 @@ export default defineComponent({
 .anocepby {
 	display: flex;
 	align-items: center;
-	padding: 14px 16px;
+	padding: 14px var(--formContentHMargin);
+
+	> .key {
+		margin-right: 12px;
+		white-space: nowrap;
+	}
 
 	> .value {
 		margin-left: auto;
 		opacity: 0.7;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 }
 </style>

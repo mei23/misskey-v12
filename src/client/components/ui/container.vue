@@ -4,9 +4,9 @@
 		<div class="title"><slot name="header"></slot></div>
 		<div class="sub">
 			<slot name="func"></slot>
-			<button class="_button" v-if="bodyTogglable" @click="() => showBody = !showBody">
-				<template v-if="showBody"><Fa :icon="faAngleUp"/></template>
-				<template v-else><Fa :icon="faAngleDown"/></template>
+			<button class="_button" v-if="foldable" @click="() => showBody = !showBody">
+				<template v-if="showBody"><i class="fas fa-angle-up"></i></template>
+				<template v-else><i class="fas fa-angle-down"></i></template>
 			</button>
 		</div>
 	</header>
@@ -16,8 +16,11 @@
 		@leave="leave"
 		@after-leave="afterLeave"
 	>
-		<div v-show="showBody">
+		<div v-show="showBody" class="content" :class="{ omitted }" ref="content">
 			<slot></slot>
+			<button v-if="omitted" class="fade _button" @click="() => { ignoreOmit = true; omitted = false; }">
+				<span>{{ $ts.showMore }}</span>
+			</button>
 		</div>
 	</transition>
 </div>
@@ -25,7 +28,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 export default defineComponent({
 	props: {
@@ -39,7 +41,7 @@ export default defineComponent({
 			required: false,
 			default: false
 		},
-		bodyTogglable: {
+		foldable: {
 			type: Boolean,
 			required: false,
 			default: false
@@ -54,11 +56,17 @@ export default defineComponent({
 			required: false,
 			default: false
 		},
+		maxHeight: {
+			type: Number,
+			required: false,
+			default: null
+		},
 	},
 	data() {
 		return {
 			showBody: this.expanded,
-			faAngleUp, faAngleDown
+			omitted: null,
+			ignoreOmit: false,
 		};
 	},
 	mounted() {
@@ -73,10 +81,23 @@ export default defineComponent({
 		}, {
 			immediate: true
 		});
+
+		this.$el.style.setProperty('--maxHeight', this.maxHeight + 'px');
+
+		const calcOmit = () => {
+			if (this.omitted || this.ignoreOmit || this.maxHeight == null) return;
+			const height = this.$refs.content.offsetHeight;
+			this.omitted = height > this.maxHeight;
+		};
+
+		calcOmit();
+		new ResizeObserver((entries, observer) => {
+			calcOmit();
+		}).observe(this.$refs.content);
 	},
 	methods: {
 		toggleContent(show: boolean) {
-			if (!this.bodyTogglable) return;
+			if (!this.foldable) return;
 			this.showBody = show;
 		},
 
@@ -127,7 +148,7 @@ export default defineComponent({
 		display: flex;
 		flex-direction: column;
 
-		> div {
+		> .content {
 			overflow: auto;
 		}
 	}
@@ -146,7 +167,7 @@ export default defineComponent({
 			margin: 0;
 			padding: 12px 16px;
 
-			> ::v-deep([data-icon]) {
+			> ::v-deep(i) {
 				margin-right: 6px;
 			}
 
@@ -169,12 +190,36 @@ export default defineComponent({
 		}
 	}
 
-	> div {
-		> ::v-deep(._content) {
-			padding: 24px;
+	> .content {
+		&.omitted {
+			position: relative;
+			max-height: var(--maxHeight);
+			overflow: hidden;
 
-			& + ._content {
-				border-top: solid 0.5px var(--divider);
+			> .fade {
+				display: block;
+				position: absolute;
+				z-index: 10;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 64px;
+				background: linear-gradient(0deg, var(--panel), var(--X15));
+
+				> span {
+					display: inline-block;
+					background: var(--panel);
+					padding: 6px 10px;
+					font-size: 0.8em;
+					border-radius: 999px;
+					box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
+				}
+
+				&:hover {
+					> span {
+						background: var(--panelHighlight);
+					}
+				}
 			}
 		}
 	}
@@ -187,10 +232,7 @@ export default defineComponent({
 			}
 		}
 
-		> div {
-			> ::v-deep(._content) {
-				padding: 16px;
-			}
+		> .content {
 		}
 	}
 }
