@@ -28,7 +28,7 @@ export const kinds = [
 	'read:channels',
 	'write:channels',
 	'read:gallery',
-	'read:gallery-likes',
 	'write:gallery',
+	'read:gallery-likes',
 	'write:gallery-likes',
 ];
