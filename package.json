@@ -119,7 +119,7 @@
 		"commander": "7.2.0",
 		"concurrently": "6.0.2",
 		"content-disposition": "0.5.3",
-		"core-js": "3.11.0",
+		"core-js": "3.12.0",
 		"crc-32": "1.2.0",
 		"css-loader": "5.2.4",
 		"cssnano": "5.0.1",
