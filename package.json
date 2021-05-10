@@ -195,7 +195,7 @@
 		"qrcode": "1.4.4",
 		"random-seed": "0.3.0",
 		"ratelimiter": "3.4.1",
-		"re2": "1.15.9",
+		"re2": "1.16.0",
 		"reconnecting-websocket": "4.4.0",
 		"redis": "3.1.2",
 		"redis-lock": "0.1.4",
