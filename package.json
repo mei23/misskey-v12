@@ -27,7 +27,7 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
-		"mfm-js/twemoji-parser": "13.1.0",
+		"mfm-js/twemoji-parser": "13.1.x",
 		"chokidar": "^3.3.1",
 		"constantinople": "^4.0.1",
 		"lodash": "^4.17.21"
