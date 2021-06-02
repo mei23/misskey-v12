@@ -194,8 +194,8 @@ export function initDb(justBorrow = false, sync = false, forceRecreate = false) 
 		password: config.db.pass,
 		database: config.db.db,
 		extra: config.db.extra,
-		synchronize: sync,
-		dropSchema: !justBorrow,
+		synchronize: process.env.NODE_ENV === 'test' || sync,
+		dropSchema: process.env.NODE_ENV === 'test' && !justBorrow,
 		cache: !config.db.disableCache ? {
 			type: 'redis',
 			options: {

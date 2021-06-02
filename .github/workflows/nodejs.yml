@@ -31,5 +31,4 @@ jobs:
     - run: yarn install
     - run: yarn build
     - run: cp test/test.yml .config/
-    - run: yarn migrate
     - run: yarn test
