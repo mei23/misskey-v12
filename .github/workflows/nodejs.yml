@@ -31,5 +31,5 @@ jobs:
     - run: yarn install
     - run: yarn build
     - run: cp test/test.yml .config/
-    - run: NODE_ENV=test yarn migrate
+    - run: yarn migrate
     - run: yarn test
