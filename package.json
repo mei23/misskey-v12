@@ -116,7 +116,7 @@
 		"chalk": "4.1.1",
 		"chart.js": "2.9.4",
 		"cli-highlight": "2.1.11",
-		"commander": "4.1.1",
+		"commander": "7.2.0",
 		"concurrently": "6.2.0",
 		"content-disposition": "0.5.3",
 		"core-js": "3.13.1",
