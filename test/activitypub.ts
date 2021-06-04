@@ -13,46 +13,16 @@ process.env.NODE_ENV = 'test';
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import rndstr from 'rndstr';
-import Resolver from '../src/remote/activitypub/resolver';
-import { IObject } from '../src/remote/activitypub/type';
+//import Resolver from '../src/remote/activitypub/resolver';
+//import { IObject } from '../src/remote/activitypub/type';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 import { launchServer, shutdownServer } from 'utils';
+import Resolver from '@/remote/activitypub/resolver';
 
 describe('ActivityPub', () => {
 	//#region Mock
-	type MockResponse = {
-		type: string;
-		content: string;
-	};
 
-	class MockResolver extends Resolver {
-		private _rs = new Map<string, MockResponse>();
-		public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
-			this._rs.set(uri, {
-				type,
-				content: typeof content === 'string' ? content : JSON.stringify(content)
-			});
-		}
-
-		public async resolve(value: string | IObject): Promise<IObject> {
-			if (typeof value !== 'string') return value;
-
-			const r = this._rs.get(value);
-
-			if (!r) {
-				throw {
-					name: `StatusError`,
-					statusCode: 404,
-					message: `Not registed for mock`
-				};
-			}
-
-			const object = JSON.parse(r.content);
-
-			return object;
-		}
-	}
 	//#endregion
 
 	let p: childProcess.ChildProcess;
@@ -87,8 +57,7 @@ describe('ActivityPub', () => {
 		};
 
 		it('Minimum Actor', async () => {
-			const resolver = new MockResolver();
-			resolver._register(actor.id, actor);
+			const resolver = new Resolver();
 
 			const user = await createPerson(actor.id, resolver);
 
@@ -98,9 +67,7 @@ describe('ActivityPub', () => {
 		});
 
 		it('Minimum Note', async () => {
-			const resolver = new MockResolver();
-			resolver._register(actor.id, actor);
-			resolver._register(post.id, post);
+			const resolver = new Resolver();
 
 			const note = await createNote(post.id, resolver, true);
 
