@@ -12,15 +12,17 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, signup, request, post, launchServer } from './utils';
+import { async, signup, request, post, launchServer, shutdownServer } from './utils';
 
 describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
 	before(launchServer(g => p = g));
 
-	after(() => {
-		p.kill();
+	after(async () => {
+		console.log('=== SHUTDOWN START ===');
+		const r = await shutdownServer(p);
+		console.log(`=== SHUTDOWN END ${r} ===`);
 	});
 
 	describe('Note visibility', async () => {

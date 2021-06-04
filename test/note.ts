@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, signup, request, post, uploadFile, launchServer } from './utils';
+import { async, signup, request, post, uploadFile, launchServer, shutdownServer } from './utils';
 import { Note } from '../src/models/entities/note';
 import { initDb } from '../src/db/postgre';
 
@@ -30,8 +30,10 @@ describe('Note', () => {
 		bob = await signup({ username: 'bob' });
 	}));
 
-	after(() => {
-		p.kill();
+	after(async () => {
+		console.log('=== SHUTDOWN START ===');
+		const r = await shutdownServer(p);
+		console.log(`=== SHUTDOWN END ${r} ===`);
 	});
 
 	it('投稿できる', async(async () => {
