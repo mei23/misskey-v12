@@ -18,12 +18,14 @@ import { launchServer, signup, post, request, simpleGet, port, shutdownServer } 
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 import { initDb } from '../src/db/postgre';
+import { Note } from '../src/models/entities/note';
 
 describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
 	before(launchServer(g => p = g, async () => {
-		await initDb(true);
+		const connection = await initDb(true);
+		connection.getRepository(Note);
 	}));
 
 	after(async () => {
