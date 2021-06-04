@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, launchServer, signup, post, request, simpleGet, port } from './utils';
+import { async, launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
 import * as openapi from '@redocly/openapi-core';
 
 // Request Accept
@@ -39,8 +39,10 @@ describe('Fetch resource', () => {
 		});
 	}));
 
-	after(() => {
-		p.kill();
+	after(async () => {
+		console.log('=== START ===');
+		const r = await shutdownServer(p);
+		console.log(`=== END ${r} ===`);
 	});
 
 	describe('Common', () => {
