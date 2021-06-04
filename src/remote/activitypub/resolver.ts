@@ -69,7 +69,7 @@ type MockResponse = {
 	content: string;
 };
 
-class MockResolver extends Resolver {
+export class MockResolver extends Resolver {
 	private _rs = new Map<string, MockResponse>();
 	public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
 		this._rs.set(uri, {
