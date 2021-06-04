@@ -17,11 +17,14 @@ import { MockResolver } from '../src/remote/activitypub/resolver';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
+import { initDb } from '../src/db/postgre';
 
 describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
-	before(launchServer(g => p = g));
+	before(launchServer(g => p = g, async () => {
+		await initDb(true);
+	}));
 
 	after(async () => {
 		await shutdownServer(p);
