@@ -24,8 +24,7 @@ describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
 	before(launchServer(g => p = g, async () => {
-		const connection = await initDb(true);
-		connection.getRepository(Note);
+		await signup({ username: 'alice' });
 	}));
 
 	after(async () => {
