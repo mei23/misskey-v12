@@ -19,42 +19,42 @@ import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 import { launchServer, shutdownServer } from 'utils';
 
-//#region Mock
-type MockResponse = {
-	type: string;
-	content: string;
-};
+describe('ActivityPub', () => {
+	//#region Mock
+	type MockResponse = {
+		type: string;
+		content: string;
+	};
 
-export class MockResolver extends Resolver {
-	private _rs = new Map<string, MockResponse>();
-	public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
-		this._rs.set(uri, {
-			type,
-			content: typeof content === 'string' ? content : JSON.stringify(content)
-		});
-	}
-
-	public async resolve(value: string | IObject): Promise<IObject> {
-		if (typeof value !== 'string') return value;
-
-		const r = this._rs.get(value);
-
-		if (!r) {
-			throw {
-				name: `StatusError`,
-				statusCode: 404,
-				message: `Not registed for mock`
-			};
+	class MockResolver extends Resolver {
+		private _rs = new Map<string, MockResponse>();
+		public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
+			this._rs.set(uri, {
+				type,
+				content: typeof content === 'string' ? content : JSON.stringify(content)
+			});
 		}
 
-		const object = JSON.parse(r.content);
+		public async resolve(value: string | IObject): Promise<IObject> {
+			if (typeof value !== 'string') return value;
 
-		return object;
+			const r = this._rs.get(value);
+
+			if (!r) {
+				throw {
+					name: `StatusError`,
+					statusCode: 404,
+					message: `Not registed for mock`
+				};
+			}
+
+			const object = JSON.parse(r.content);
+
+			return object;
+		}
 	}
-}
-//#endregion
+	//#endregion
 
-describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
 	before(launchServer(g => p = g));
