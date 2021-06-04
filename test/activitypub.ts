@@ -31,7 +31,7 @@ class MockResolver extends Resolver {
 			content: typeof content === 'string' ? content : JSON.stringify(content)
 		});
 	}
-
+	/*
 	public async resolve(value: string | IObject): Promise<IObject> {
 		if (typeof value !== 'string') return value;
 
@@ -49,6 +49,7 @@ class MockResolver extends Resolver {
 
 		return object;
 	}
+	*/
 }
 //#endregion
 describe('ActivityPub', () => {
