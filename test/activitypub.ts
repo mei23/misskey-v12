@@ -15,7 +15,6 @@ import { Note } from '../src/models/entities/note';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { MockResolver } from '../src/remote/activitypub/resolver';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
@@ -23,7 +22,12 @@ import { createNote } from '../src/remote/activitypub/models/note';
 describe('API visibility', () => {
 	let p: childProcess.ChildProcess;
 
+	let MockResolver: any;
 	before(launchServer(g => p = g, async () => {
+		await initDb();
+		const x = require('../src/remote/activitypub/resolver');
+		MockResolver = x.MockResolver;
+
 		//await signup({ username: 'alice' });
 	}));
 
