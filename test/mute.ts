@@ -29,9 +29,7 @@ describe('Mute', () => {
 	}));
 
 	after(async () => {
-		console.log('=== SHUTDOWN START ===');
-		const r = await shutdownServer(p);
-		console.log(`=== SHUTDOWN END ${r} ===`);
+		await shutdownServer(p);
 	});
 
 	it('ミュート作成', async(async () => {

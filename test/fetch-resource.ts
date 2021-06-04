@@ -40,9 +40,7 @@ describe('Fetch resource', () => {
 	}));
 
 	after(async () => {
-		console.log('=== SHUTDOWN START ===');
-		const r = await shutdownServer(p);
-		console.log(`=== SHUTDOWN END ${r} ===`);
+		await shutdownServer(p);
 	});
 
 	describe('Common', () => {

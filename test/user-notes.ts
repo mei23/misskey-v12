@@ -38,9 +38,7 @@ describe('users/notes', () => {
 	}));
 
 	after(async() => {
-		console.log('=== SHUTDOWN START ===');
-		const r = await shutdownServer(p);
-		console.log(`=== SHUTDOWN END ${r} ===`);
+		await shutdownServer(p);
 	});
 
 	it('ファイルタイプ指定 (jpg)', async(async () => {

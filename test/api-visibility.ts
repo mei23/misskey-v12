@@ -20,9 +20,7 @@ describe('API visibility', () => {
 	before(launchServer(g => p = g));
 
 	after(async () => {
-		console.log('=== SHUTDOWN START ===');
-		const r = await shutdownServer(p);
-		console.log(`=== SHUTDOWN END ${r} ===`);
+		await shutdownServer(p);
 	});
 
 	describe('Note visibility', async () => {
