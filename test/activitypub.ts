@@ -13,54 +13,64 @@ import rndstr from 'rndstr';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import Resolver, { MockResolver } from '../src/remote/activitypub/resolver';
+import { MockResolver } from '../src/remote/activitypub/resolver';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 
-describe('Parse minimum object', async () => {
-	const host = 'https://host1.test';
-	const preferredUsername = `${rndstr('A-Z', 4)}${rndstr('a-z', 4)}`;
-	const actorId = `${host}/users/${preferredUsername.toLowerCase()}`;
+describe('API visibility', () => {
+	let p: childProcess.ChildProcess;
 
-	const actor = {
-		'@context': 'https://www.w3.org/ns/activitystreams',
-		id: actorId,
-		type: 'Person',
-		preferredUsername,
-		inbox: `${actorId}/inbox`,
-		outbox: `${actorId}/outbox`,
-	};
+	before(launchServer(g => p = g));
 
-	const post = {
-		'@context': 'https://www.w3.org/ns/activitystreams',
-		id: `${host}/users/${rndstr('0-9a-z', 8)}`,
-		type: 'Note',
-		attributedTo: actor.id,
-		to: 'https://www.w3.org/ns/activitystreams#Public',
-		content: 'あ',
-	};
-
-	it('Minimum Actor', async () => {
-		const resolver = new MockResolver();
-		resolver._register(actor.id, actor);
-
-		const user = await createPerson(actor.id, resolver);
-
-		assert.deepStrictEqual(user.uri, actor.id);
-		assert.deepStrictEqual(user.username, actor.preferredUsername);
-		assert.deepStrictEqual(user.inbox, actor.inbox);
+	after(async () => {
+		await shutdownServer(p);
 	});
 
-	it('Minimum Note', async () => {
-		const resolver = new MockResolver();
-		resolver._register(actor.id, actor);
-		resolver._register(post.id, post);
+	describe('Parse minimum object', async () => {
+		const host = 'https://host1.test';
+		const preferredUsername = `${rndstr('A-Z', 4)}${rndstr('a-z', 4)}`;
+		const actorId = `${host}/users/${preferredUsername.toLowerCase()}`;
 
-		const note = await createNote(post.id, resolver, true);
+		const actor = {
+			'@context': 'https://www.w3.org/ns/activitystreams',
+			id: actorId,
+			type: 'Person',
+			preferredUsername,
+			inbox: `${actorId}/inbox`,
+			outbox: `${actorId}/outbox`,
+		};
 
-		assert.deepStrictEqual(note?.uri, post.id);
-		assert.deepStrictEqual(note?.visibility, 'public');
-		assert.deepStrictEqual(note?.text, post.content);
+		const post = {
+			'@context': 'https://www.w3.org/ns/activitystreams',
+			id: `${host}/users/${rndstr('0-9a-z', 8)}`,
+			type: 'Note',
+			attributedTo: actor.id,
+			to: 'https://www.w3.org/ns/activitystreams#Public',
+			content: 'あ',
+		};
+
+		it('Minimum Actor', async () => {
+			const resolver = new MockResolver();
+			resolver._register(actor.id, actor);
+
+			const user = await createPerson(actor.id, resolver);
+
+			assert.deepStrictEqual(user.uri, actor.id);
+			assert.deepStrictEqual(user.username, actor.preferredUsername);
+			assert.deepStrictEqual(user.inbox, actor.inbox);
+		});
+
+		it('Minimum Note', async () => {
+			const resolver = new MockResolver();
+			resolver._register(actor.id, actor);
+			resolver._register(post.id, post);
+
+			const note = await createNote(post.id, resolver, true);
+
+			assert.deepStrictEqual(note?.uri, post.id);
+			assert.deepStrictEqual(note?.visibility, 'public');
+			assert.deepStrictEqual(note?.text, post.content);
+		});
 	});
 });
