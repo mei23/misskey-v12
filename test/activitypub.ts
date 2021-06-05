@@ -9,58 +9,21 @@
  */
 
 process.env.NODE_ENV = 'test';
-import { connection, initDb } from '../src/db/postgre';
 
 import rndstr from 'rndstr';
-
 import * as assert from 'assert';
+
+import { initDb } from '../src/db/postgre';
 import * as childProcess from 'child_process';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
-import { IObject } from '../src/remote/activitypub/type';
-import { createPerson } from '../src/remote/activitypub/models/person';
-import { createNote } from '../src/remote/activitypub/models/note';
 
-//#region Mock
-type MockResponse = {
-	type: string;
-	content: string;
-};
+describe('ActivityPub', async () => {
+	await initDb();
+	const { MockResolver } = await import('../src/remote/activitypub/resolver');
+	const { createPerson } = await import('../src/remote/activitypub/models/person');
+	const { createNote } = await import('../src/remote/activitypub/models/note');
 
-export class MockResolver extends Resolver {
-	private _rs = new Map<string, MockResponse>();
-	public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
-		this._rs.set(uri, {
-			type,
-			content: typeof content === 'string' ? content : JSON.stringify(content)
-		});
-	}
-
-	public async resolve(value: string | IObject): Promise<IObject> {
-		if (typeof value !== 'string') return value;
-
-		const r = this._rs.get(value);
-
-		if (!r) {
-			throw {
-				name: `StatusError`,
-				statusCode: 404,
-				message: `Not registed for mock`
-			};
-		}
-
-		const object = JSON.parse(r.content);
-
-		return object;
-	}
-}
-//#endregion
-
-describe('ActivityPub', () => {
 	before(async () => {
-		await initDb();
-		const { MockResolver } = (await import('../src/remote/activitypub/resolver'));
-		const a = new MockResolver();
-
 	});
 
 	/*
