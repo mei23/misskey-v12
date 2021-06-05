@@ -1,3 +1,13 @@
+/*
+ * Tests for ActivityPub
+ *
+ * How to run the tests:
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/activitypub.ts --require ts-node/register
+ *
+ * To specify test:
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/activitypub.ts --require ts-node/register -g 'test name'
+ */
+
 process.env.NODE_ENV = 'test';
 
 import rndstr from 'rndstr';
