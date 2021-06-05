@@ -9,31 +9,68 @@
  */
 
 process.env.NODE_ENV = 'test';
+import { connection } from '../src/db/postgreInit';
+
 import rndstr from 'rndstr';
-import { initDb } from '../src/db/postgre';
-import { Note } from '../src/models/entities/note';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
+import Resolver from '../src/remote/activitypub/resolver';
+import { IObject } from '../src/remote/activitypub/type';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 
-describe('API visibility', () => {
+//#region Mock
+type MockResponse = {
+	type: string;
+	content: string;
+};
+
+export class MockResolver extends Resolver {
+	private _rs = new Map<string, MockResponse>();
+	public async _register(uri: string, content: string | Record<string, any>, type = 'application/activity+json') {
+		this._rs.set(uri, {
+			type,
+			content: typeof content === 'string' ? content : JSON.stringify(content)
+		});
+	}
+
+	public async resolve(value: string | IObject): Promise<IObject> {
+		if (typeof value !== 'string') return value;
+
+		const r = this._rs.get(value);
+
+		if (!r) {
+			throw {
+				name: `StatusError`,
+				statusCode: 404,
+				message: `Not registed for mock`
+			};
+		}
+
+		const object = JSON.parse(r.content);
+
+		return object;
+	}
+}
+//#endregion
+
+describe('ActivityPub', () => {
+
+	before(async () => await connection);
+
+	/*
 	let p: childProcess.ChildProcess;
 
-	let MockResolver: any;
 	before(launchServer(g => p = g, async () => {
-		await initDb();
-		const x = require('../src/remote/activitypub/resolver');
-		MockResolver = x.MockResolver;
-
-		//await signup({ username: 'alice' });
+		await connection;
 	}));
 
 	after(async () => {
 		await shutdownServer(p);
 	});
+	*/
 
 	describe('Parse minimum object', async () => {
 		const host = 'https://host1.test';
