@@ -14,7 +14,7 @@ import rndstr from 'rndstr';
 import * as assert from 'assert';
 import { initDb } from '../src/db/postgre';
 
-describe('ActivityPub', async () => {
+describe('ActivityPub', () => {
 	before(async () => {
 		await initDb();
 	});
