@@ -2,41 +2,23 @@
  * Tests for Fetch resource
  *
  * How to run the tests:
- * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/activitypub.ts --require ts-node/register
  *
  * To specify test:
- * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/fetch-resource.ts --require ts-node/register -g 'test name'
+ * > npx cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true npx mocha test/activitypub.ts --require ts-node/register -g 'test name'
  */
 
 process.env.NODE_ENV = 'test';
 
 import rndstr from 'rndstr';
 import * as assert from 'assert';
-
 import { initDb } from '../src/db/postgre';
-import * as childProcess from 'child_process';
-import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
 
 describe('ActivityPub', async () => {
 	await initDb();
-	const { MockResolver } = await import('../src/remote/activitypub/resolver');
+	const { MockResolver } = await import('./misc/mock-resolver');
 	const { createPerson } = await import('../src/remote/activitypub/models/person');
 	const { createNote } = await import('../src/remote/activitypub/models/note');
-
-	before(async () => {
-	});
-
-	/*
-	let p: childProcess.ChildProcess;
-
-	before(launchServer(g => p = g, async () => {
-		await connection;
-	}));
-
-	after(async () => {
-		await shutdownServer(p);
-	});
-	*/
 
 	describe('Parse minimum object', async () => {
 		const host = 'https://host1.test';
