@@ -211,5 +211,3 @@ export function initDb(justBorrow = false, sync = false, forceRecreate = false) 
 		entities: entities
 	});
 }
-
-export const connection = initDb();
