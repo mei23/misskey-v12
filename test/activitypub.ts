@@ -9,7 +9,7 @@
  */
 
 process.env.NODE_ENV = 'test';
-import { connection } from '../src/db/postgreInit';
+import { connection } from '../src/db/postgre';
 
 import rndstr from 'rndstr';
 
