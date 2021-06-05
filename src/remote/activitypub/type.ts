@@ -142,31 +142,31 @@ export const isTombstone = (object: IObject): object is ITombstone =>
 
 export const validActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
 
-export const isActor = (object: IObject): object is IPerson =>
+export const isActor = (object: IObject): object is IActor =>
 	validActor.includes(getApType(object));
 
-export interface IPerson extends IObject {
-	type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
-	name?: string;
-	preferredUsername?: string;
-	manuallyApprovesFollowers?: boolean;
-	discoverable?: boolean;
-	inbox?: string;
-	sharedInbox?: string;	// 後方互換性のため
-	publicKey: {
-		id: string;
-		publicKeyPem: string;
-	};
-	followers?: string | ICollection | IOrderedCollection;
-	following?: string | ICollection | IOrderedCollection;
-	featured?: string | IOrderedCollection;
-	outbox?: string | IOrderedCollection;
-	endpoints?: {
-		sharedInbox?: string;
-	};
-	'vcard:bday'?: string;
-	'vcard:Address'?: string;
-}
+	export interface IActor extends IObject {
+		type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
+		name?: string;
+		preferredUsername?: string;
+		manuallyApprovesFollowers?: boolean;
+		discoverable?: boolean;
+		inbox: string;
+		sharedInbox?: string;	// 後方互換性のため
+			publicKey?: {
+			id: string;
+			publicKeyPem: string;
+		};
+		followers?: string | ICollection | IOrderedCollection;
+		following?: string | ICollection | IOrderedCollection;
+		featured?: string | IOrderedCollection;
+		outbox: string | IOrderedCollection;
+		endpoints?: {
+			sharedInbox?: string;
+		};
+		'vcard:bday'?: string;
+		'vcard:Address'?: string;
+	}
 
 export const isCollection = (object: IObject): object is ICollection =>
 	getApType(object) === 'Collection';
