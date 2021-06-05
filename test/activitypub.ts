@@ -19,7 +19,7 @@ describe('ActivityPub', async () => {
 		await initDb();
 	});
 
-	describe('Parse minimum object', async () => {
+	describe('Parse minimum object', () => {
 		const host = 'https://host1.test';
 		const preferredUsername = `${rndstr('A-Z', 4)}${rndstr('a-z', 4)}`;
 		const actorId = `${host}/users/${preferredUsername.toLowerCase()}`;
