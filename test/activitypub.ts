@@ -5,10 +5,9 @@ import * as assert from 'assert';
 import { initDb } from '../src/db/postgre';
 
 describe('ActivityPub', async () => {
-	await initDb();
-	const { MockResolver } = await import('./misc/mock-resolver');
-	const { createPerson } = await import('../src/remote/activitypub/models/person');
-	const { createNote } = await import('../src/remote/activitypub/models/note');
+	before(async () => {
+		await initDb();
+	});
 
 	describe('Parse minimum object', async () => {
 		const host = 'https://host1.test';
@@ -34,6 +33,9 @@ describe('ActivityPub', async () => {
 		};
 
 		it('Minimum Actor', async () => {
+			const { MockResolver } = await import('./misc/mock-resolver');
+			const { createPerson } = await import('../src/remote/activitypub/models/person');
+
 			const resolver = new MockResolver();
 			resolver._register(actor.id, actor);
 
@@ -45,6 +47,9 @@ describe('ActivityPub', async () => {
 		});
 
 		it('Minimum Note', async () => {
+			const { MockResolver } = await import('./misc/mock-resolver');
+			const { createNote } = await import('../src/remote/activitypub/models/note');
+
 			const resolver = new MockResolver();
 			resolver._register(actor.id, actor);
 			resolver._register(post.id, post);
