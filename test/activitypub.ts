@@ -9,14 +9,13 @@
  */
 
 process.env.NODE_ENV = 'test';
-import { connection } from '../src/db/postgre';
+import { connection, initDb } from '../src/db/postgre';
 
 import rndstr from 'rndstr';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import { launchServer, signup, post, request, simpleGet, port, shutdownServer } from './utils';
-import Resolver from '../src/remote/activitypub/resolver';
 import { IObject } from '../src/remote/activitypub/type';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
@@ -57,8 +56,12 @@ export class MockResolver extends Resolver {
 //#endregion
 
 describe('ActivityPub', () => {
+	before(async () => {
+		await initDb();
+		const { MockResolver } = (await import('../src/remote/activitypub/resolver'));
+		const a = new MockResolver();
 
-	before(async () => await connection);
+	});
 
 	/*
 	let p: childProcess.ChildProcess;
