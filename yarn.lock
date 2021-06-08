@@ -7047,10 +7047,10 @@ minizlib@^2.0.0, minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-misskey-js@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.3.tgz#328716a82ac240a8b46e1b74f5ae0bae0b121cf6"
-  integrity sha512-Z50h7J+Invly3+jbEG65aoW8XWz7F9nqHsi9TxYE7CwSxdyxF0USYP/lvZrSe8/aRFjA20zbqcLhvVpm41uNTg==
+misskey-js@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.4.tgz#eb312eed2e013e97ed0fcd6f6e40ea8dcc86b7b4"
+  integrity sha512-h8SgbaFhP6gX02hMvMPcJbeBIAbp+Vqj1W496zjF6Vu/mj05ga7swnthz87qo53zBuWw5dvJaDutHv46tN6hew==
   dependencies:
     "@vue/reactivity" "^3.0.11"
     autobind-decorator "^2.4.0"
