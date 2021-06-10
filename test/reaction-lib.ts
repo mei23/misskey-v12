@@ -20,7 +20,7 @@ describe('toDbReaction', async () => {
 		toDbReaction = (await import('../src/misc/reaction-lib')).toDbReaction;
 	});
 
-	it('既存の文字列リアクションはそのまま', async () => {
+	it('Legacy文字列リアクションはUnicodeに', async () => {
 		assert.strictEqual(await toDbReaction('like'), '👍');
 	});
 
