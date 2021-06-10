@@ -25,7 +25,7 @@ export const request = async (endpoint: string, params: any, me?: any): Promise<
 		i: me.token
 	} : {};
 
-	const res = await fetch(`http://localhost:${config.port}/api${endpoint}`, {
+	const res = await fetch(`http://localhost:${port}/api${endpoint}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
