@@ -256,7 +256,7 @@
 	},
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.50",
-		"@types/chai": "4.2.16",
+		"@types/chai": "4.2.18",
 		"chai": "4.3.4",
 		"cross-env": "7.0.3"
 	}
