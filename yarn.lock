@@ -1320,12 +1320,12 @@
   dependencies:
     "@vue/shared" "3.1.1"
 
-"@vue/reactivity@^3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@vue/reactivity/-/reactivity-3.0.11.tgz#07b588349fd05626b17f3500cbef7d4bdb4dbd0b"
-  integrity sha512-SKM3YKxtXHBPMf7yufXeBhCZ4XZDKP9/iXeQSC8bBO3ivBuzAi4aZi0bNoeE2IF2iGfP/AHEt1OU4ARj4ao/Xw==
+"@vue/reactivity@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@vue/reactivity/-/reactivity-3.1.2.tgz#66fa530dd726d2fef285ae55d02106a727db463b"
+  integrity sha512-glJzJoN2xE7I2lRvwKM5u1BHRPTd1yc8iaf//Lai/78/uYAvE5DXp5HzWRFOwMlbRvMGJHIQjOqoxj87cDAaag==
   dependencies:
-    "@vue/shared" "3.0.11"
+    "@vue/shared" "3.1.2"
 
 "@vue/runtime-core@3.1.1":
   version "3.1.1"
@@ -1344,15 +1344,15 @@
     "@vue/shared" "3.1.1"
     csstype "^2.6.8"
 
-"@vue/shared@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.11.tgz#20d22dd0da7d358bb21c17f9bde8628152642c77"
-  integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
-
 "@vue/shared@3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.1.tgz#2287cfc3dc20e5b20aeb65c2c3a56533bdca801c"
   integrity sha512-g+4pzAw7PYSjARtLBoDq6DmcblX8i9KJHSCnyM5VDDFFifUaUT9iHbFpOF/KOizQ9f7QAqU2JH3Y6aXjzUMhVA==
+
+"@vue/shared@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.2.tgz#1069c0bc7d6f4bd15ccf3a5f3be29450aca368f9"
+  integrity sha512-EmH/poaDWBPJaPILXNI/1fvUbArJQmmTyVCwvvyDYDFnkPoTclAbHRAtyIvqfez7jybTDn077HTNILpxlsoWhg==
 
 "@webassemblyjs/ast@1.11.0":
   version "1.11.0"
@@ -7048,12 +7048,12 @@ minizlib@^2.0.0, minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-misskey-js@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.4.tgz#eb312eed2e013e97ed0fcd6f6e40ea8dcc86b7b4"
-  integrity sha512-h8SgbaFhP6gX02hMvMPcJbeBIAbp+Vqj1W496zjF6Vu/mj05ga7swnthz87qo53zBuWw5dvJaDutHv46tN6hew==
+misskey-js@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.5.tgz#234e9b68e0723358c7c9f1a82ce917545eb59b03"
+  integrity sha512-DFPnSxn61ST/8LWes/RY3To5EaiJHygVhQ3iJbdmkFHraIn4OrdxxF4FC8wbsZB7F7IEgb6INc6y0D402gRahg==
   dependencies:
-    "@vue/reactivity" "^3.0.11"
+    "@vue/reactivity" "^3.1.2"
     autobind-decorator "^2.4.0"
     eventemitter3 "^4.0.7"
     reconnecting-websocket "^4.4.0"
