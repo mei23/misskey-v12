@@ -67,5 +67,8 @@ server {
         proxy_cache_lock on;
         proxy_cache_use_stale updating;
         add_header X-Cache $upstream_cache_status;
+
+        # HSTS
+        add_header Strict-Transport-Security "max-age=15552000";
     }
 }
