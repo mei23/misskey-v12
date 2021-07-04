@@ -69,7 +69,7 @@
 		"@types/markdown-it": "12.0.2",
 		"@types/matter-js": "0.14.12",
 		"@types/mocha": "8.2.2",
-		"@types/node": "15.12.2",
+		"@types/node": "16.0.0",
 		"@types/node-fetch": "2.5.10",
 		"@types/nodemailer": "6.4.2",
 		"@types/nprogress": "0.2.0",
