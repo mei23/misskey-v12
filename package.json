@@ -97,7 +97,7 @@
 		"@types/web-push": "3.3.1",
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
-		"@types/websocket": "1.0.2",
+		"@types/websocket": "1.0.3",
 		"@types/ws": "7.4.5",
 		"@typescript-eslint/parser": "4.26.1",
 		"@vue/compiler-sfc": "3.1.1",
