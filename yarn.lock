@@ -1350,13 +1350,6 @@
   dependencies:
     "@vue/shared" "3.1.1"
 
-"@vue/reactivity@^3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@vue/reactivity/-/reactivity-3.0.11.tgz#07b588349fd05626b17f3500cbef7d4bdb4dbd0b"
-  integrity sha512-SKM3YKxtXHBPMf7yufXeBhCZ4XZDKP9/iXeQSC8bBO3ivBuzAi4aZi0bNoeE2IF2iGfP/AHEt1OU4ARj4ao/Xw==
-  dependencies:
-    "@vue/shared" "3.0.11"
-
 "@vue/runtime-core@3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@vue/runtime-core/-/runtime-core-3.1.1.tgz#542110c09a643d7d80646a2f071aff6b324c4158"
@@ -1373,11 +1366,6 @@
     "@vue/runtime-core" "3.1.1"
     "@vue/shared" "3.1.1"
     csstype "^2.6.8"
-
-"@vue/shared@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.11.tgz#20d22dd0da7d358bb21c17f9bde8628152642c77"
-  integrity sha512-b+zB8A2so8eCE0JsxjL24J7vdGl8rzPQ09hZNhystm+KqSbKcAej1A+Hbva1rCMmTTqA+hFnUSDc5kouEo0JzA==
 
 "@vue/shared@3.1.1":
   version "3.1.1"
@@ -7054,12 +7042,11 @@ minizlib@^2.0.0, minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-misskey-js@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.4.tgz#eb312eed2e013e97ed0fcd6f6e40ea8dcc86b7b4"
-  integrity sha512-h8SgbaFhP6gX02hMvMPcJbeBIAbp+Vqj1W496zjF6Vu/mj05ga7swnthz87qo53zBuWw5dvJaDutHv46tN6hew==
+misskey-js@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.6.tgz#2470a833c29e67d263318d9287ba935c5182027b"
+  integrity sha512-fzKn/WPPvTNAiCyoXYrczaqAmFZE7+MjCHFeCs624G+QRi35kVW0HLCMbSsGruMWEwHHZ1PKYI0pH6h9wSo9iw==
   dependencies:
-    "@vue/reactivity" "^3.0.11"
     autobind-decorator "^2.4.0"
     eventemitter3 "^4.0.7"
     reconnecting-websocket "^4.4.0"
