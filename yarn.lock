@@ -882,10 +882,10 @@
     "@types/linkify-it" "*"
     "@types/mdurl" "*"
 
-"@types/matter-js@0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.17.2.tgz#9f85c22760f4732aa7403d7c7ac1b6de46deedfc"
-  integrity sha512-7ThBDSfwVIrvqzuaV9u+t27aXZO36gDxNUMc/Ysb5KpHJ0Nv0/EZbb7/KDEcoL7rQQMO1RGqIIcu8RMGxDlPNg==
+"@types/matter-js@0.17.3":
+  version "0.17.3"
+  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.17.3.tgz#86f6bd1fe7e3652703532057ab1c910e33ec4e60"
+  integrity sha512-FWT8dQTDGEKgQ4K8pbg9a1g98lS6jzleVkBjeindpt+7M72+UfS3bU75g1kuborNg1rr2g+KaU7qoZpdi3WS0w==
 
 "@types/mdurl@*":
   version "1.0.2"
