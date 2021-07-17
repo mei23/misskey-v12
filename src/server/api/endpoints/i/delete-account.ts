@@ -34,4 +34,7 @@ export default define(meta, async (ps, user) => {
 	await doPostSuspend(user).catch(e => {});
 
 	await Users.delete(user.id);
+
+	// Terminate streaming
+	publishUserEvent(user.id, 'terminate', {});
 });
