@@ -58,6 +58,7 @@ export type Source = {
 	};
 
 	mediaProxy?: string;
+	proxyRemoteFiles?: boolean;
 
 	signToActivityPubGet?: boolean;
 };
