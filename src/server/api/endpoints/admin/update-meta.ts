@@ -89,10 +89,6 @@ export const meta = {
 			validator: $.optional.bool,
 		},
 
-		proxyRemoteFiles: {
-			validator: $.optional.bool,
-		},
-
 		enableHcaptcha: {
 			validator: $.optional.bool,
 		},
@@ -360,10 +356,6 @@ export default define(meta, async (ps, me) => {
 
 	if (ps.cacheRemoteFiles !== undefined) {
 		set.cacheRemoteFiles = ps.cacheRemoteFiles;
-	}
-
-	if (ps.proxyRemoteFiles !== undefined) {
-		set.proxyRemoteFiles = ps.proxyRemoteFiles;
 	}
 
 	if (ps.enableHcaptcha !== undefined) {
