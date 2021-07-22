@@ -133,8 +133,8 @@ export default defineComponent({
 		line-height: $header-height;
 		font-weight: bold;
 		//background-color: var(--panel);
-		-webkit-backdrop-filter: blur(32px);
-		backdrop-filter: blur(32px);
+		//-webkit-backdrop-filter: blur(32px);
+		//backdrop-filter: blur(32px);
 		background-color: var(--header);
 		border-bottom: solid 0.5px var(--divider);
 		box-sizing: border-box;

@@ -100,8 +100,8 @@ export default defineComponent({
 		position: sticky;
 		top: var(--stickyTop, 0px);
 		background: var(--X17);
-		-webkit-backdrop-filter: blur(8px);
-		backdrop-filter: blur(20px);
+		//-webkit-backdrop-filter: blur(8px);
+		//backdrop-filter: blur(20px);
 
 		> .title {
 			margin: 0;

@@ -300,8 +300,8 @@ export default defineComponent({
 				top: var(--globalHeaderHeight, 0px);
 				height: $header-height;
 				line-height: $header-height;
-				-webkit-backdrop-filter: blur(32px);
-				backdrop-filter: blur(32px);
+				//-webkit-backdrop-filter: blur(32px);
+				//backdrop-filter: blur(32px);
 				background-color: var(--header);
 			}
 
@@ -377,8 +377,8 @@ export default defineComponent({
 		display: flex;
 		width: 100%;
 		box-sizing: border-box;
-		-webkit-backdrop-filter: blur(32px);
-		backdrop-filter: blur(32px);
+		//-webkit-backdrop-filter: blur(32px);
+		//backdrop-filter: blur(32px);
 		background-color: var(--header);
 		border-top: solid 0.5px var(--divider);
 
