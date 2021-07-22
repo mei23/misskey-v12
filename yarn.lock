@@ -130,12 +130,7 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.12.0", "@babel/parser@^7.12.13", "@babel/parser@^7.13.0", "@babel/parser@^7.6.0", "@babel/parser@^7.9.6":
-  version "7.13.9"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.13.9.tgz#ca34cb95e1c2dd126863a84465ae8ef66114be99"
-  integrity sha512-nEUfRiARCcaVo3ny3ZQjURjHQZUo/JkEw7rLlSZy/psWGnvwXFtPcr6jb7Yb41DVW5LTe6KRq9LGleRNsg1Frw==
-
-"@babel/parser@^7.13.9":
+"@babel/parser@^7.12.0", "@babel/parser@^7.12.13", "@babel/parser@^7.13.0", "@babel/parser@^7.13.9", "@babel/parser@^7.6.0", "@babel/parser@^7.9.6":
   version "7.13.13"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.13.13.tgz#42f03862f4aed50461e543270916b47dd501f0df"
   integrity sha512-OhsyMrqygfk5v8HmWwOzlYjJrtLaFhF34MrfG/Z73DgYCI6ojNUTUp2TYbtnjo8PegeJp12eamsNettCQjKjVw==
@@ -183,16 +178,7 @@
     globals "^11.1.0"
     lodash "^4.17.19"
 
-"@babel/types@^7.12.0", "@babel/types@^7.12.13", "@babel/types@^7.13.0", "@babel/types@^7.6.1", "@babel/types@^7.9.6":
-  version "7.13.0"
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.13.0.tgz#74424d2816f0171b4100f0ab34e9a374efdf7f80"
-  integrity sha512-hE+HE8rnG1Z6Wzo+MhaKE5lM5eMx71T4EHJgku2E3xIfaULhDcxiiRxUYgwX8qwP1BBSlag+TdGOt6JAidIZTA==
-  dependencies:
-    "@babel/helper-validator-identifier" "^7.12.11"
-    lodash "^4.17.19"
-    to-fast-properties "^2.0.0"
-
-"@babel/types@^7.14.5":
+"@babel/types@^7.12.0", "@babel/types@^7.12.13", "@babel/types@^7.13.0", "@babel/types@^7.14.5", "@babel/types@^7.6.1", "@babel/types@^7.9.6":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.14.5.tgz#3bb997ba829a2104cedb20689c4a5b8121d383ff"
   integrity sha512-M/NzBpEL95I5Hh4dwhin5JlE7EzO5PHMAuzjxss3tiOBD46KfQvVedN/3jEPZvdRvtsK2222XfdHogNIttFgcg==
@@ -1308,6 +1294,17 @@
     estree-walker "^2.0.1"
     source-map "^0.6.1"
 
+"@vue/compiler-core@3.2.0-beta.4":
+  version "3.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.2.0-beta.4.tgz#5cc738e4ba6e63cf859d5f1e136b60f1b55ccb46"
+  integrity sha512-AStaT3fehyb0SYYjiRCxrxyI8lFyzE2Hg8CB8Hf6SM05lONUCileI9Gu3Z8Z+iyho/HL9Z2JhZs47VPpR4z0iA==
+  dependencies:
+    "@babel/parser" "^7.12.0"
+    "@babel/types" "^7.12.0"
+    "@vue/shared" "3.2.0-beta.4"
+    estree-walker "^2.0.1"
+    source-map "^0.6.1"
+
 "@vue/compiler-dom@3.2.0-beta.2":
   version "3.2.0-beta.2"
   resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.2.0-beta.2.tgz#f8f1744e7766064916eecea34c0dad1736de1fa1"
@@ -1316,18 +1313,26 @@
     "@vue/compiler-core" "3.2.0-beta.2"
     "@vue/shared" "3.2.0-beta.2"
 
-"@vue/compiler-sfc@3.2.0-beta.2":
-  version "3.2.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.0-beta.2.tgz#534e69cd386bf4d2e2b6eaa43d36f4f1d35acbc2"
-  integrity sha512-0+sXdpZTQR+UO5g55ZcYU79GiysBvW1vg9qCfyShvmVmHs8d9YdNxXTuy13dk64BjEHgeMi8PRRKK4kiJ/2/9g==
+"@vue/compiler-dom@3.2.0-beta.4":
+  version "3.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.2.0-beta.4.tgz#1c0bdf84ec2c4db4da32f65773d902e0324541dd"
+  integrity sha512-Vtql3zHmkGOfEg6j5NdrofMV3CmkeVlyyzMS3Rg144H98L2QnGRCiRiPhse7TrSyxP8mJtBsq+Ury6M4yi8K8g==
+  dependencies:
+    "@vue/compiler-core" "3.2.0-beta.4"
+    "@vue/shared" "3.2.0-beta.4"
+
+"@vue/compiler-sfc@3.2.0-beta.4":
+  version "3.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.0-beta.4.tgz#ad1de09c8ce3beb4c23f764fbf71b43a8fe455c7"
+  integrity sha512-aj3tz+1qjyl9TVsNBIVgtydMJdhGjOej49tTRCgEM4HSmJF3zFZalF03D8lvJSX4V9tlFyBVI3D69e1+YGqDlw==
   dependencies:
     "@babel/parser" "^7.13.9"
     "@babel/types" "^7.13.0"
     "@types/estree" "^0.0.48"
-    "@vue/compiler-core" "3.2.0-beta.2"
-    "@vue/compiler-dom" "3.2.0-beta.2"
-    "@vue/compiler-ssr" "3.2.0-beta.2"
-    "@vue/shared" "3.2.0-beta.2"
+    "@vue/compiler-core" "3.2.0-beta.4"
+    "@vue/compiler-dom" "3.2.0-beta.4"
+    "@vue/compiler-ssr" "3.2.0-beta.4"
+    "@vue/shared" "3.2.0-beta.4"
     consolidate "^0.16.0"
     estree-walker "^2.0.1"
     hash-sum "^2.0.0"
@@ -1339,13 +1344,13 @@
     postcss-selector-parser "^6.0.4"
     source-map "^0.6.1"
 
-"@vue/compiler-ssr@3.2.0-beta.2":
-  version "3.2.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.2.0-beta.2.tgz#c0d8a2dffd0a5cc312b239115a5c9ce5d92351b2"
-  integrity sha512-nz1diH5t8MqcRgw5LlSizF5/oBHgGa9hfZxzDLKSCASPbn0XW8yyy4GvKZ92xRfHwzf7zXp8SS4DOQ3CjkGOFw==
+"@vue/compiler-ssr@3.2.0-beta.4":
+  version "3.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.2.0-beta.4.tgz#2112faeca659f44fee1188c7a43d05546df8c10a"
+  integrity sha512-+Qcx2c02suic9Sloz+fXsQULntSCSOaUfARQKfh73FknSuY3FtT/66MVz4WcI19WCOlQ+9VhZiA9KYrdRgS2/g==
   dependencies:
-    "@vue/compiler-dom" "3.2.0-beta.2"
-    "@vue/shared" "3.2.0-beta.2"
+    "@vue/compiler-dom" "3.2.0-beta.4"
+    "@vue/shared" "3.2.0-beta.4"
 
 "@vue/reactivity@3.2.0-beta.2":
   version "3.2.0-beta.2"
@@ -1375,6 +1380,11 @@
   version "3.2.0-beta.2"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.0-beta.2.tgz#d51af33e1cb5f289b6a4efc2b98417372fed3a65"
   integrity sha512-WrmgOlq3mjgRLZuo0t2Ug77c1Cm/KmbJi64UMoNz6Iwz1kjjxMLCIkoHTMvoBt0iUr05mhN+75iiRyqPCii3ww==
+
+"@vue/shared@3.2.0-beta.4":
+  version "3.2.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.0-beta.4.tgz#ade5973291798177b90367d663319fc4e6d4172f"
+  integrity sha512-eKPlvlQtWw+tuJSIHUg+/8f/wQt4oGDHCZ9HbAIKOPlzuaIqrIOKwP2pDZQeHUAkjs+G8QaqguiI9qKzOQ5fWQ==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -7225,7 +7235,7 @@ nano-time@1.0.0:
   dependencies:
     big-integer "^1.6.16"
 
-nanoid@3.1.23, nanoid@^3.1.20, nanoid@^3.1.23:
+nanoid@3.1.23, nanoid@^3.1.23:
   version "3.1.23"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
   integrity sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==
@@ -8558,17 +8568,7 @@ postcss-selector-parser@^2.0.0, postcss-selector-parser@^2.2.2:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.4.tgz#56075a1380a04604c38b063ea7767a129af5c2b3"
-  integrity sha512-gjMeXBempyInaBqpp8gODmwZ52WaYsVOsfr4L4lDQ7n3ncD6mEyySiDtgzCT+NYC0mmeOLvtsF8iaEf0YT6dBw==
-  dependencies:
-    cssesc "^3.0.0"
-    indexes-of "^1.0.1"
-    uniq "^1.0.1"
-    util-deprecate "^1.0.2"
-
-postcss-selector-parser@^6.0.5:
+postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.0.5:
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.6.tgz#2c5bba8174ac2f6981ab631a42ab0ee54af332ea"
   integrity sha512-9LXrvaaX3+mcv5xkg5kFwqSzSH1JIObIx51PrndZwlmznwXRfxMddDvo9gve3gVR8ZTKgoFDdWkbRFmEhT4PMg==
@@ -8631,7 +8631,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@8.3.5:
+postcss@8.3.5, postcss@^8.1.10, postcss@^8.2.15:
   version "8.3.5"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.5.tgz#982216b113412bc20a86289e91eb994952a5b709"
   integrity sha512-NxTuJocUhYGsMiMFHDUkmjSKT3EdH4/WbGF6GCi1NDGk+vbcUTun4fpbOqaPtD8IIsztA2ilZm2DhYCuyN58gA==
@@ -8649,24 +8649,6 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.2.3"
-
-postcss@^8.1.10:
-  version "8.2.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.8.tgz#0b90f9382efda424c4f0f69a2ead6f6830d08ece"
-  integrity sha512-1F0Xb2T21xET7oQV9eKuctbM9S7BC0fetoHCc4H13z0PT6haiRLP4T0ZY4XWh7iLP0usgqykT6p9B2RtOf4FPw==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.20"
-    source-map "^0.6.1"
-
-postcss@^8.2.15:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
-  integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.23"
-    source-map-js "^0.6.2"
 
 postgres-array@~2.0.0:
   version "2.0.0"
