@@ -22,7 +22,8 @@ const isProduction = process.env.NODE_ENV === 'production';
 const locales = require('./locales');
 const meta = require('./package.json');
 
-const version = isProduction ? meta.version : meta.version + '-' + rndstr({ length: 8, chars: '0-9a-z' });
+//const version = isProduction ? meta.version : meta.version + '-' + rndstr({ length: 8, chars: '0-9a-z' });
+const version = meta.version;
 
 const postcss = {
 	loader: 'postcss-loader',
