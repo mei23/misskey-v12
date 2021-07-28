@@ -86,7 +86,7 @@
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.1",
 		"@types/seedrandom": "3.0.1",
-		"@types/sharp": "0.28.4",
+		"@types/sharp": "0.28.5",
 		"@types/sinonjs__fake-timers": "6.0.3",
 		"@types/speakeasy": "2.0.6",
 		"@types/throttle-debounce": "2.1.0",
