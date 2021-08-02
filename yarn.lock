@@ -900,10 +900,10 @@
     "@types/linkify-it" "*"
     "@types/mdurl" "*"
 
-"@types/matter-js@0.17.3":
-  version "0.17.3"
-  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.17.3.tgz#86f6bd1fe7e3652703532057ab1c910e33ec4e60"
-  integrity sha512-FWT8dQTDGEKgQ4K8pbg9a1g98lS6jzleVkBjeindpt+7M72+UfS3bU75g1kuborNg1rr2g+KaU7qoZpdi3WS0w==
+"@types/matter-js@0.17.5":
+  version "0.17.5"
+  resolved "https://registry.yarnpkg.com/@types/matter-js/-/matter-js-0.17.5.tgz#b7ddd422cf5980f01531dfed60fc11682a1adbb9"
+  integrity sha512-s4j6htb+NZNQyo2jP96uZ93aPn0fCw0RP1YnEDmKkIKpOVxvNWdEEPPj3U+9xezp3eQChvWOwHcR815rEBWexA==
 
 "@types/mdurl@*":
   version "1.0.2"
