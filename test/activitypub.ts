@@ -70,4 +70,34 @@ describe('ActivityPub', () => {
 			assert.deepStrictEqual(note?.text, post.content);
 		});
 	});
+
+	describe('Parse bio 5000', () => {
+		const host = 'https://host1.test';
+		const preferredUsername = `${rndstr('A-Z', 4)}${rndstr('a-z', 4)}`;
+		const actorId = `${host}/users/${preferredUsername.toLowerCase()}`;
+
+		const actor = {
+			'@context': 'https://www.w3.org/ns/activitystreams',
+			id: actorId,
+			type: 'Person',
+			preferredUsername,
+			inbox: `${actorId}/inbox`,
+			outbox: `${actorId}/outbox`,
+			summary: rndstr('0-9A-Za-z', 5000)
+		};
+
+		it('Parse', async () => {
+			const { MockResolver } = await import('./misc/mock-resolver');
+			const { createPerson } = await import('../src/remote/activitypub/models/person');
+
+			const resolver = new MockResolver();
+			resolver._register(actor.id, actor);
+
+			const user = await createPerson(actor.id, resolver);
+
+			assert.deepStrictEqual(user.uri, actor.id);
+			assert.deepStrictEqual(user.username, actor.preferredUsername);
+			assert.deepStrictEqual(user.inbox, actor.inbox);
+		});
+	});
 });
