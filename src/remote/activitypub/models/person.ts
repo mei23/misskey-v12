@@ -57,7 +57,7 @@ function validateActor(x: IObject, uri: string): IActor {
 	validate('inbox', x.inbox, $.str.min(1));
 	validate('preferredUsername', x.preferredUsername, $.str.min(1).max(128).match(/^\w([\w-.]*\w)?$/));
 	validate('name', x.name, $.optional.nullable.str.max(128));
-	validate('summary', x.summary, $.optional.nullable.str.max(5000));
+	validate('summary', x.summary, $.optional.nullable.str.max(2048));
 
 	const idHost = toPuny(new URL(x.id!).hostname);
 	if (idHost !== expectHost) {
