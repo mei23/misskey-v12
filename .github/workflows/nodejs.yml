@@ -47,6 +47,4 @@ jobs:
       with:
         node-version: 12.x
     - run: yarn install
-    - run: yarn build
-    - run: cp test/test.yml .config/
-    - run: yarn test
+    - run: yarn lint
