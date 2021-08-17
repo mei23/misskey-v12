@@ -35,6 +35,16 @@ const logger = apLogger;
 const nameLength = 128;
 const summaryLength = 2048;
 
+function truncate(input: string, size: number): string;
+function truncate(input: string | undefined, size: number): string | undefined;
+function truncate(input: string | undefined, size: number): string | undefined {
+	if (!input || input.length <= size) {
+		return input;
+	} else {
+		return input.substring(0, size);
+	}
+}
+
 /**
  * Validate and convert to actor object
  * @param x Fetched object
@@ -54,14 +64,6 @@ function validateActor(x: IObject, uri: string): IActor {
 	const validate = (name: string, value: any, validater: Context) => {
 		const e = validater.test(value);
 		if (e) throw new Error(`invalid Actor: ${name} ${e.message}`);
-	};
-
-	const truncate = (input: string | undefined, size: number) => {
-		if (!input || input.length <= size) {
-			return input;
-		} else {
-			return input.substring(0, size);
-		}
 	};
 
 	validate('id', x.id, $.str.min(1));
@@ -153,7 +155,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				bannerId: null,
 				createdAt: new Date(),
 				lastFetchedAt: new Date(),
-				name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
+				name: truncate(person.name, nameLength),
 				isLocked: !!person.manuallyApprovesFollowers,
 				isExplorable: !!person.discoverable,
 				username: person.preferredUsername,
@@ -171,7 +173,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 			await transactionalEntityManager.insert(UserProfile, {
 				userId: user.id,
-				description: person.summary ? htmlToMfm(truncate(person.summary, MAX_SUMMARY_LENGTH), person.tag) : null,
+				description: person.summary ? htmlToMfm(truncate(person.summary, summaryLength), person.tag) : null,
 				url: getOneApHrefNullable(person.url),
 				fields,
 				birthday: bday ? bday[0] : null,
@@ -338,7 +340,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		followersUri: person.followers ? getApId(person.followers) : undefined,
 		featured: person.featured,
 		emojis: emojiNames,
-		name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
+		name: truncate(person.name, nameLength),
 		tags,
 		isBot: getApType(object) === 'Service',
 		isCat: (person as any).isCat === true,
@@ -371,7 +373,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 	await UserProfiles.update({ userId: exist.id }, {
 		url: getOneApHrefNullable(person.url),
 		fields,
-		description: person.summary ? htmlToMfm(truncate(person.summary, MAX_SUMMARY_LENGTH), person.tag) : null,
+		description: person.summary ? htmlToMfm(truncate(person.summary, summaryLength), person.tag) : null,
 		birthday: bday ? bday[0] : null,
 		location: person['vcard:Address'] || null,
 	});
