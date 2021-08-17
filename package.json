@@ -111,7 +111,7 @@
 		"autwh": "0.1.0",
 		"aws-sdk": "2.966.0",
 		"bcryptjs": "2.4.3",
-		"blurhash": "1.1.3",
+		"blurhash": "1.1.4",
 		"broadcast-channel": "3.7.0",
 		"bull": "3.26.0",
 		"cacheable-lookup": "6.0.0",
