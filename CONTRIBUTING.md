@@ -237,7 +237,7 @@ MongoDBは`null`で返してきてたので、その感覚で`if (x === null)`�
 
 ### Migration作成方法
 ```
-npx ts-node ./node_modules/typeorm/cli.js migration:generate -n 変更の名前
+npx ts-node ./node_modules/typeorm/cli.js migration:generate -n change-name
 ```
 
 作成されたスクリプトは不必要な変更を含むため除去してください。
