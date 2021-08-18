@@ -124,7 +124,7 @@
 		"compare-versions": "3.6.0",
 		"concurrently": "6.2.0",
 		"content-disposition": "0.5.3",
-		"core-js": "3.16.1",
+		"core-js": "3.16.2",
 		"crc-32": "1.2.0",
 		"css-loader": "6.2.0",
 		"cssnano": "5.0.7",
