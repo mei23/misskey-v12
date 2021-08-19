@@ -42,3 +42,4 @@ describe('toDbReaction', async () => {
 		assert.strictEqual(await toDbReaction('unknown'), '👍');
 	});
 });
+*/
