@@ -4,14 +4,14 @@ import * as chalk from 'chalk';
 import * as portscanner from 'portscanner';
 import { getConnection } from 'typeorm';
 
-import Logger from '../services/logger';
+import Logger from '@/services/logger';
 import loadConfig from '@/config/load';
 import { Config } from '@/config/types';
-import { lessThan } from '../prelude/array';
+import { lessThan } from '@/prelude/array';
 import { program } from '../argv';
 import { showMachineInfo } from '@/misc/show-machine-info';
 import { initDb } from '../db/postgre';
-const meta = require('../meta.json');
+import * as meta from '../meta.json';
 
 const logger = new Logger('core', 'cyan');
 const bootLogger = logger.createSubLogger('boot', 'magenta', false);
