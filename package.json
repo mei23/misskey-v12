@@ -119,7 +119,7 @@
 		"chalk": "4.1.2",
 		"chart.js": "2.9.4",
 		"cli-highlight": "2.1.11",
-		"commander": "4.1.1",
+		"commander": "8.1.0",
 		"compare-versions": "3.6.0",
 		"concurrently": "6.2.1",
 		"content-disposition": "0.5.3",
