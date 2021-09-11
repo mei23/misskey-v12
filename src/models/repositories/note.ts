@@ -18,7 +18,57 @@ export class NoteRepository extends Repository<Note> {
 		return x.trim().length <= 100;
 	}
 
+	public async isVisibleForMe(note: Note, meId: User['id'] | null): Promise<boolean> {
+		// visibility が specified かつ自分が指定されていなかったら非表示
+		if (note.visibility === 'specified') {
+			if (meId == null) {
+				return false;
+			} else if (meId === note.userId) {
+				return true;
+			} else {
+				// 指定されているかどうか
+				const specified = note.visibleUserIds.some((id: any) => meId === id);
+
+				if (specified) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+
+		// visibility が followers かつ自分が投稿者のフォロワーでなかったら非表示
+		if (note.visibility === 'followers') {
+			if (meId == null) {
+				return false;
+			} else if (meId === note.userId) {
+				return true;
+			} else if (note.reply && (meId === note.reply.userId)) {
+				// 自分の投稿に対するリプライ
+				return true;
+			} else if (note.mentions && note.mentions.some(id => meId === id)) {
+				// 自分へのメンション
+				return true;
+			} else {
+				// フォロワーかどうか
+				const following = await Followings.findOne({
+					followeeId: note.userId,
+					followerId: meId
+				});
+
+				if (following == null) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	private async hideNote(packedNote: PackedNote, meId: User['id'] | null) {
+		// TODO: isVisibleForMe を使うようにしても良さそう(型違うけど)
 		let hide = false;
 
 		// visibility が specified かつ自分が指定されていなかったら非表示
@@ -45,7 +95,7 @@ export class NoteRepository extends Repository<Note> {
 				hide = true;
 			} else if (meId === packedNote.userId) {
 				hide = false;
-			} else if (packedNote.reply && (meId === (packedNote.reply as PackedNote).userId)) {
+			} else if (packedNote.reply && (meId === packedNote.reply.userId)) {
 				// 自分の投稿に対するリプライ
 				hide = false;
 			} else if (packedNote.mentions && packedNote.mentions.some(id => meId === id)) {
@@ -303,7 +353,7 @@ export const packedNoteSchema = {
 		},
 		user: {
 			type: 'object' as const,
-			ref: 'User',
+			ref: 'User' as const,
 			optional: false as const, nullable: false as const,
 		},
 		replyId: {
@@ -321,12 +371,12 @@ export const packedNoteSchema = {
 		reply: {
 			type: 'object' as const,
 			optional: true as const, nullable: true as const,
-			ref: 'Note'
+			ref: 'Note' as const,
 		},
 		renote: {
 			type: 'object' as const,
 			optional: true as const, nullable: true as const,
-			ref: 'Note'
+			ref: 'Note' as const,
 		},
 		viaMobile: {
 			type: 'boolean' as const,
@@ -373,7 +423,7 @@ export const packedNoteSchema = {
 			items: {
 				type: 'object' as const,
 				optional: false as const, nullable: false as const,
-				ref: 'DriveFile'
+				ref: 'DriveFile' as const,
 			}
 		},
 		tags: {
@@ -397,11 +447,24 @@ export const packedNoteSchema = {
 		channel: {
 			type: 'object' as const,
 			optional: true as const, nullable: true as const,
-			ref: 'Channel'
+			items: {
+				type: 'object' as const,
+				optional: false as const, nullable: false as const,
+				properties: {
+					id: {
+						type: 'string' as const,
+						optional: false as const, nullable: false as const,
+					},
+					name: {
+						type: 'string' as const,
+						optional: false as const, nullable: true as const,
+					},
+				},
+			},
 		},
 		localOnly: {
 			type: 'boolean' as const,
-			optional: false as const, nullable: true as const,
+			optional: true as const, nullable: false as const,
 		},
 		emojis: {
 			type: 'array' as const,
@@ -416,7 +479,7 @@ export const packedNoteSchema = {
 					},
 					url: {
 						type: 'string' as const,
-						optional: false as const, nullable: false as const,
+						optional: false as const, nullable: true as const,
 					},
 				},
 			},
@@ -435,11 +498,11 @@ export const packedNoteSchema = {
 		},
 		uri: {
 			type: 'string' as const,
-			optional: false as const, nullable: true as const,
+			optional: true as const, nullable: false as const,
 		},
 		url: {
 			type: 'string' as const,
-			optional: false as const, nullable: true as const,
+			optional: true as const, nullable: false as const,
 		},
 
 		myReaction: {
