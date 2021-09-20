@@ -3319,10 +3319,10 @@ css-declaration-sorter@^6.0.3:
   dependencies:
     timsort "^0.3.0"
 
-css-loader@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.2.0.tgz#9663d9443841de957a3cb9bcea2eda65b3377071"
-  integrity sha512-/rvHfYRjIpymZblf49w8jYcRo2y9gj6rV8UroHGmBxKrIyGLokpycyKzp9OkitvqT29ZSpzJ0Ic7SpnJX3sC8g==
+css-loader@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.3.0.tgz#334d3500ff0a0c14cfbd4b0670088dbb5b5c1530"
+  integrity sha512-9NGvHOR+L6ps13Ilw/b216++Q8q+5RpJcVufCdW9S/9iCzs4KBDNa8qnA/n3FK/sSfWmH35PAIK/cfPi7LOSUg==
   dependencies:
     icss-utils "^5.1.0"
     postcss "^8.2.15"
@@ -7387,7 +7387,7 @@ nano-time@1.0.0:
   dependencies:
     big-integer "^1.6.16"
 
-nanoid@3.1.23, nanoid@^3.1.20, nanoid@^3.1.23:
+nanoid@3.1.23, nanoid@^3.1.23:
   version "3.1.23"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
   integrity sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==
@@ -8739,7 +8739,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@8.3.6:
+postcss@8.3.6, postcss@^8.1.10, postcss@^8.2.15:
   version "8.3.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.6.tgz#2730dd76a97969f37f53b9a6096197be311cc4ea"
   integrity sha512-wG1cc/JhRgdqB6WHEuyLTedf3KIRuD0hG6ldkFEZNCjRxiC+3i6kkWUUbiJQayP28iwG35cEmAbe98585BYV0A==
@@ -8757,24 +8757,6 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.2.3"
-
-postcss@^8.1.10:
-  version "8.2.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.8.tgz#0b90f9382efda424c4f0f69a2ead6f6830d08ece"
-  integrity sha512-1F0Xb2T21xET7oQV9eKuctbM9S7BC0fetoHCc4H13z0PT6haiRLP4T0ZY4XWh7iLP0usgqykT6p9B2RtOf4FPw==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.20"
-    source-map "^0.6.1"
-
-postcss@^8.2.15:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
-  integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.23"
-    source-map-js "^0.6.2"
 
 postgres-array@~2.0.0:
   version "2.0.0"
