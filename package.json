@@ -247,7 +247,7 @@
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.54",
+		"@redocly/openapi-core": "1.0.0-beta.61",
 		"cross-env": "7.0.3",
 		"cypress": "8.4.1",
 		"start-server-and-test": "1.14.0"
