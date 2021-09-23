@@ -30,15 +30,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.15.0":
+"@babel/parser@^7.15.0", "@babel/parser@^7.6.0", "@babel/parser@^7.9.6":
   version "7.15.6"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.15.6.tgz#043b9aa3c303c0722e5377fef9197f4cf1796549"
   integrity sha512-S/TSCcsRuCkmpUuoWijua0Snt+f3ewU/8spLo+4AXJCZfT0bVCzLD5MuOKdrx0mlAptbKzn5AdgEIIKXxXkz9Q==
-
-"@babel/parser@^7.6.0", "@babel/parser@^7.9.6":
-  version "7.13.9"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.13.9.tgz#ca34cb95e1c2dd126863a84465ae8ef66114be99"
-  integrity sha512-nEUfRiARCcaVo3ny3ZQjURjHQZUo/JkEw7rLlSZy/psWGnvwXFtPcr6jb7Yb41DVW5LTe6KRq9LGleRNsg1Frw==
 
 "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2":
   version "7.12.13"
@@ -1249,6 +1244,16 @@
     estree-walker "^2.0.2"
     source-map "^0.6.1"
 
+"@vue/compiler-core@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.2.14.tgz#093bf572ee2a6c7edeb3a15b1301b910375ee4fc"
+  integrity sha512-dPxxBthVMBvUKDP/ppaQa+Lod6gUbpEJUov10Uwl/sRI8qHcMLK7CJocCd7Ic1BbjgLGISJ4KTw+JRgSdkOFQg==
+  dependencies:
+    "@babel/parser" "^7.15.0"
+    "@vue/shared" "3.2.14"
+    estree-walker "^2.0.2"
+    source-map "^0.6.1"
+
 "@vue/compiler-dom@3.2.13":
   version "3.2.13"
   resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.2.13.tgz#028982494fb9d97807d5275b42355732686f8ed7"
@@ -1256,6 +1261,14 @@
   dependencies:
     "@vue/compiler-core" "3.2.13"
     "@vue/shared" "3.2.13"
+
+"@vue/compiler-dom@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-dom/-/compiler-dom-3.2.14.tgz#acddabae94704df543448e2ac31fe476a70d8307"
+  integrity sha512-AEfQPdvVvwy+U5WnvmVHKjQwaR3vWhALe/40swnu/AH/fQ4/wKrNf2e3ACMseAF0x8XdBQJJe+kZ+OaT0phc4Q==
+  dependencies:
+    "@vue/compiler-core" "3.2.14"
+    "@vue/shared" "3.2.14"
 
 "@vue/compiler-sfc@3.2.13":
   version "3.2.13"
@@ -1273,6 +1286,22 @@
     postcss "^8.1.10"
     source-map "^0.6.1"
 
+"@vue/compiler-sfc@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.14.tgz#f48eefe8c33502d5861cc1bbfe5fd2bf0e67d2d2"
+  integrity sha512-Okm1g5SsAA8XY3bOXSt265+oRbGNBajBzUhdT3TBmlLcJOSLFmdzZbkzM9pCU42CqA/28SsCEeoNeY7KPAr6Fg==
+  dependencies:
+    "@babel/parser" "^7.15.0"
+    "@vue/compiler-core" "3.2.14"
+    "@vue/compiler-dom" "3.2.14"
+    "@vue/compiler-ssr" "3.2.14"
+    "@vue/ref-transform" "3.2.14"
+    "@vue/shared" "3.2.14"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+    postcss "^8.1.10"
+    source-map "^0.6.1"
+
 "@vue/compiler-ssr@3.2.13":
   version "3.2.13"
   resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.2.13.tgz#98434672e0b488c2affa4b0570731d6be5cda187"
@@ -1280,6 +1309,14 @@
   dependencies:
     "@vue/compiler-dom" "3.2.13"
     "@vue/shared" "3.2.13"
+
+"@vue/compiler-ssr@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.2.14.tgz#75204c10795d61dd3ff45b0f99ba97b3d84cae11"
+  integrity sha512-G6sSLKrcR4rn+r79G1s+5wImyO+w5mSgegF6y1m+Lvty5qBs8sv7iIc//zv8NUoQtg+rnnWdjFy6yNcbklLFNg==
+  dependencies:
+    "@vue/compiler-dom" "3.2.14"
+    "@vue/shared" "3.2.14"
 
 "@vue/reactivity@3.2.13":
   version "3.2.13"
@@ -1296,6 +1333,17 @@
     "@babel/parser" "^7.15.0"
     "@vue/compiler-core" "3.2.13"
     "@vue/shared" "3.2.13"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+
+"@vue/ref-transform@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/ref-transform/-/ref-transform-3.2.14.tgz#aa73cb99ab08d4fc808eba633b9c02d954cda31a"
+  integrity sha512-WJpUAIXPaO4tFzZRTnXxZQ6DTI2mshG+yEgURVdia65/V+YAAMpsV9vAuNHUrbIexPzt53thQZo+PZBdxxa7qg==
+  dependencies:
+    "@babel/parser" "^7.15.0"
+    "@vue/compiler-core" "3.2.14"
+    "@vue/shared" "3.2.14"
     estree-walker "^2.0.2"
     magic-string "^0.25.7"
 
@@ -1328,6 +1376,11 @@
   version "3.2.13"
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.13.tgz#c830ef966d7af12598e0ea862a55695ea589cd47"
   integrity sha512-F/gs3kHQ8Xeo24F6EImOvBiIoYQsBjF9qoLzvk+LHxYN6ZhIDEL1NWrBFYzdFQ7NphjEYd4EvPZ+Qee+WX8P6w==
+
+"@vue/shared@3.2.14":
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.14.tgz#9b882098a004b995124b7577b357135a66d922ef"
+  integrity sha512-Yndg5Q99hbP76oU0UXQ9V4O0oQ/xjIToJJjmv1BHPUoaebv40vt0YGahNCb6v9WRRXZIMJOQ+4DmqsGhXRi70w==
 
 "@webassemblyjs/ast@1.11.0":
   version "1.11.0"
@@ -7351,15 +7404,10 @@ nanocolors@^0.1.5:
   resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.1.6.tgz#bc2350d3edfdbfadd7ac018c855ae7c13905a6ad"
   integrity sha512-2pvTw6vYRaBLGir2xR7MxaJtyWkrn+C53EpW8yPotG+pdAwBvt0Xwk4VJ6VHLY0aLthVZPvDfm9TdZvrvAm5UQ==
 
-nanoid@3.1.23, nanoid@^3.1.23:
+nanoid@3.1.23:
   version "3.1.23"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
   integrity sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==
-
-nanoid@^3.1.20:
-  version "3.1.20"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.20.tgz#badc263c6b1dcf14b71efaa85f6ab4c1d6cfc788"
-  integrity sha512-a1cQNyczgKbLX9jwbS/+d7W8fX/RfgYR7lVWwWOGIPNgK2m0MWvrGF6/m4kk6U3QcFMnZf3RIhL0v2Jgh/0Uxw==
 
 nanoid@^3.1.25:
   version "3.1.25"
@@ -8699,7 +8747,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@8.3.7:
+postcss@8.3.7, postcss@^8.1.10, postcss@^8.2.15:
   version "8.3.7"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.7.tgz#ec88563588c8da8e58e7226f7633b51ae221eeda"
   integrity sha512-9SaY7nnyQ63/WittqZYAvkkYPyKxchMKH71UDzeTmWuLSvxTRpeEeABZAzlCi55cuGcoFyoV/amX2BdsafQidQ==
@@ -8717,24 +8765,6 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.2.3"
-
-postcss@^8.1.10:
-  version "8.2.8"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.8.tgz#0b90f9382efda424c4f0f69a2ead6f6830d08ece"
-  integrity sha512-1F0Xb2T21xET7oQV9eKuctbM9S7BC0fetoHCc4H13z0PT6haiRLP4T0ZY4XWh7iLP0usgqykT6p9B2RtOf4FPw==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.20"
-    source-map "^0.6.1"
-
-postcss@^8.2.15:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
-  integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
-  dependencies:
-    colorette "^1.2.2"
-    nanoid "^3.1.23"
-    source-map-js "^0.6.2"
 
 postgres-array@~2.0.0:
   version "2.0.0"
