@@ -115,7 +115,7 @@
 		"bull": "3.29.2",
 		"cacheable-lookup": "6.0.1",
 		"cafy": "15.2.1",
-		"cbor": "8.0.0",
+		"cbor": "8.0.2",
 		"chalk": "4.1.2",
 		"chart.js": "2.9.4",
 		"cli-highlight": "2.1.11",
