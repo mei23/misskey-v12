@@ -29,21 +29,12 @@ import { toArray } from '@/prelude/array';
 import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata';
 import { normalizeForSearch } from '@/misc/normalize-for-search';
 import { resolveUser } from '@/remote/resolve-user';
+import { truncate } from '@/misc/truncate';
 
 const logger = apLogger;
 
 const nameLength = 128;
 const summaryLength = 2048;
-
-function truncate(input: string, size: number): string;
-function truncate(input: string | undefined, size: number): string | undefined;
-function truncate(input: string | undefined, size: number): string | undefined {
-	if (!input || input.length <= size) {
-		return input;
-	} else {
-		return input.substring(0, size);
-	}
-}
 
 /**
  * Validate and convert to actor object
