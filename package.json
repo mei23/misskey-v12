@@ -121,7 +121,7 @@
 		"cli-highlight": "2.1.11",
 		"commander": "4.1.1",
 		"compare-versions": "3.6.0",
-		"concurrently": "6.2.1",
+		"concurrently": "6.3.0",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
 		"css-loader": "6.3.0",
