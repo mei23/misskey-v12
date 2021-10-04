@@ -100,7 +100,7 @@
 		"@types/webpack": "5.28.0",
 		"@types/webpack-stream": "3.2.12",
 		"@types/websocket": "1.0.4",
-		"@types/ws": "7.4.7",
+		"@types/ws": "8.2.0",
 		"@typescript-eslint/parser": "4.31.2",
 		"@vue/compiler-sfc": "3.2.19",
 		"abort-controller": "3.0.0",
