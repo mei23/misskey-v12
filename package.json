@@ -117,7 +117,7 @@
 		"cafy": "15.2.1",
 		"cbor": "8.0.2",
 		"chalk": "4.1.2",
-		"chart.js": "2.9.4",
+		"chart.js": "3.5.1",
 		"cli-highlight": "2.1.11",
 		"compare-versions": "3.6.0",
 		"concurrently": "6.3.0",
