@@ -95,7 +95,7 @@ export default class Logger {
 					null as never;
 
 				send.bind(this.syslogClient)(message).catch(() => {});
-			} else {
+			} else if (!config.disableDbLog) {
 				const Logs = getRepository(Log);
 				Logs.insert({
 					id: genId(),

@@ -61,6 +61,8 @@ export type Source = {
 		port: number;
 	};
 
+	disableDbLog?: boolean;
+
 	mediaProxy?: string;
 
 	signToActivityPubGet?: boolean;
