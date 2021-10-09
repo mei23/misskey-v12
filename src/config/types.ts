@@ -64,6 +64,8 @@ export type Source = {
 	mediaProxy?: string;
 
 	signToActivityPubGet?: boolean;
+
+	minTlsVersion?: string;
 };
 
 /**
