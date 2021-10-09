@@ -63,7 +63,7 @@ import { Antenna } from '@/models/entities/antenna';
 import { AntennaNote } from '@/models/entities/antenna-note';
 import { PromoNote } from '@/models/entities/promo-note';
 import { PromoRead } from '@/models/entities/promo-read';
-import { program } from '../argv';
+import { envOption } from '../env';
 import { Relay } from '@/models/entities/relay';
 import { MutedNote } from '@/models/entities/muted-note';
 import { Channel } from '@/models/entities/channel';
@@ -72,6 +72,7 @@ import { ChannelNotePining } from '@/models/entities/channel-note-pining';
 import { RegistryItem } from '@/models/entities/registry-item';
 import { Ad } from '@/models/entities/ad';
 import { PasswordResetRequest } from '@/models/entities/password-reset-request';
+import { UserPending } from '@/models/entities/user-pending';
 
 const sqlLogger = dbLogger.createSubLogger('sql', 'white', false);
 
@@ -83,8 +84,8 @@ class MyCustomLogger implements Logger {
 	}
 
 	public logQuery(query: string, parameters?: any[]) {
-		if (program.verbose) {
-			sqlLogger.info(this.highlight(query.substr(0, 128)));
+		if (envOption.verbose) {
+			sqlLogger.info(this.highlight(query));
 		}
 	}
 
@@ -173,6 +174,7 @@ export const entities = [
 	RegistryItem,
 	Ad,
 	PasswordResetRequest,
+	UserPending,
 	...charts as any
 ];
 
