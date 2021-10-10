@@ -72,11 +72,14 @@ const wrapedLookup = (hostname: string, options: dns.LookupOptions, callback: (e
 	}
 
 	let family: number | undefined = options.family;
-	if (config.lookupAddressFamily) {
-		if (options.family && config.lookupAddressFamily != options.family) {
+
+	const restricted = config.outgoingAddressFamily === 'ipv4' ? 4 : config.outgoingAddressFamily === 'ipv6' ? 6 : undefined;
+
+	if (restricted) {
+		if (options.family && restricted != options.family) {
 			throw new Error('IPFamily rejected');
 		} else {
-			family = config.lookupAddressFamily;
+			family = restricted;
 		}
 	}
 
