@@ -68,6 +68,8 @@ export type Source = {
 	signToActivityPubGet?: boolean;
 
 	minTlsVersion?: string;
+
+	lookupAddressFamily?: number;
 };
 
 /**

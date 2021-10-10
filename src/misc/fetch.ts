@@ -1,6 +1,7 @@
 import * as http from 'http';
 import * as https from 'https';
-import CacheableLookup from 'cacheable-lookup';
+import * as dns from 'dns';
+import CacheableLookup, { IPFamily } from 'cacheable-lookup';
 import fetch from 'node-fetch';
 import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent';
 import config from '@/config/index';
@@ -65,13 +66,36 @@ const cache = new CacheableLookup({
 	lookup: false,	// nativeのdns.lookupにfallbackしない
 });
 
+const wrapedLookup = (hostname: string, options: dns.LookupOptions, callback: (err: NodeJS.ErrnoException | null, address: string, family: IPFamily) => void): void => {
+	if (options.all) {
+		throw new Error('options.all: true is unexcepted');
+	}
+
+	let family: number | undefined = options.family;
+	if (config.lookupAddressFamily) {
+		if (options.family && config.lookupAddressFamily != options.family) {
+			throw new Error('IPFamily rejected');
+		} else {
+			family = config.lookupAddressFamily;
+		}
+	}
+
+	cache.lookup(hostname, {
+		hints: options.hints,
+		family: family as IPFamily,
+		all: false
+	}, (error, address, family) => {
+		callback(error, address, family);
+	});
+};
+
 /**
  * Get http non-proxy agent
  */
 const _http = new http.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-	lookup: cache.lookup,
+	lookup: wrapedLookup,
 } as http.AgentOptions);
 
 /**
@@ -80,7 +104,7 @@ const _http = new http.Agent({
 const _https = new https.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-	lookup: cache.lookup,
+	lookup: wrapedLookup,
 } as https.AgentOptions);
 
 const maxSockets = Math.max(256, config.deliverJobConcurrency || 128);

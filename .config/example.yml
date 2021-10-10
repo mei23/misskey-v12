@@ -132,3 +132,5 @@ id: 'aid'
 #maxFileSize: 262144000
 
 #minTlsVersion: 'TLSv1.3'
+
+#lookupAddressFamily: 6
