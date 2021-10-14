@@ -180,7 +180,7 @@
 		"pg": "8.7.1",
 		"portscanner": "2.2.0",
 		"postcss": "8.3.9",
-		"postcss-loader": "6.1.1",
+		"postcss-loader": "6.2.0",
 		"prismjs": "1.25.0",
 		"private-ip": "2.2.1",
 		"probe-image-size": "7.2.1",
