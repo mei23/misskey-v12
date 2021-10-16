@@ -164,7 +164,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	darkMode: {
 		where: 'device',
-		default: false
+		default: true
 	},
 	instanceTicker: {
 		where: 'device',
@@ -235,8 +235,8 @@ type Plugin = {
 export class ColdDeviceStorage {
 	public static default = {
 		lightTheme: require('@client/themes/l-light.json5') as Theme,
-		darkTheme: require('@client/themes/d-dark.json5') as Theme,
-		syncDeviceDarkMode: true,
+		darkTheme: require('@client/themes/d-persimmon.json5') as Theme,
+		syncDeviceDarkMode: false,
 		chatOpenBehavior: 'page' as 'page' | 'window' | 'popout',
 		plugins: [] as Plugin[],
 		mediaVolume: 0.5,
