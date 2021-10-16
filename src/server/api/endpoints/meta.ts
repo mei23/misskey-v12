@@ -5,6 +5,7 @@ import { fetchMeta } from '@/misc/fetch-meta';
 import { Ads, Emojis, Users } from '@/models/index';
 import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits';
 import { MoreThan } from 'typeorm';
+import { REPOSITORY_URL } from '@/const';
 
 export const meta = {
 	tags: ['meta'],
@@ -482,7 +483,7 @@ export default define(meta, async (ps, me) => {
 		description: instance.description,
 		langs: instance.langs,
 		tosUrl: instance.ToSUrl,
-		repositoryUrl: instance.repositoryUrl,
+		repositoryUrl: REPOSITORY_URL,
 		feedbackUrl: instance.feedbackUrl,
 
 		secure: config.https != null,
