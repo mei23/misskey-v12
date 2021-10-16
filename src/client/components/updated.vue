@@ -3,7 +3,9 @@
 	<div class="ewlycnyt">
 		<div class="title">{{ $ts.misskeyUpdated }}</div>
 		<div class="version">✨{{ version }}🚀</div>
+		<!--
 		<MkButton full @click="whatIsNew">{{ $ts.whatIsNew }}</MkButton>
+		-->
 		<MkButton primary full @click="$refs.modal.close()">{{ $ts.gotIt }}</MkButton>
 	</div>
 </MkModal>
