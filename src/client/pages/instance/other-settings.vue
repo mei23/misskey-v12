@@ -31,7 +31,6 @@ import FormGroup from '@client/components/debobigego/group.vue';
 import FormSuspense from '@client/components/debobigego/suspense.vue';
 import * as os from '@client/os';
 import * as symbols from '@client/symbols';
-import { fetchInstance } from '@client/instance';
 
 export default defineComponent({
 	components: {
@@ -75,7 +74,7 @@ export default defineComponent({
 				deeplAuthKey: this.deeplAuthKey,
 				deeplIsPro: this.deeplIsPro,
 			}).then(() => {
-				fetchInstance();
+				this.init();
 			});
 		}
 	}

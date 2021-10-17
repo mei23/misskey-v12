@@ -50,6 +50,9 @@ html
 		script
 			include ../boot.js
 
+		script(type='application/json' id='initial-meta').
+			!{initialMeta}
+
 	body
 		noscript: p
 			| JavaScriptを有効にしてください

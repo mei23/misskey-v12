@@ -73,7 +73,6 @@ import FormGroup from '@client/components/debobigego/group.vue';
 import FormSuspense from '@client/components/debobigego/suspense.vue';
 import * as os from '@client/os';
 import * as symbols from '@client/symbols';
-import { fetchInstance } from '@client/instance';
 
 export default defineComponent({
 	components: {
@@ -147,7 +146,7 @@ export default defineComponent({
 				objectStorageSetPublicRead: this.objectStorageSetPublicRead,
 				objectStorageS3ForcePathStyle: this.objectStorageS3ForcePathStyle,
 			}).then(() => {
-				fetchInstance();
+				this.init();
 			});
 		}
 	}

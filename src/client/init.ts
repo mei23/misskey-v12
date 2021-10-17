@@ -30,7 +30,7 @@ import { stream, dialog, post, popup } from '@client/os';
 import * as sound from '@client/scripts/sound';
 import { $i, refreshAccount, login, updateAccount, signout } from '@client/account';
 import { defaultStore, ColdDeviceStorage } from '@client/store';
-import { fetchInstance, instance } from '@client/instance';
+import { instance } from '@client/instance';
 import { makeHotkey } from '@client/scripts/hotkey';
 import { search } from '@client/scripts/search';
 import { isMobile } from '@client/scripts/is-mobile';
@@ -153,12 +153,10 @@ if ($i && $i.token) {
 }
 //#endregion
 
-fetchInstance().then(() => {
-	localStorage.setItem('v', instance.version);
+localStorage.setItem('v', instance.version);
 
-	// Init service worker
-	initializeSw();
-});
+// Init service worker
+initializeSw();
 
 const app = createApp(await (
 	window.location.search === '?zen' ? import('@client/ui/zen.vue') :

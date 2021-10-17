@@ -69,7 +69,6 @@ import FormInfo from '@client/components/debobigego/info.vue';
 import FormSuspense from '@client/components/debobigego/suspense.vue';
 import * as os from '@client/os';
 import * as symbols from '@client/symbols';
-import { fetchInstance } from '@client/instance';
 
 export default defineComponent({
 	components: {
@@ -143,7 +142,7 @@ export default defineComponent({
 				disableGlobalTimeline: !this.enableGlobalTimeline,
 				pinnedUsers: this.pinnedUsers.split('\n'),
 			}).then(() => {
-				fetchInstance();
+				this.init();
 			});
 		}
 	}

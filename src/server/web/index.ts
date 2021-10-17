@@ -25,6 +25,8 @@ import { getNoteSummary } from '@/misc/get-note-summary';
 import { getConnection } from 'typeorm';
 import { redisClient } from '../../db/redis';
 import * as locales from '../../../locales/index';
+import { buildMeta } from '../api/endpoints/meta';
+const htmlescape = require('htmlescape');
 
 //const _filename = fileURLToPath(import.meta.url);
 const _filename = __filename;
@@ -40,6 +42,10 @@ function genDoc(path: string): string {
 	md = md.replace('<!--[CHANGELOG]-->', changelog);
 	return md;
 }
+
+const buildInitialMeta = async () => {
+	return htmlescape(await buildMeta({ detail: false, admin: false }));
+};
 
 const staticAssets = `${_dirname}/../../../assets/`;
 const docAssets = `${_dirname}/../../../src/docs/`;
@@ -262,6 +268,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			: [];
 
 		await ctx.render('user', {
+			initialMeta: await buildInitialMeta(),
 			user, profile, me,
 			sub: ctx.params.sub,
 			instanceName: meta.name || 'Misskey',
@@ -295,6 +302,7 @@ router.get('/notes/:note', async (ctx, next) => {
 		const profile = await UserProfiles.findOneOrFail(note.userId);
 		const meta = await fetchMeta();
 		await ctx.render('note', {
+			initialMeta: await buildInitialMeta(),
 			note: _note,
 			profile,
 			// TODO: Let locale changeable by instance setting
@@ -335,6 +343,7 @@ router.get('/@:user/pages/:page', async (ctx, next) => {
 		const profile = await UserProfiles.findOneOrFail(page.userId);
 		const meta = await fetchMeta();
 		await ctx.render('page', {
+			initialMeta: await buildInitialMeta(),
 			page: _page,
 			profile,
 			instanceName: meta.name || 'Misskey'
@@ -364,6 +373,7 @@ router.get('/clips/:clip', async (ctx, next) => {
 		const profile = await UserProfiles.findOneOrFail(clip.userId);
 		const meta = await fetchMeta();
 		await ctx.render('clip', {
+			initialMeta: await buildInitialMeta(),
 			clip: _clip,
 			profile,
 			instanceName: meta.name || 'Misskey'
@@ -386,6 +396,7 @@ router.get('/gallery/:post', async (ctx, next) => {
 		const profile = await UserProfiles.findOneOrFail(post.userId);
 		const meta = await fetchMeta();
 		await ctx.render('gallery-post', {
+			initialMeta: await buildInitialMeta(),
 			post: _post,
 			profile,
 			instanceName: meta.name || 'Misskey',
@@ -410,6 +421,7 @@ router.get('/channels/:channel', async (ctx, next) => {
 		const _channel = await Channels.pack(channel);
 		const meta = await fetchMeta();
 		await ctx.render('channel', {
+			initialMeta: await buildInitialMeta(),
 			channel: _channel,
 			instanceName: meta.name || 'Misskey'
 		});
@@ -482,6 +494,7 @@ router.get('/streaming', async ctx => {
 router.get('(.*)', async ctx => {
 	const meta = await fetchMeta();
 	await ctx.render('base', {
+		initialMeta: await buildInitialMeta(),
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',

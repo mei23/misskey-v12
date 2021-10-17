@@ -450,6 +450,13 @@ export const meta = {
 };
 
 export default define(meta, async (ps, me) => {
+	return await buildMeta({
+		detail: ps.detail,
+		admin: me && me.isAdmin
+	});
+});
+
+export async function buildMeta(opts: { detail: boolean, admin: boolean }) {
 	const instance = await fetchMeta(true);
 
 	const emojis = await Emojis.find({
@@ -524,7 +531,7 @@ export default define(meta, async (ps, me) => {
 
 		translatorAvailable: instance.deeplAuthKey != null,
 
-		...(ps.detail ? {
+		...(opts.detail ? {
 			pinnedPages: instance.pinnedPages,
 			pinnedClipId: instance.pinnedClipId,
 			cacheRemoteFiles: instance.cacheRemoteFiles,
@@ -535,7 +542,7 @@ export default define(meta, async (ps, me) => {
 		} : {})
 	};
 
-	if (ps.detail) {
+	if (opts.detail) {
 		const proxyAccount = instance.proxyAccountId ? await Users.pack(instance.proxyAccountId).catch(() => null) : null;
 
 		response.proxyAccountName = proxyAccount ? proxyAccount.username : null;
@@ -555,7 +562,7 @@ export default define(meta, async (ps, me) => {
 			miauth: true,
 		};
 
-		if (me && me.isAdmin) {
+		if (opts.admin) {
 			response.useStarForReactionFallback = instance.useStarForReactionFallback;
 			response.pinnedUsers = instance.pinnedUsers;
 			response.hiddenTags = instance.hiddenTags;
@@ -596,4 +603,4 @@ export default define(meta, async (ps, me) => {
 	}
 
 	return response;
-});
+}
