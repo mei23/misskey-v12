@@ -27,8 +27,7 @@ export default defineComponent({
 			default: false
 		},
 		customEmojis: {
-			required: false,
-			default: () => undefined
+			required: false
 		},
 		isReaction: {
 			type: Boolean,
