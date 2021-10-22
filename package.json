@@ -49,7 +49,7 @@
 		"@types/dateformat": "3.0.1",
 		"@types/escape-regexp": "0.0.0",
 		"@types/fluent-ffmpeg": "2.1.18",
-		"@types/glob": "7.1.4",
+		"@types/glob": "7.2.0",
 		"@types/gulp": "4.0.9",
 		"@types/gulp-rename": "2.0.1",
 		"@types/is-url": "1.2.30",
