@@ -205,7 +205,7 @@
 		"rndstr": "1.0.0",
 		"s-age": "1.1.2",
 		"sass": "1.43.3",
-		"sass-loader": "12.2.0",
+		"sass-loader": "12.3.0",
 		"seedrandom": "3.0.5",
 		"sharp": "0.29.2",
 		"speakeasy": "2.0.0",
