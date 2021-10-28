@@ -7,7 +7,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x, 16.x]
 
     services:
       postgres:
@@ -38,6 +38,8 @@ jobs:
       run: cp test/test.yml .config
     - name: Build
       run: yarn build
+    - name: Check webpack process
+      run: ls built/meta.json
     - name: Test
       run: yarn test
 
