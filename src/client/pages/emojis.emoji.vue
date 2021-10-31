@@ -13,6 +13,7 @@ import { defineComponent } from 'vue';
 import * as os from '@client/os';
 import copyToClipboard from '@client/scripts/copy-to-clipboard';
 import VanillaTilt from 'vanilla-tilt';
+import { url } from '@client/config';
 
 export default defineComponent({
 	props: {
@@ -43,6 +44,29 @@ export default defineComponent({
 				icon: 'fas fa-copy',
 				action: () => {
 					copyToClipboard(`:${this.emoji.name}:`);
+					os.success();
+				}
+			}, {
+				text: 'リモートに飛ばす',
+				icon: 'fas fa-copy',
+				action: async () => {
+					const { canceled, result: acct } = await os.dialog({
+						title: 'アカウント入れて',
+						input: {
+							placeholder: 'user@example.com',
+						},
+					});
+
+					if (canceled) return;
+
+					const res = await os.api('ap/interact' as any, {
+						acct
+					});
+
+					const template = res.template as string;
+					console.log(template.replace('{uri}', `${url}/emojis/${this.emoji.name}`));
+					window.open(template.replace('{uri}', `${url}/emojis/${this.emoji.name}`), '_blank');
+
 					os.success();
 				}
 			}], ev.currentTarget || ev.target);
