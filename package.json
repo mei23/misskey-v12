@@ -253,7 +253,7 @@
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.65",
 		"cross-env": "7.0.3",
-		"cypress": "8.5.0",
+		"cypress": "8.7.0",
 		"start-server-and-test": "1.14.0"
 	}
 }
