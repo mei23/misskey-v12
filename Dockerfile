@@ -8,13 +8,13 @@ ENV BUILD_DEPS autoconf automake file g++ gcc libc-dev libtool make nasm pkgconf
 
 FROM base AS builder
 
-RUN apk add --no-cache $BUILD_DEPS
-
 COPY . ./
 
-RUN git submodule update --init
-RUN yarn install
-RUN yarn build
+RUN apk add --no-cache $BUILD_DEPS && \
+    git submodule update --init && \
+    yarn install && \
+    yarn build && \
+    rm -rf .git
 
 FROM base AS runner
 
