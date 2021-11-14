@@ -69,7 +69,7 @@
 		"css-loader": "6.5.1",
 		"cssnano": "5.0.10",
 		"date-fns": "2.25.0",
-		"dateformat": "4.5.1",
+		"dateformat": "5.0.2",
 		"escape-regexp": "0.0.1",
 		"eslint": "8.2.0",
 		"eslint-plugin-vue": "8.0.3",
