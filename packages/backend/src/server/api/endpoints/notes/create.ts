@@ -1,5 +1,5 @@
 import $ from 'cafy';
-import ms from 'ms';
+import * as ms from 'ms';
 import { length } from 'stringz';
 import create from '@/services/note/create';
 import define from '../../define';

@@ -1,4 +1,4 @@
-import ms from 'ms';
+import * as ms from 'ms';
 import $ from 'cafy';
 import { ID } from '@/misc/cafy-id';
 import create from '@/services/drive/add-file';

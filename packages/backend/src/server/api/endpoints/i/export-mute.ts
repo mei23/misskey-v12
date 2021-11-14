@@ -1,6 +1,6 @@
 import define from '../../define';
 import { createExportMuteJob } from '@/queue/index';
-import ms from 'ms';
+import * as ms from 'ms';
 
 export const meta = {
 	secure: true,

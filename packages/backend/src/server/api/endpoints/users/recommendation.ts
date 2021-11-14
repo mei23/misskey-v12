@@ -1,4 +1,4 @@
-import ms from 'ms';
+import * as ms from 'ms';
 import $ from 'cafy';
 import define from '../../define';
 import { Users, Followings } from '@/models/index';
