@@ -150,7 +150,7 @@
 		"ws": "8.2.3"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.54",
+		"@redocly/openapi-core": "1.0.0-beta.67",
 		"@types/fluent-ffmpeg": "2.1.20",
 		"cross-env": "7.0.3",
 		"cypress": "8.5.0",
