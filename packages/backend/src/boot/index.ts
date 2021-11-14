@@ -1,5 +1,6 @@
 import * as cluster from 'cluster';
 import * as chalk from 'chalk';
+import * as tls from 'tls';
 import Xev from 'xev';
 
 import Logger from '@/services/logger';
@@ -9,6 +10,7 @@ import { envOption } from '../env';
 import 'reflect-metadata';
 import { masterMain } from './master';
 import { workerMain } from './worker';
+import config from '@/config';
 
 const logger = new Logger('core', 'cyan');
 const clusterLogger = logger.createSubLogger('cluster', 'orange', false);
@@ -18,6 +20,10 @@ const ev = new Xev();
  * Init process
  */
 export default async function() {
+	if (config.minTlsVersion) {
+		(tls as any).DEFAULT_MIN_VERSION = config.minTlsVersion;
+	}
+
 	process.title = `Misskey (${cluster.isPrimary ? 'master' : 'worker'})`;
 
 	if (cluster.isPrimary || envOption.disableClustering) {

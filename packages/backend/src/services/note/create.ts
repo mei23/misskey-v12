@@ -243,18 +243,18 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	// TODO: cache
 	UserProfiles.find({
 		enableWordMute: true
-	}).then(us => {
+	}).then(async us => {
 		for (const u of us) {
-			checkWordMute(note, { id: u.userId }, u.mutedWords).then(shouldMute => {
+			await checkWordMute(note, { id: u.userId }, u.mutedWords).then(async shouldMute => {
 				if (shouldMute) {
-					MutedNotes.insert({
+					await MutedNotes.insert({
 						id: genId(),
 						userId: u.userId,
 						noteId: note.id,
 						reason: 'word',
 					});
 				}
-			});
+			}).catch(() => {});
 		}
 	});
 
@@ -277,12 +277,12 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 
 	// Channel
 	if (note.channelId) {
-		ChannelFollowings.find({ followeeId: note.channelId }).then(followings => {
+		ChannelFollowings.find({ followeeId: note.channelId }).then(async followings => {
 			for (const following of followings) {
-				insertNoteUnread(following.followerId, note, {
+				await insertNoteUnread(following.followerId, note, {
 					isSpecified: false,
 					isMentioned: false,
-				});
+				}).catch(() => {});
 			}
 		});
 	}

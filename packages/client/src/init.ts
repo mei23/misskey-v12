@@ -272,7 +272,9 @@ watch(lightTheme, (theme) => {
 
 //#region Sync dark mode
 if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
-	defaultStore.set('darkMode', isDeviceDarkmode());
+	if (!defaultStore.state.darkMode) {
+		defaultStore.set('darkMode', isDeviceDarkmode());
+	}
 }
 
 window.matchMedia('(prefers-color-scheme: dark)').addListener(mql => {

@@ -5,6 +5,7 @@
 const fs = require('fs');
 const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
+const TerserPlugin = require('terser-webpack-plugin');
 
 class WebpackOnBuildPlugin {
 	constructor(callback) {
@@ -186,6 +187,11 @@ module.exports = {
 	},
 	experiments: {
 		topLevelAwait: true
+	},
+	optimization: {
+		minimizer: [new TerserPlugin({
+			parallel: 1
+		})]
 	},
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
