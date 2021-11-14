@@ -32,8 +32,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: yarn install
-    - name: Check yarn.lock
-      run: git diff --exit-code yarn.lock
+    - run: git diff --exit-code yarn.lock
+    - run: git diff --exit-code packages/backend/yarn.lock
+    - run: git diff --exit-code packages/client/yarn.lock
     - name: Copy Configure
       run: cp .github/misskey/test.yml .config
     - name: Build
