@@ -12,7 +12,7 @@
 		"@discordapp/twemoji": "13.1.0",
 		"@elastic/elasticsearch": "7.11.0",
 		"@sentry/browser": "5.29.2",
-		"@sentry/tracing": "5.29.2",
+		"@sentry/tracing": "6.15.0",
 		"@sinonjs/fake-timers": "7.1.2",
 		"@syuilo/aiscript": "0.11.1",
 		"@types/dateformat": "3.0.1",
