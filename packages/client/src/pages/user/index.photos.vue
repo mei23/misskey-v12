@@ -3,16 +3,16 @@
 	<template #header><i class="fas fa-image" style="margin-right: 0.5em;"></i>{{ $ts.images }}</template>
 	<div class="ujigsodd">
 		<MkLoading v-if="fetching"/>
-		<div class="stream" v-if="!fetching && images.length > 0">
+		<div v-if="!fetching && images.length > 0" class="stream">
 			<MkA v-for="image in images"
+				:key="image.id"
 				class="img"
 				:to="notePage(image.note)"
-				:key="image.id"
 			>
 				<ImgWithBlurhash :hash="image.blurhash" :src="thumbnail(image.file)" :alt="image.name" :title="image.name"/>
 			</MkA>
 		</div>
-		<p class="empty" v-if="!fetching && images.length == 0">{{ $ts.nothing }}</p>
+		<p v-if="!fetching && images.length == 0" class="empty">{{ $ts.nothing }}</p>
 	</div>
 </MkContainer>
 </template>
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { getStaticImageUrl } from '@/scripts/get-static-image-url';
-import notePage from '@/filters/note';
+import { notePage } from '@/filters/note';
 import * as os from '@/os';
 import MkContainer from '@/components/ui/container.vue';
 import ImgWithBlurhash from '@/components/img-with-blurhash.vue';

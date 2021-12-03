@@ -8,17 +8,17 @@
 	@click.prevent="toggle"
 >
 	<input
-		type="checkbox"
 		ref="input"
+		type="checkbox"
 		:disabled="disabled"
 		@keydown.enter="toggle"
 	>
-	<span class="button" v-tooltip="checked ? $ts.itsOn : $ts.itsOff">
+	<span v-tooltip="checked ? $ts.itsOn : $ts.itsOff" class="button">
 		<span class="handle"></span>
 	</span>
 	<span class="label">
 		<span><slot></slot></span>
-		<p><slot name="caption"></slot></p>
+		<p class="caption"><slot name="caption"></slot></p>
 	</span>
 </div>
 </template>
@@ -118,10 +118,14 @@ export default defineComponent({
 			transition: inherit;
 		}
 
-		> p {
-			margin: 0;
+		> .caption {
+			margin: 8px 0 0 0;
 			color: var(--fgTransparentWeak);
-			font-size: 90%;
+			font-size: 0.85em;
+
+			&:empty {
+				display: none;
+			}
 		}
 	}
 

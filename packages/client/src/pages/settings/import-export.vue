@@ -1,5 +1,5 @@
 <template>
-<div style="margin: 16px;">
+<div class="_formRoot">
 	<FormSection>
 		<template #label>{{ $ts._exportOrImport.allNotes }}</template>
 		<MkButton :class="$style.button" inline @click="doExport('notes')"><i class="fas fa-download"></i> {{ $ts.export }}</MkButton>
@@ -67,12 +67,12 @@ export default defineComponent({
 				target === 'muting' ? 'i/export-mute' :
 				null, {})
 			.then(() => {
-				os.dialog({
+				os.alert({
 					type: 'info',
 					text: this.$ts.exportRequested
 				});
 			}).catch((e: any) => {
-				os.dialog({
+				os.alert({
 					type: 'error',
 					text: e.message
 				});
@@ -90,12 +90,12 @@ export default defineComponent({
 				null, {
 					fileId: file.id
 			}).then(() => {
-				os.dialog({
+				os.alert({
 					type: 'info',
 					text: this.$ts.importRequested
 				});
 			}).catch((e: any) => {
-				os.dialog({
+				os.alert({
 					type: 'error',
 					text: e.message
 				});

@@ -1,15 +1,15 @@
 <template>
 <button v-if="canRenote"
+	ref="buttonRef"
 	class="eddddedb _button canRenote"
 	@click="renote()"
 	@touchstart.passive="onMouseover"
 	@mouseover="onMouseover"
 	@mouseleave="onMouseleave"
 	@touchend="onMouseleave"
-	ref="buttonRef"
 >
 	<i class="fas fa-retweet"></i>
-	<p class="count" v-if="count > 0">{{ count }}</p>
+	<p v-if="count > 0" class="count">{{ count }}</p>
 </button>
 <button v-else class="eddddedb _button">
 	<i class="fas fa-ban"></i>
@@ -48,9 +48,7 @@ export default defineComponent({
 				limit: 11
 			});
 
-			const users = renotes
-				.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-				.map(x => x.user);
+			const users = renotes.map(x => x.user);
 
 			if (users.length < 1) return;
 

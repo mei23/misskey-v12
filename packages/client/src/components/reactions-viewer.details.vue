@@ -1,12 +1,12 @@
 <template>
-<MkTooltip :source="source" ref="tooltip" @closed="$emit('closed')" :max-width="340">
+<MkTooltip ref="tooltip" :source="source" :max-width="340" @closed="$emit('closed')">
 	<div class="bqxuuuey">
 		<div class="reaction">
 			<XReactionIcon :reaction="reaction" :custom-emojis="emojis" class="icon" :no-style="true"/>
 			<div class="name">{{ reaction.replace('@.', '') }}</div>
 		</div>
 		<div class="users">
-			<div class="user" v-for="u in users" :key="u.id">
+			<div v-for="u in users" :key="u.id" class="user">
 				<MkAvatar class="avatar" :user="u"/>
 				<MkUserName class="name" :user="u" :nowrap="true"/>
 			</div>
@@ -62,6 +62,7 @@ export default defineComponent({
 		> .icon {
 			display: block;
 			width: 60px;
+			font-size: 60px; // unicodeな絵文字についてはwidthが効かないため
 			margin: 0 auto;
 		}
 

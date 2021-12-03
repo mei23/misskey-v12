@@ -14,21 +14,17 @@ export function getUserMenu(user) {
 		const t = i18n.locale.selectList; // なぜか後で参照すると null になるので最初にメモリに確保しておく
 		const lists = await os.api('users/lists/list');
 		if (lists.length === 0) {
-			os.dialog({
+			os.alert({
 				type: 'error',
 				text: i18n.locale.youHaveNoLists
 			});
 			return;
 		}
-		const { canceled, result: listId } = await os.dialog({
-			type: null,
+		const { canceled, result: listId } = await os.select({
 			title: t,
-			select: {
-				items: lists.map(list => ({
-					value: list.id, text: list.name
-				}))
-			},
-			showCancelButton: true
+			items: lists.map(list => ({
+				value: list.id, text: list.name
+			}))
 		});
 		if (canceled) return;
 		os.apiWithDialog('users/lists/push', {
@@ -40,21 +36,17 @@ export function getUserMenu(user) {
 	async function inviteGroup() {
 		const groups = await os.api('users/groups/owned');
 		if (groups.length === 0) {
-			os.dialog({
+			os.alert({
 				type: 'error',
 				text: i18n.locale.youHaveNoGroups
 			});
 			return;
 		}
-		const { canceled, result: groupId } = await os.dialog({
-			type: null,
+		const { canceled, result: groupId } = await os.select({
 			title: i18n.locale.group,
-			select: {
-				items: groups.map(group => ({
-					value: group.id, text: group.name
-				}))
-			},
-			showCancelButton: true
+			items: groups.map(group => ({
+				value: group.id, text: group.name
+			}))
 		});
 		if (canceled) return;
 		os.apiWithDialog('users/groups/invite', {
@@ -108,14 +100,21 @@ export function getUserMenu(user) {
 	}
 
 	async function getConfirmed(text: string): Promise<boolean> {
-		const confirm = await os.dialog({
+		const confirm = await os.confirm({
 			type: 'warning',
-			showCancelButton: true,
 			title: 'confirm',
 			text,
 		});
 
 		return !confirm.canceled;
+	}
+
+	async function invalidateFollow() {
+		os.apiWithDialog('following/invalidate', {
+			userId: user.id
+		}).then(() => {
+			user.isFollowed = !user.isFollowed;
+		})
 	}
 
 	let menu = [{
@@ -161,6 +160,14 @@ export function getUserMenu(user) {
 			text: user.isBlocking ? i18n.locale.unblock : i18n.locale.block,
 			action: toggleBlock
 		}]);
+
+		if (user.isFollowed) {
+			menu = menu.concat([{
+				icon: 'fas fa-unlink',
+				text: i18n.locale.breakFollow,
+				action: invalidateFollow
+			}]);
+		}
 
 		menu = menu.concat([null, {
 			icon: 'fas fa-exclamation-circle',
