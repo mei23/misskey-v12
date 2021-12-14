@@ -2042,7 +2042,7 @@ commander@^7.2.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
-commander@^8.2.0:
+commander@^8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
@@ -5231,10 +5231,10 @@ multer@1.4.3:
     type-is "^1.6.4"
     xtend "^4.0.0"
 
-mylas@^2.1.4:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/mylas/-/mylas-2.1.5.tgz#7ccf41ec5a93ab2d63fc3678abf1942c0e7bdeb1"
-  integrity sha512-7ZyrJux1lipSR45IxDvWz7zJOXWTazTFCqD4/p8XBF4O+mtJwf7QpMWTH+jE4lV9O2I38xcpS0KTIp7GwhUTmA==
+mylas@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/mylas/-/mylas-2.1.6.tgz#40f3ac6faf77b966c2c2f7b9c0d21ea65b3d9800"
+  integrity sha512-5ggCu4hVRJZE6NpQ309y6ArykK5vujK6LfSAXvsrmBNSX/9Gfq7D9zjxhHyjSR/sbFzCe2hI9LO1EY9KXv/XkQ==
 
 mz@^2.4.0, mz@^2.7.0:
   version "2.7.0"
@@ -7637,16 +7637,16 @@ ts-node@10.4.0:
     make-error "^1.1.1"
     yn "3.1.1"
 
-tsc-alias@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.4.1.tgz#6a6075dd94267d9befdad1431f410bd0b8819805"
-  integrity sha512-nHTR8qvM/LiYI8Fx6UrzAQXRngAuE2PEK+n9uXmQY6fN+oLZhweNFkCLbyxKDmlLfYnclSuaR+dSuvRd7FUu8Q==
+tsc-alias@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/tsc-alias/-/tsc-alias-1.5.0.tgz#bc26f8dccf96e4ea350adc3f64ad3d2325cad967"
+  integrity sha512-Pb3y7ZjULKFHEV2US5dS58/hV76sE9Sn5iehiPjYqHcm/lx4eCGAJYoSmrVXQMPX+6baTnDFJD0MGOyqn94dIg==
   dependencies:
     chokidar "^3.5.2"
-    commander "^8.2.0"
+    commander "^8.3.0"
     find-node-modules "^2.1.2"
     globby "^11.0.4"
-    mylas "^2.1.4"
+    mylas "^2.1.6"
     normalize-path "^3.0.0"
 
 tsconfig-paths@3.11.0, tsconfig-paths@^3.11.0:
