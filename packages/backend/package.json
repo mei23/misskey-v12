@@ -93,7 +93,7 @@
 		"chartjs-plugin-zoom": "1.1.1",
 		"cli-highlight": "2.1.11",
 		"compare-versions": "3.6.0",
-		"concurrently": "6.3.0",
+		"concurrently": "6.5.1",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
 		"css-loader": "6.5.1",
