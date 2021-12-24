@@ -191,7 +191,7 @@
 		"xev": "2.0.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.67",
+		"@redocly/openapi-core": "1.0.0-beta.75",
 		"@types/fluent-ffmpeg": "2.1.17",
 		"cross-env": "7.0.3",
 		"execa": "6.0.0"
