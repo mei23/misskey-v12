@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@discordapp/twemoji": "13.1.0",
-		"@sentry/browser": "5.29.2",
+		"@sentry/browser": "6.16.1",
 		"@sentry/tracing": "5.29.2",
 		"@syuilo/aiscript": "0.11.1",
 		"@types/dateformat": "3.0.1",
