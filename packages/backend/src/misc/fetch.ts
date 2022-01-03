@@ -13,9 +13,9 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		method: 'GET',
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
-			Accept: accept
+			Accept: accept,
 		}, headers || {}),
-		timeout
+		timeout,
 	});
 
 	return await res.json();
@@ -27,9 +27,9 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 		method: 'GET',
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
-			Accept: accept
+			Accept: accept,
 		}, headers || {}),
-		timeout
+		timeout,
 	});
 
 	return await res.text();
@@ -122,7 +122,7 @@ export const httpAgent = config.proxy
 		maxSockets,
 		maxFreeSockets: 256,
 		scheduling: 'lifo',
-		proxy: config.proxy
+		proxy: config.proxy,
 	})
 	: _http;
 
@@ -136,7 +136,7 @@ export const httpsAgent = config.proxy
 		maxSockets,
 		maxFreeSockets: 256,
 		scheduling: 'lifo',
-		proxy: config.proxy
+		proxy: config.proxy,
 	})
 	: _https;
 

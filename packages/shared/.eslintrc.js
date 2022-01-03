@@ -56,10 +56,12 @@ module.exports = {
 		'object-curly-spacing': ['error', 'always'],
 		'space-infix-ops': ['error'],
 		'space-before-blocks': ['error', 'always'],
+		'@typescript-eslint/no-unnecessary-condition': ['error'],
 		'@typescript-eslint/no-var-requires': ['warn'],
 		'@typescript-eslint/no-inferrable-types': ['warn'],
 		'@typescript-eslint/no-empty-function': ['off'],
 		'@typescript-eslint/no-non-null-assertion': ['warn'],
+		'@typescript-eslint/explicit-function-return-type': ['warn'],
 		'@typescript-eslint/no-misused-promises': ['error', {
 			'checksVoidReturn': false,
 		}],

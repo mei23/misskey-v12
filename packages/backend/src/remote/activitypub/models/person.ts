@@ -245,7 +245,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 		avatarUrl,
 		bannerUrl,
 		avatarBlurhash,
-		bannerBlurhash
+		bannerBlurhash,
 	});
 
 	user!.avatarId = avatarId;
@@ -428,7 +428,7 @@ const services: {
 	} = {
 	'misskey:authentication:twitter': (userId, screenName) => ({ userId, screenName }),
 	'misskey:authentication:github': (id, login) => ({ id, login }),
-	'misskey:authentication:discord': (id, name) => $discord(id, name)
+	'misskey:authentication:discord': (id, name) => $discord(id, name),
 };
 
 const $discord = (id: string, name: string) => {

@@ -12,23 +12,11 @@ import { resolve } from '@/router';
 import { $i } from '@/account';
 import { defaultStore } from '@/store';
 
-export let isScreenTouching = false;
-
-window.addEventListener('touchstart', () => {
-	isScreenTouching = true;
-}, { passive: true });
-
-window.addEventListener('touchend', () => {
-	isScreenTouching = false;
-}, { passive: true });
-
 export const stream = markRaw(new Misskey.Stream(url, $i));
 
 export const pendingApiRequestsCount = ref(0);
 let apiRequestsCount = 0; // for debug
 export const apiRequests = ref([]); // for debug
-
-export const windows = new Map();
 
 const apiClient = new Misskey.api.APIClient({
 	origin: url,
@@ -174,6 +162,16 @@ export const popups = ref([]) as Ref<{
 	props: Record<string, any>;
 }[]>;
 
+const zIndexes = {
+	low: 1000000,
+	middle: 2000000,
+	high: 3000000,
+};
+export function claimZIndex(priority: 'low' | 'middle' | 'high' = 'low'): number {
+	zIndexes[priority] += 100;
+	return zIndexes[priority];
+}
+
 export async function popup(component: Component | typeof import('*.vue') | Promise<Component | typeof import('*.vue')>, props: Record<string, any>, events = {}, disposeEvent?: string) {
 	if (component.then) component = await component;
 
@@ -182,7 +180,6 @@ export async function popup(component: Component | typeof import('*.vue') | Prom
 
 	const id = ++popupIdCount;
 	const dispose = () => {
-		if (_DEV_) console.log('os:popup close', id, component, props, events);
 		// このsetTimeoutが無いと挙動がおかしくなる(autocompleteが閉じなくなる)。Vueのバグ？
 		setTimeout(() => {
 			popups.value = popups.value.filter(popup => popup.id !== id);
@@ -198,7 +195,6 @@ export async function popup(component: Component | typeof import('*.vue') | Prom
 		id,
 	};
 
-	if (_DEV_) console.log('os:popup open', id, component, props, events);
 	popups.value.push(state);
 
 	return {
@@ -225,7 +221,9 @@ export function modalPageWindow(path: string) {
 }
 
 export function toast(message: string) {
-	// TODO
+	popup(import('@/components/toast.vue'), {
+		message
+	}, {}, 'closed');
 }
 
 export function alert(props: {

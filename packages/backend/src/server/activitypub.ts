@@ -70,7 +70,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	const note = await Notes.findOne({
 		id: ctx.params.note,
 		visibility: In(['public', 'home']),
-		localOnly: false
+		localOnly: false,
 	});
 
 	if (note == null) {
@@ -99,7 +99,7 @@ router.get('/notes/:note/activity', async ctx => {
 		id: ctx.params.note,
 		userHost: null,
 		visibility: In(['public', 'home']),
-		localOnly: false
+		localOnly: false,
 	});
 
 	if (note == null) {
@@ -130,7 +130,7 @@ router.get('/users/:user/publickey', async ctx => {
 
 	const user = await Users.findOne({
 		id: userId,
-		host: null
+		host: null,
 	});
 
 	if (user == null) {
@@ -169,7 +169,7 @@ router.get('/users/:user', async (ctx, next) => {
 	const user = await Users.findOne({
 		id: userId,
 		host: null,
-		isSuspended: false
+		isSuspended: false,
 	});
 
 	await userInfo(ctx, user);
@@ -181,7 +181,7 @@ router.get('/@:user', async (ctx, next) => {
 	const user = await Users.findOne({
 		usernameLower: ctx.params.user.toLowerCase(),
 		host: null,
-		isSuspended: false
+		isSuspended: false,
 	});
 
 	await userInfo(ctx, user);
@@ -192,7 +192,7 @@ router.get('/@:user', async (ctx, next) => {
 router.get('/emojis/:emoji', async ctx => {
 	const emoji = await Emojis.findOne({
 		host: null,
-		name: ctx.params.emoji
+		name: ctx.params.emoji,
 	});
 
 	if (emoji == null) {
