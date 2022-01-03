@@ -47,7 +47,7 @@
 		"@vue/compiler-sfc": "3.2.26",
 		"abort-controller": "3.0.0",
 		"autobind-decorator": "2.4.0",
-		"autosize": "4.0.4",
+		"autosize": "5.0.1",
 		"autwh": "0.1.0",
 		"blurhash": "1.1.4",
 		"broadcast-channel": "4.9.0",
