@@ -9,19 +9,6 @@ jobs:
       matrix:
         node-version: [14.x, 16.x]
 
-    services:
-      postgres:
-        image: postgres:12.2-alpine
-        ports:
-          - 54312:5432
-        env:
-          POSTGRES_DB: test-misskey
-          POSTGRES_HOST_AUTH_METHOD: trust
-      redis:
-        image: redis:4.0-alpine
-        ports:
-          - 56312:6379
-
     steps:
     - uses: actions/checkout@v2
       with:
@@ -41,5 +28,3 @@ jobs:
       run: yarn build
     - name: Check webpack process
       run: ls built/meta.json
-    - name: Test
-      run: yarn test
