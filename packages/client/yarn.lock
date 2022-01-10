@@ -187,10 +187,10 @@
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-"@redocly/openapi-core@1.0.0-beta.67":
-  version "1.0.0-beta.67"
-  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.67.tgz#d2687319e28754b8908048f9dead5033c6473f64"
-  integrity sha512-xH9Dl4D2VbXh7qMv1x7oQPfE9FpQsSjjJCe8QzRBF6aiTQFcxCB9LG4msa3Ym5KQuGkCDMyQXuA5oPTtzDooRQ==
+"@redocly/openapi-core@1.0.0-beta.78":
+  version "1.0.0-beta.78"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.78.tgz#3e0ab6b3813a01d9996e76303c3cda11ab501cce"
+  integrity sha512-yZEJa5dPUP6kjq2M1hZm+YQU0kVZRTZkED3H6pmJNlueRTu5C5KlZPhHTn9xx37xHB0iYpSLw6Ajtcx055EAhA==
   dependencies:
     "@redocly/ajv" "^8.6.4"
     "@types/node" "^14.11.8"
@@ -472,12 +472,7 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*":
-  version "16.6.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.2.tgz#331b7b9f8621c638284787c5559423822fdffc50"
-  integrity sha512-LSw8TZt12ZudbpHc6EkIyDM3nHVWKYrAvGy6EAJfNfjusbwnThqjqxUKKRwuV3iWYeW/LYMzNgaq3MaLffQ2xA==
-
-"@types/node@16.11.12":
+"@types/node@*", "@types/node@16.11.12":
   version "16.11.12"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.12.tgz#ac7fb693ac587ee182c3780c26eb65546a1a3c10"
   integrity sha512-+2Iggwg7PxoO5Kyhvsq9VarmPbIelXP070HMImEpbtGCoyWNINQj4wzjbQCXzdHTRXnqufutJb5KAURZANNBAw==
