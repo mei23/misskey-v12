@@ -3949,10 +3949,10 @@ minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-misskey-js@0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.10.tgz#f305dd37cecfbaeb7a277d5e0c769ca12c6eb9a6"
-  integrity sha512-2rdqFrCOwggMKYitsUPyupesqCNpNooqEHQQRfdjttbhiqLbNFJE1UuWQ04ffmiJ08UJt+1ZN2kVAYNEN3HRsg==
+misskey-js@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/misskey-js/-/misskey-js-0.0.12.tgz#c8fc2fc823c69b0b7d1cb153a5a29afc33f0ff4d"
+  integrity sha512-Aq74/XskxaFN5CeCLeKPp5UP/xTFHvVnOV677G/zoSIShJRTeLsN5YnzwFpOVI2KN21JQ/ExesKDLoWlvQHtNA==
   dependencies:
     autobind-decorator "^2.4.0"
     eventemitter3 "^4.0.7"
