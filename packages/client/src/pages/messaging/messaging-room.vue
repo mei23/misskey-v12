@@ -11,7 +11,7 @@
 			<button v-show="existMoreMessages" ref="loadMore" class="more _button" :class="{ fetching: fetchingMoreMessages }" :disabled="fetchingMoreMessages" @click="fetchMoreMessages">
 				<template v-if="fetchingMoreMessages"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>{{ fetchingMoreMessages ? $ts.loading : $ts.loadMore }}
 			</button>
-			<XList v-slot="{ item: message }" class="messages" :items="messages" direction="up" reversed>
+			<XList v-if="messages.length > 0" v-slot="{ item: message }" class="messages" :items="messages" direction="up" reversed>
 				<XMessage :key="message.id" :message="message" :is-group="group != null"/>
 			</XList>
 		</div>
@@ -24,7 +24,7 @@
 				</I18n>
 				<MkEllipsis/>
 			</div>
-			<transition name="fade">
+			<transition :name="$store.state.animation ? 'fade' : ''">
 				<div v-show="showIndicator" class="new-message">
 					<button class="_buttonPrimary" @click="onIndicatorClick"><i class="fas fa-arrow-circle-down"></i>{{ $ts.newMessageExists }}</button>
 				</div>
@@ -43,6 +43,7 @@ import XForm from './messaging-room.form.vue';
 import * as Acct from 'misskey-js/built/acct';
 import { isBottom, onScrollBottom, scroll } from '@/scripts/scroll';
 import * as os from '@/os';
+import { stream } from '@/stream';
 import { popout } from '@/scripts/popout';
 import * as sound from '@/scripts/sound';
 import * as symbols from '@/symbols';
@@ -141,7 +142,7 @@ const Component = defineComponent({
 				this.group = group;
 			}
 
-			this.connection = markRaw(os.stream.useChannel('messaging', {
+			this.connection = markRaw(stream.useChannel('messaging', {
 				otherparty: this.user ? this.user.id : undefined,
 				group: this.group ? this.group.id : undefined,
 			}));
@@ -161,7 +162,7 @@ const Component = defineComponent({
 				// もっと見るの交差検知を発火させないためにfetchは
 				// スクロールが終わるまでfalseにしておく
 				// scrollendのようなイベントはないのでsetTimeoutで
-				setTimeout(() => this.fetching = false, 300);
+				window.setTimeout(() => this.fetching = false, 300);
 			});
 		},
 
@@ -299,9 +300,9 @@ const Component = defineComponent({
 				this.showIndicator = false;
 			});
 
-			if (this.timer) clearTimeout(this.timer);
+			if (this.timer) window.clearTimeout(this.timer);
 
-			this.timer = setTimeout(() => {
+			this.timer = window.setTimeout(() => {
 				this.showIndicator = false;
 			}, 4000);
 		},

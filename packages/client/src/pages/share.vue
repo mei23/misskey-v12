@@ -5,7 +5,7 @@
 			<XPostForm
 				v-if="state === 'writing'"
 				fixed
-				:share="true"
+				:instant="true"
 				:initial-text="initialText"
 				:initial-visibility="visibility"
 				:initial-files="files"
@@ -169,7 +169,7 @@ export default defineComponent({
 			window.close();
 
 			// 閉じなければ100ms後タイムラインに
-			setTimeout(() => {
+			window.setTimeout(() => {
 				this.$router.push('/');
 			}, 100);
 		}

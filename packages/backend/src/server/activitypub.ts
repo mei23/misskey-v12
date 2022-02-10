@@ -69,7 +69,7 @@ router.get('/notes/:note', async (ctx, next) => {
 
 	const note = await Notes.findOne({
 		id: ctx.params.note,
-		visibility: In(['public', 'home']),
+		visibility: In(['public' as const, 'home' as const]),
 		localOnly: false,
 	});
 
@@ -98,7 +98,7 @@ router.get('/notes/:note/activity', async ctx => {
 	const note = await Notes.findOne({
 		id: ctx.params.note,
 		userHost: null,
-		visibility: In(['public', 'home']),
+		visibility: In(['public' as const, 'home' as const]),
 		localOnly: false,
 	});
 
