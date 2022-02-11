@@ -46,7 +46,7 @@ gulp.task('build:backend:style', () => {
 });
 
 gulp.task('build', gulp.parallel(
-	'copy:client:locales', 'copy:backend:views', 'build:backend:script', 'build:backend:style', 'copy:client:fonts'
+	'copy:client:locales', 'copy:backend:views', 'build:backend:script', 'build:backend:style'
 ));
 
 gulp.task('default', gulp.task('build'));
