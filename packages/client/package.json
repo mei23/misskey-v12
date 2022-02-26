@@ -78,7 +78,7 @@
 		"portscanner": "2.2.0",
 		"postcss": "8.4.5",
 		"postcss-loader": "6.2.1",
-		"prismjs": "1.26.0",
+		"prismjs": "1.27.0",
 		"private-ip": "2.3.3",
 		"promise-limit": "2.7.0",
 		"pug": "3.0.2",
