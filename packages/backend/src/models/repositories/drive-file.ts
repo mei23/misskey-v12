@@ -9,6 +9,7 @@ import { query, appendQuery } from '@/prelude/url.js';
 import { Meta } from '@/models/entities/meta.js';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import { Users, DriveFolders } from '../index.js';
+import { structuredClone } from '@/misc/structured-clone.js';
 
 type PackOptions = {
 	detail?: boolean,

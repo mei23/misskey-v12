@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import { fetchMeta } from '@/misc/fetch-meta.js';
 import manifest from './manifest.json' assert { type: 'json' };
+import { structuredClone } from '@/misc/structured-clone.js';
 
 export const manifestHandler = async (ctx: Koa.Context) => {
 	const res = structuredClone(manifest);

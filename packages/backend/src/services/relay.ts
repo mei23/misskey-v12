@@ -9,6 +9,7 @@ import { genId } from '@/misc/gen-id.js';
 import { Cache } from '@/misc/cache.js';
 import { Relay } from '@/models/entities/relay.js';
 import { IsNull } from 'typeorm';
+import { structuredClone } from '@/misc/structured-clone.js';
 
 const ACTOR_USERNAME = 'relay.actor' as const;
 
