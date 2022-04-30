@@ -500,6 +500,7 @@ export default define(meta, async (ps, me) => {
 		enableRecaptcha: instance.enableRecaptcha,
 		recaptchaSiteKey: instance.recaptchaSiteKey,
 		swPublickey: instance.swPublicKey,
+		themeColor: instance.themeColor,
 		mascotImageUrl: instance.mascotImageUrl,
 		bannerUrl: instance.bannerUrl,
 		errorImageUrl: instance.errorImageUrl,
