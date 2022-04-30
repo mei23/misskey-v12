@@ -85,7 +85,9 @@ class MyCustomLogger implements Logger {
 	}
 
 	public logQuery(query: string, parameters?: any[]) {
-		sqlLogger.info(this.highlight(query).substring(0, 100));
+		if (envOption.verbose) {
+			sqlLogger.info(this.highlight(query).substring(0, 100));
+		}
 	}
 
 	public logQueryError(error: string, query: string, parameters?: any[]) {
