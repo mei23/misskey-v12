@@ -1,9 +1,8 @@
-import Router from '@koa/router';
-import config from '@/config/index.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Users, Notes } from '@/models/index.js';
-import { MoreThan } from 'typeorm';
-import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
+import * as Router from '@koa/router';
+import config from '@/config/index';
+import { fetchMeta } from '@/misc/fetch-meta';
+import { Users, Notes } from '@/models/index';
+import { Not, IsNull, MoreThan } from 'typeorm';
 
 const router = new Router();
 
@@ -26,12 +25,14 @@ const nodeinfo2 = async () => {
 		activeHalfyear,
 		activeMonth,
 		localPosts,
+		localComments,
 	] = await Promise.all([
 		fetchMeta(true),
 		Users.count({ where: { host: null } }),
-		Users.count({ where: { host: null, lastActiveDate: MoreThan(new Date(now - 15552000000)) } }),
-		Users.count({ where: { host: null, lastActiveDate: MoreThan(new Date(now - 2592000000)) } }),
-		Notes.count({ where: { userHost: null } }),
+		Users.count({ where: { host: null, updatedAt: MoreThan(new Date(now - 15552000000)) } }),
+		Users.count({ where: { host: null, updatedAt: MoreThan(new Date(now - 2592000000)) } }),
+		Notes.count({ where: { userHost: null, replyId: null } }),
+		Notes.count({ where: { userHost: null, replyId: Not(IsNull()) } }),
 	]);
 
 	const proxyAccount = meta.proxyAccountId ? await Users.pack(meta.proxyAccountId).catch(() => null) : null;
@@ -51,7 +52,7 @@ const nodeinfo2 = async () => {
 		usage: {
 			users: { total, activeHalfyear, activeMonth },
 			localPosts,
-			localComments: 0,
+			localComments,
 		},
 		metadata: {
 			nodeName: meta.name,
@@ -70,7 +71,7 @@ const nodeinfo2 = async () => {
 			emailRequiredForSignup: meta.emailRequiredForSignup,
 			enableHcaptcha: meta.enableHcaptcha,
 			enableRecaptcha: meta.enableRecaptcha,
-			maxNoteTextLength: MAX_NOTE_TEXT_LENGTH,
+			maxNoteTextLength: meta.maxNoteTextLength,
 			enableTwitterIntegration: meta.enableTwitterIntegration,
 			enableGithubIntegration: meta.enableGithubIntegration,
 			enableDiscordIntegration: meta.enableDiscordIntegration,

@@ -1,4 +1,4 @@
-import { initDb } from '@/db/postgre.js';
+import { initDb } from '@/db/postgre';
 
 async function main(uri: string): Promise<any> {
 	await initDb();

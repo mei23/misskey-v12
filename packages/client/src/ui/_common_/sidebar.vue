@@ -25,55 +25,69 @@
 		<MkA v-click-anime class="item" active-class="active" to="/settings">
 			<i class="fas fa-cog fa-fw"></i><span class="text">{{ $ts.settings }}</span>
 		</MkA>
-		<button class="item _button post" data-cy-open-post-form @click="os.post">
+		<button class="item _button post" data-cy-open-post-form @click="post">
 			<i class="fas fa-pencil-alt fa-fw"></i><span class="text">{{ $ts.note }}</span>
 		</button>
 	</div>
 </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+<script lang="ts">
+import { computed, defineComponent, ref, watch } from 'vue';
+import { host } from '@/config';
+import { search } from '@/scripts/search';
 import * as os from '@/os';
 import { menuDef } from '@/menu';
-import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
+import { openAccountMenu } from '@/account';
 import { defaultStore } from '@/store';
 
-const iconOnly = ref(false);
+export default defineComponent({
+	setup(props, context) {
+		const iconOnly = ref(false);
 
-const menu = computed(() => defaultStore.state.menu);
-const otherMenuItemIndicated = computed(() => {
-	for (const def in menuDef) {
-		if (menu.value.includes(def)) continue;
-		if (menuDef[def].indicated) return true;
-	}
-	return false;
+		const menu = computed(() => defaultStore.state.menu);
+		const otherMenuItemIndicated = computed(() => {
+			for (const def in menuDef) {
+				if (menu.value.includes(def)) continue;
+				if (menuDef[def].indicated) return true;
+			}
+			return false;
+		});
+
+		const calcViewState = () => {
+			iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === 'sideIcon');
+		};
+
+		calcViewState();
+
+		window.addEventListener('resize', calcViewState);
+
+		watch(defaultStore.reactiveState.menuDisplay, () => {
+			calcViewState();
+		});
+
+		return {
+			host: host,
+			accounts: [],
+			connection: null,
+			menu,
+			menuDef: menuDef,
+			otherMenuItemIndicated,
+			iconOnly,
+			post: os.post,
+			search,
+			openAccountMenu:(ev) => {
+				openAccountMenu({
+					withExtraOperation: true,
+				}, ev);
+			},
+			more: () => {
+				os.popup(import('@/components/launch-pad.vue'), {}, {
+				}, 'closed');
+			},
+		};
+	},
 });
-
-const calcViewState = () => {
-	iconOnly.value = (window.innerWidth <= 1279) || (defaultStore.state.menuDisplay === 'sideIcon');
-};
-
-calcViewState();
-
-window.addEventListener('resize', calcViewState);
-
-watch(defaultStore.reactiveState.menuDisplay, () => {
-	calcViewState();
-});
-
-function openAccountMenu(ev: MouseEvent) {
-	openAccountMenu_({
-		withExtraOperation: true,
-	}, ev);
-}
-
-function more(ev: MouseEvent) {
-	os.popup(import('@/components/launch-pad.vue'), {
-		src: ev.currentTarget ?? ev.target,
-	}, {
-	}, 'closed');
-}
 </script>
 
 <style lang="scss" scoped>
@@ -291,7 +305,7 @@ function more(ev: MouseEvent) {
 
 				&.post:before {
 					width: calc(100% - 28px);
-					height: auto;
+					height: min-content;
 					aspect-ratio: 1/1;
 					border-radius: 100%;
 				}

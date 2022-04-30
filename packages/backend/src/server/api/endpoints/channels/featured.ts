@@ -1,5 +1,5 @@
-import define from '../../define.js';
-import { Channels } from '@/models/index.js';
+import define from '../../define';
+import { Channels } from '@/models/index';
 
 export const meta = {
 	tags: ['channels'],
@@ -17,14 +17,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const query = Channels.createQueryBuilder('channel')
 		.where('channel.lastNotedAt IS NOT NULL')
 		.orderBy('channel.lastNotedAt', 'DESC');

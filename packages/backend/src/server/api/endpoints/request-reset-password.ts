@@ -1,12 +1,13 @@
-import { publishMainStream } from '@/services/stream.js';
-import define from '../define.js';
+import $ from 'cafy';
+import { publishMainStream } from '@/services/stream';
+import define from '../define';
 import rndstr from 'rndstr';
-import config from '@/config/index.js';
+import config from '@/config/index';
 import ms from 'ms';
-import { Users, UserProfiles, PasswordResetRequests } from '@/models/index.js';
-import { sendEmail } from '@/services/send-email.js';
-import { ApiError } from '../error.js';
-import { genId } from '@/misc/gen-id.js';
+import { Users, UserProfiles, PasswordResetRequests } from '@/models/index';
+import { sendEmail } from '@/services/send-email';
+import { ApiError } from '../error';
+import { genId } from '@/misc/gen-id';
 import { IsNull } from 'typeorm';
 
 export const meta = {
@@ -17,22 +18,23 @@ export const meta = {
 		max: 3,
 	},
 
+	params: {
+		username: {
+			validator: $.str,
+		},
+
+		email: {
+			validator: $.str,
+		},
+	},
+
 	errors: {
 
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		username: { type: 'string' },
-		email: { type: 'string' },
-	},
-	required: ['username', 'email'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps) => {
+export default define(meta, async (ps) => {
 	const user = await Users.findOne({
 		usernameLower: ps.username.toLowerCase(),
 		host: IsNull(),

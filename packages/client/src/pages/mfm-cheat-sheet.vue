@@ -121,7 +121,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- deprecated
 	<div class="section _block">
 		<div class="title">{{ $ts._mfm.search }}</div>
 		<div class="content">
@@ -132,7 +131,6 @@
 			</div>
 		</div>
 	</div>
-	-->
 	<div class="section _block">
 		<div class="title">{{ $ts._mfm.flip }}</div>
 		<div class="content">

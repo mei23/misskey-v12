@@ -22,12 +22,12 @@ const emit = defineEmits<{
 	(e: 'closed'): void;
 }>();
 
+const showing = ref(true);
 const zIndex = os.claimZIndex('high');
-let showing = $ref(true);
 
 onMounted(() => {
 	window.setTimeout(() => {
-		showing = false;
+		showing.value = false;
 	}, 4000);
 });
 </script>

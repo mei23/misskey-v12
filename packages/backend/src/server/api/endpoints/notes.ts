@@ -1,9 +1,46 @@
-import define from '../define.js';
-import { makePaginationQuery } from '../common/make-pagination-query.js';
-import { Notes } from '@/models/index.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../define';
+import { makePaginationQuery } from '../common/make-pagination-query';
+import { Notes } from '@/models/index';
 
 export const meta = {
 	tags: ['notes'],
+
+	params: {
+		local: {
+			validator: $.optional.bool,
+		},
+
+		reply: {
+			validator: $.optional.bool,
+		},
+
+		renote: {
+			validator: $.optional.bool,
+		},
+
+		withFiles: {
+			validator: $.optional.bool,
+		},
+
+		poll: {
+			validator: $.optional.bool,
+		},
+
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -16,37 +53,16 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		local: { type: 'boolean' },
-		reply: { type: 'boolean' },
-		renote: { type: 'boolean' },
-		withFiles: { type: 'boolean' },
-		poll: { type: 'boolean' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-	},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps) => {
+export default define(meta, async (ps) => {
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
 		.andWhere(`note.visibility = 'public'`)
 		.andWhere(`note.localOnly = FALSE`)
 		.innerJoinAndSelect('note.user', 'user')
-		.leftJoinAndSelect('user.avatar', 'avatar')
-		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
 		.leftJoinAndSelect('note.renote', 'renote')
 		.leftJoinAndSelect('reply.user', 'replyUser')
-		.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
-		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
-		.leftJoinAndSelect('renote.user', 'renoteUser')
-		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
-		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
+		.leftJoinAndSelect('renote.user', 'renoteUser');
 
 	if (ps.local) {
 		query.andWhere('note.userHost IS NULL');
@@ -73,7 +89,7 @@ export default define(meta, paramDef, async (ps) => {
 	//	query.isBot = bot;
 	//}
 
-	const notes = await query.take(ps.limit).getMany();
+	const notes = await query.take(ps.limit!).getMany();
 
 	return await Notes.packMany(notes);
 });

@@ -1,23 +1,22 @@
+import $ from 'cafy';
 import * as speakeasy from 'speakeasy';
-import define from '../../../define.js';
-import { UserProfiles } from '@/models/index.js';
+import define from '../../../define';
+import { UserProfiles } from '@/models/index';
 
 export const meta = {
 	requireCredential: true,
 
 	secure: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		token: { type: 'string' },
+	params: {
+		token: {
+			validator: $.str,
+		},
 	},
-	required: ['token'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const token = ps.token.replace(/\s/g, '');
 
 	const profile = await UserProfiles.findOneOrFail(user.id);

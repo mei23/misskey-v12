@@ -1,4 +1,4 @@
-import * as crypto from 'node:crypto';
+import * as crypto from 'crypto';
 
 const L_CHARS = '0123456789abcdefghijklmnopqrstuvwxyz';
 const LU_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

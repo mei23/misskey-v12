@@ -1,10 +1,12 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { getUser } from '../../common/getters.js';
-import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from '@/models/index.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { getUser } from '../../common/getters';
+import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from '@/models/index';
+import { makePaginationQuery } from '../../common/make-pagination-query';
 import { Brackets } from 'typeorm';
-import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message.js';
+import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message';
 
 export const meta = {
 	tags: ['messaging'],
@@ -12,6 +14,34 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'read:messaging',
+
+	params: {
+		userId: {
+			validator: $.optional.type(ID),
+		},
+
+		groupId: {
+			validator: $.optional.type(ID),
+		},
+
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+		},
+
+		markAsRead: {
+			validator: $.optional.bool,
+			default: true,
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -44,21 +74,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-		groupId: { type: 'string', format: 'misskey:id' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		markAsRead: { type: 'boolean', default: true },
-	},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	if (ps.userId != null) {
 		// Fetch recipient (user)
 		const recipient = await getUser(ps.userId).catch(e => {
@@ -80,7 +97,7 @@ export default define(meta, paramDef, async (ps, user) => {
 			.setParameter('meId', user.id)
 			.setParameter('recipientId', recipient.id);
 
-		const messages = await query.take(ps.limit).getMany();
+		const messages = await query.take(ps.limit!).getMany();
 
 		// Mark all as read
 		if (ps.markAsRead) {
@@ -116,7 +133,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		const query = makePaginationQuery(MessagingMessages.createQueryBuilder('message'), ps.sinceId, ps.untilId)
 			.andWhere(`message.groupId = :groupId`, { groupId: recipientGroup.id });
 
-		const messages = await query.take(ps.limit).getMany();
+		const messages = await query.take(ps.limit!).getMany();
 
 		// Mark all as read
 		if (ps.markAsRead) {

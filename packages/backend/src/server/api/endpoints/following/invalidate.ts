@@ -1,9 +1,12 @@
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
 import ms from 'ms';
-import deleteFollowing from '@/services/following/delete.js';
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { getUser } from '../../common/getters.js';
-import { Followings, Users } from '@/models/index.js';
+
+import deleteFollowing from '@/services/following/delete';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { getUser } from '../../common/getters';
+import { Followings, Users } from '@/models/index';
 
 export const meta = {
 	tags: ['following', 'users'],
@@ -16,6 +19,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:following',
+
+	params: {
+		userId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchUser: {
@@ -44,16 +53,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['userId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const followee = user;
 
 	// Check if the follower is yourself

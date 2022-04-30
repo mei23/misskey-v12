@@ -1,6 +1,6 @@
-
-
-export class emailRequiredForSignup1633068642000 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class emailRequiredForSignup1633068642000 {
     constructor() {
         this.name = 'emailRequiredForSignup1633068642000';
     }
@@ -11,3 +11,4 @@ export class emailRequiredForSignup1633068642000 {
         await queryRunner.query(`ALTER TABLE "meta" DROP COLUMN "emailRequiredForSignup"`);
     }
 }
+exports.emailRequiredForSignup1633068642000 = emailRequiredForSignup1633068642000;

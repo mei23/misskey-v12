@@ -1,26 +1,24 @@
-import { isMutedUserRelated } from '@/misc/is-muted-user-related.js';
-import Channel from '../channel.js';
-import { Notes } from '@/models/index.js';
-import { checkWordMute } from '@/misc/check-word-mute.js';
-import { isBlockerUserRelated } from '@/misc/is-blocker-user-related.js';
-import { isInstanceMuted } from '@/misc/is-instance-muted.js';
-import { Packed } from '@/misc/schema.js';
+import autobind from 'autobind-decorator';
+import { isMutedUserRelated } from '@/misc/is-muted-user-related';
+import Channel from '../channel';
+import { Notes } from '@/models/index';
+import { checkWordMute } from '@/misc/check-word-mute';
+import { isBlockerUserRelated } from '@/misc/is-blocker-user-related';
+import { isInstanceMuted } from '@/misc/is-instance-muted';
+import { Packed } from '@/misc/schema';
 
 export default class extends Channel {
 	public readonly chName = 'homeTimeline';
 	public static shouldShare = true;
 	public static requireCredential = true;
 
-	constructor(id: string, connection: Channel['connection']) {
-		super(id, connection);
-		this.onNote = this.onNote.bind(this);
-	}
-
+	@autobind
 	public async init(params: any) {
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNote);
 	}
 
+	@autobind
 	private async onNote(note: Packed<'Note'>) {
 		if (note.channelId) {
 			if (!this.followingChannels.has(note.channelId)) return;
@@ -56,7 +54,7 @@ export default class extends Channel {
 		}
 
 		// 関係ない返信は除外
-		if (note.reply && !this.user!.showTimelineReplies) {
+		if (note.reply) {
 			const reply = note.reply;
 			// 「チャンネル接続主への返信」でもなければ、「チャンネル接続主が行った返信」でもなければ、「投稿者の投稿者自身への返信」でもない場合
 			if (reply.userId !== this.user!.id && note.userId !== this.user!.id && reply.userId !== note.userId) return;
@@ -79,6 +77,7 @@ export default class extends Channel {
 		this.send('note', note);
 	}
 
+	@autobind
 	public dispose() {
 		// Unsubscribe events
 		this.subscriber.off('notesStream', this.onNote);

@@ -1,12 +1,29 @@
-import define from '../../define.js';
-import { ModerationLogs } from '@/models/index.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ModerationLogs } from '@/models/index';
+import { makePaginationQuery } from '../../common/make-pagination-query';
 
 export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
 	requireModerator: true,
+
+	params: {
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -48,21 +65,11 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-	},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps) => {
+export default define(meta, async (ps) => {
 	const query = makePaginationQuery(ModerationLogs.createQueryBuilder('report'), ps.sinceId, ps.untilId);
 
-	const reports = await query.take(ps.limit).getMany();
+	const reports = await query.take(ps.limit!).getMany();
 
 	return await ModerationLogs.packMany(reports);
 });

@@ -1,6 +1,6 @@
-
-
-export class ProxyRemoteFiles1576869585998 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class ProxyRemoteFiles1576869585998 {
     constructor() {
         this.name = 'ProxyRemoteFiles1576869585998';
     }
@@ -11,3 +11,4 @@ export class ProxyRemoteFiles1576869585998 {
         await queryRunner.query(`ALTER TABLE "meta" DROP COLUMN "proxyRemoteFiles"`, undefined);
     }
 }
+exports.ProxyRemoteFiles1576869585998 = ProxyRemoteFiles1576869585998;

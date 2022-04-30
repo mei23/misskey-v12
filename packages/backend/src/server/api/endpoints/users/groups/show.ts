@@ -1,6 +1,8 @@
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { UserGroups, UserGroupJoinings } from '@/models/index.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../../define';
+import { ApiError } from '../../../error';
+import { UserGroups, UserGroupJoinings } from '@/models/index';
 
 export const meta = {
 	tags: ['groups', 'account'],
@@ -8,6 +10,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'read:user-groups',
+
+	params: {
+		groupId: {
+			validator: $.type(ID),
+		},
+	},
 
 	res: {
 		type: 'object',
@@ -24,16 +32,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		groupId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['groupId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	// Fetch the group
 	const userGroup = await UserGroups.findOne({
 		id: ps.groupId,

@@ -1,5 +1,6 @@
-import define from '../../define.js';
-import { createExportFollowingJob } from '@/queue/index.js';
+import $ from 'cafy';
+import define from '../../define';
+import { createExportFollowingJob } from '@/queue/index';
 import ms from 'ms';
 
 export const meta = {
@@ -9,18 +10,19 @@ export const meta = {
 		duration: ms('1hour'),
 		max: 1,
 	},
-} as const;
-
-export const paramDef = {
-	type: 'object',
-	properties: {
-		excludeMuting: { type: 'boolean', default: false },
-		excludeInactive: { type: 'boolean', default: false },
+	params: {
+		excludeMuting: {
+			validator: $.optional.bool,
+			default: false,
+		},
+		excludeInactive: {
+			validator: $.optional.bool,
+			default: false,
+		},
 	},
-	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	createExportFollowingJob(user, ps.excludeMuting, ps.excludeInactive);
 });

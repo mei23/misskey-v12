@@ -7,27 +7,15 @@
 
 <script lang="ts" setup>
 import { } from 'vue';
-import { instanceName } from '@/config';
 
 const props = defineProps<{
-	instance?: {
-		faviconUrl?: string
-		name: string
-		themeColor?: string
-	}
+	instance: any; // TODO
 }>();
 
-// if no instance data is given, this is for the local instance
-const instance = props.instance ?? {
-	faviconUrl: '/favicon.ico',
-	name: instanceName,
-	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement)?.content
-};
-
-const themeColor = instance.themeColor ?? '#777777';
+const themeColor = props.instance.themeColor || '#777777';
 
 const bg = {
-	background: `linear-gradient(90deg, ${themeColor}, ${themeColor}00)`
+	background: `linear-gradient(90deg, ${themeColor}, ${themeColor + '00'})`
 };
 </script>
 

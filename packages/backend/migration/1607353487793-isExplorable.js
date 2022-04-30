@@ -1,6 +1,6 @@
-
-
-export class isExplorable1607353487793 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class isExplorable1607353487793 {
     constructor() {
         this.name = 'isExplorable1607353487793';
     }
@@ -15,3 +15,4 @@ export class isExplorable1607353487793 {
         await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "isExplorable"`);
     }
 }
+exports.isExplorable1607353487793 = isExplorable1607353487793;

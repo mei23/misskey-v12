@@ -1,6 +1,6 @@
-import { publishMainStream } from '@/services/stream.js';
-import define from '../../define.js';
-import { Notifications } from '@/models/index.js';
+import { publishMainStream } from '@/services/stream';
+import define from '../../define';
+import { Notifications } from '@/models/index';
 
 export const meta = {
 	tags: ['notifications', 'account'],
@@ -10,14 +10,8 @@ export const meta = {
 	kind: 'write:notifications',
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	// Update documents
 	await Notifications.update({
 		notifieeId: user.id,

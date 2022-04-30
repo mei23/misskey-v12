@@ -59,11 +59,6 @@ export default async function(type, data, i18n): Promise<[string, NotificationOp
 						icon: data.user.avatarUrl
 					}];
 
-				case 'pollEnded':
-					return [i18n.t('_notification.pollEnded'), {
-						body: data.note.text,
-					}];
-
 				case 'follow':
 					return [i18n.t('_notification.youWereFollowed'), {
 						body: getUserName(data.user),

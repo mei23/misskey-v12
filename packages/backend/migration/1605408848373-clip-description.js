@@ -1,6 +1,6 @@
-
-
-export class clipDescription1605408848373 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class clipDescription1605408848373 {
     constructor() {
         this.name = 'clipDescription1605408848373';
     }
@@ -11,3 +11,4 @@ export class clipDescription1605408848373 {
         await queryRunner.query(`ALTER TABLE "clip" DROP COLUMN "description"`);
     }
 }
+exports.clipDescription1605408848373 = clipDescription1605408848373;

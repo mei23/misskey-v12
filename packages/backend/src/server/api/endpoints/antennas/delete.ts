@@ -1,7 +1,9 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { Antennas } from '@/models/index.js';
-import { publishInternalEvent } from '@/services/stream.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { Antennas } from '@/models/index';
+import { publishInternalEvent } from '@/services/stream';
 
 export const meta = {
 	tags: ['antennas'],
@@ -9,6 +11,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:account',
+
+	params: {
+		antennaId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchAntenna: {
@@ -19,16 +27,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		antennaId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['antennaId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const antenna = await Antennas.findOne({
 		id: ps.antennaId,
 		userId: user.id,

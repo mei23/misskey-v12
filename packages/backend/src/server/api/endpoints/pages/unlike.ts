@@ -1,6 +1,8 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { Pages, PageLikes } from '@/models/index.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { Pages, PageLikes } from '@/models/index';
 
 export const meta = {
 	tags: ['pages'],
@@ -8,6 +10,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:page-likes',
+
+	params: {
+		pageId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchPage: {
@@ -24,16 +32,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		pageId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['pageId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const page = await Pages.findOne(ps.pageId);
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);

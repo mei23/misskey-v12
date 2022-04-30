@@ -1,9 +1,10 @@
-import Channel from '../channel.js';
-import { Notes, UserListJoinings, UserLists } from '@/models/index.js';
-import { isMutedUserRelated } from '@/misc/is-muted-user-related.js';
-import { User } from '@/models/entities/user.js';
-import { isBlockerUserRelated } from '@/misc/is-blocker-user-related.js';
-import { Packed } from '@/misc/schema.js';
+import autobind from 'autobind-decorator';
+import Channel from '../channel';
+import { Notes, UserListJoinings, UserLists } from '@/models/index';
+import { isMutedUserRelated } from '@/misc/is-muted-user-related';
+import { User } from '@/models/entities/user';
+import { isBlockerUserRelated } from '@/misc/is-blocker-user-related';
+import { Packed } from '@/misc/schema';
 
 export default class extends Channel {
 	public readonly chName = 'userList';
@@ -13,12 +14,7 @@ export default class extends Channel {
 	public listUsers: User['id'][] = [];
 	private listUsersClock: NodeJS.Timer;
 
-	constructor(id: string, connection: Channel['connection']) {
-		super(id, connection);
-		this.updateListUsers = this.updateListUsers.bind(this);
-		this.onNote = this.onNote.bind(this);
-	}
-
+	@autobind
 	public async init(params: any) {
 		this.listId = params.listId as string;
 
@@ -38,6 +34,7 @@ export default class extends Channel {
 		this.listUsersClock = setInterval(this.updateListUsers, 5000);
 	}
 
+	@autobind
 	private async updateListUsers() {
 		const users = await UserListJoinings.find({
 			where: {
@@ -49,6 +46,7 @@ export default class extends Channel {
 		this.listUsers = users.map(x => x.userId);
 	}
 
+	@autobind
 	private async onNote(note: Packed<'Note'>) {
 		if (!this.listUsers.includes(note.userId)) return;
 
@@ -83,6 +81,7 @@ export default class extends Channel {
 		this.send('note', note);
 	}
 
+	@autobind
 	public dispose() {
 		// Unsubscribe events
 		this.subscriber.off(`userListStream:${this.listId}`, this.send);

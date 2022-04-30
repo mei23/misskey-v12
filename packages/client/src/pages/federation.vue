@@ -33,6 +33,10 @@
 					<option value="-caughtAt">{{ $ts.registeredAt }} ({{ $ts.ascendingOrder }})</option>
 					<option value="+lastCommunicatedAt">{{ $ts.lastCommunication }} ({{ $ts.descendingOrder }})</option>
 					<option value="-lastCommunicatedAt">{{ $ts.lastCommunication }} ({{ $ts.ascendingOrder }})</option>
+					<option value="+driveUsage">{{ $ts.driveUsage }} ({{ $ts.descendingOrder }})</option>
+					<option value="-driveUsage">{{ $ts.driveUsage }} ({{ $ts.ascendingOrder }})</option>
+					<option value="+driveFiles">{{ $ts.driveFilesCount }} ({{ $ts.descendingOrder }})</option>
+					<option value="-driveFiles">{{ $ts.driveFilesCount }} ({{ $ts.ascendingOrder }})</option>
 				</MkSelect>
 			</FormSplit>
 		</div>
