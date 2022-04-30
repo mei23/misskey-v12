@@ -1,7 +1,9 @@
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { MessagingMessages } from '@/models/index.js';
-import { readUserMessagingMessage, readGroupMessagingMessage } from '../../../common/read-messaging-message.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../../define';
+import { ApiError } from '../../../error';
+import { MessagingMessages } from '@/models/index';
+import { readUserMessagingMessage, readGroupMessagingMessage } from '../../../common/read-messaging-message';
 
 export const meta = {
 	tags: ['messaging'],
@@ -9,6 +11,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:messaging',
+
+	params: {
+		messageId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchMessage: {
@@ -19,16 +27,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		messageId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['messageId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const message = await MessagingMessages.findOne(ps.messageId);
 
 	if (message == null) {

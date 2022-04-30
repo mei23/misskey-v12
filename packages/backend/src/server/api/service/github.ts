@@ -1,28 +1,28 @@
-import Koa from 'koa';
-import Router from '@koa/router';
-import { getJson } from '@/misc/fetch.js';
+import * as Koa from 'koa';
+import * as Router from '@koa/router';
+import { getJson } from '@/misc/fetch';
 import { OAuth2 } from 'oauth';
-import config from '@/config/index.js';
-import { publishMainStream } from '@/services/stream.js';
-import { redisClient } from '../../../db/redis.js';
+import config from '@/config/index';
+import { publishMainStream } from '@/services/stream';
+import { redisClient } from '../../../db/redis';
 import { v4 as uuid } from 'uuid';
-import signin from '../common/signin.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { Users, UserProfiles } from '@/models/index.js';
-import { ILocalUser } from '@/models/entities/user.js';
+import signin from '../common/signin';
+import { fetchMeta } from '@/misc/fetch-meta';
+import { Users, UserProfiles } from '@/models/index';
+import { ILocalUser } from '@/models/entities/user';
 
-function getUserToken(ctx: Koa.BaseContext): string | null {
+function getUserToken(ctx: Koa.Context) {
 	return ((ctx.headers['cookie'] || '').match(/igi=(\w+)/) || [null, null])[1];
 }
 
-function compareOrigin(ctx: Koa.BaseContext): boolean {
-	function normalizeUrl(url?: string): string {
+function compareOrigin(ctx: Koa.Context) {
+	function normalizeUrl(url: string) {
 		return url ? url.endsWith('/') ? url.substr(0, url.length - 1) : url : '';
 	}
 
 	const referer = ctx.headers['referer'];
 
-	return (normalizeUrl(referer) === normalizeUrl(config.url));
+	return (normalizeUrl(referer) == normalizeUrl(config.url));
 }
 
 // Init router

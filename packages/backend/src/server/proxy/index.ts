@@ -2,10 +2,10 @@
  * Media Proxy
  */
 
-import Koa from 'koa';
-import cors from '@koa/cors';
-import Router from '@koa/router';
-import { proxyMedia } from './proxy-media.js';
+import * as Koa from 'koa';
+import * as cors from '@koa/cors';
+import * as Router from '@koa/router';
+import { proxyMedia } from './proxy-media';
 
 // Init app
 const app = new Koa();
@@ -23,4 +23,4 @@ router.get('/:url*', proxyMedia);
 // Register router
 app.use(router.routes());
 
-export default app;
+module.exports = app;

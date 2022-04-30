@@ -276,7 +276,7 @@ export default defineComponent({
 			}
 
 			> * {
-				font-size: 20px;
+				font-size: 22px;
 			}
 
 			&:disabled {

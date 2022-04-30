@@ -1,6 +1,6 @@
-
-
-export class comments1605408971051 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class comments1605408971051 {
     constructor() {
         this.name = 'comments1605408971051';
     }
@@ -431,3 +431,4 @@ export class comments1605408971051 {
         await queryRunner.query(`COMMENT ON COLUMN "log"."createdAt" IS NULL`);
     }
 }
+exports.comments1605408971051 = comments1605408971051;

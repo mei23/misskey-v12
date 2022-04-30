@@ -341,10 +341,7 @@ function addTag(tag: string) {
 }
 
 function focus() {
-	if (textareaEl) {
-		textareaEl.focus();
-		textareaEl.setSelectionRange(textareaEl.value.length, textareaEl.value.length);
-	}
+	textareaEl.focus();
 }
 
 function chooseFileFrom(ev) {

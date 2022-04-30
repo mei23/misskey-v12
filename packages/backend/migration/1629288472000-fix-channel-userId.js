@@ -1,6 +1,6 @@
-
-
-export class fixChannelUserId1629288472000 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class fixChannelUserId1629288472000 {
     constructor() {
         this.name = 'fixChannelUserId1629288472000';
     }
@@ -11,3 +11,4 @@ export class fixChannelUserId1629288472000 {
         await queryRunner.query(`ALTER TABLE "channel" ALTER COLUMN "userId" SET NOT NULL;`);
     }
 }
+exports.fixChannelUserId1629288472000 = fixChannelUserId1629288472000;

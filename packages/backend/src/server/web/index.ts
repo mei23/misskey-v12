@@ -2,26 +2,24 @@
  * Web Client Server
  */
 
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname } from 'path';
 import ms from 'ms';
-import Koa from 'koa';
-import Router from '@koa/router';
-import send from 'koa-send';
-import favicon from 'koa-favicon';
-import views from 'koa-views';
+import * as Koa from 'koa';
+import * as Router from '@koa/router';
+import * as send from 'koa-send';
+import * as favicon from 'koa-favicon';
+import * as views from 'koa-views';
 
-import packFeed from './feed.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { genOpenapiSpec } from '../api/openapi/gen-spec.js';
-import config from '@/config/index.js';
-import { Users, Notes, UserProfiles, Pages, Channels, Clips, GalleryPosts } from '@/models/index.js';
-import * as Acct from '@/misc/acct.js';
-import { getNoteSummary } from '@/misc/get-note-summary.js';
-import { urlPreviewHandler } from './url-preview.js';
-import { manifestHandler } from './manifest.js';
+import packFeed from './feed';
+import { fetchMeta } from '@/misc/fetch-meta';
+import { genOpenapiSpec } from '../api/openapi/gen-spec';
+import config from '@/config/index';
+import { Users, Notes, UserProfiles, Pages, Channels, Clips, GalleryPosts } from '@/models/index';
+import * as Acct from 'misskey-js/built/acct';
+import { getNoteSummary } from '@/misc/get-note-summary';
 
-const _filename = fileURLToPath(import.meta.url);
+//const _filename = fileURLToPath(import.meta.url);
+const _filename = __filename;
 const _dirname = dirname(_filename);
 
 const staticAssets = `${_dirname}/../../../assets/`;
@@ -107,7 +105,7 @@ router.get('/sw.js', async ctx => {
 });
 
 // Manifest
-router.get('/manifest.json', manifestHandler);
+router.get('/manifest.json', require('./manifest'));
 
 router.get('/robots.txt', async ctx => {
 	await send(ctx as any, '/robots.txt', {
@@ -125,7 +123,7 @@ router.get('/api-doc', async ctx => {
 });
 
 // URL preview endpoint
-router.get('/url', urlPreviewHandler);
+router.get('/url', require('./url-preview'));
 
 router.get('/api.json', async ctx => {
 	ctx.body = genOpenapiSpec();
@@ -207,7 +205,6 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			sub: ctx.params.sub,
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 		ctx.set('Cache-Control', 'public, max-age=30');
 	}
@@ -243,7 +240,6 @@ router.get('/notes/:note', async (ctx, next) => {
 			summary: getNoteSummary(_note),
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 
 		if (['public', 'home'].includes(note.visibility)) {
@@ -281,8 +277,6 @@ router.get('/@:user/pages/:page', async (ctx, next) => {
 			page: _page,
 			profile,
 			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 
 		if (['public'].includes(page.visibility)) {
@@ -312,8 +306,6 @@ router.get('/clips/:clip', async (ctx, next) => {
 			clip: _clip,
 			profile,
 			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -337,7 +329,6 @@ router.get('/gallery/:post', async (ctx, next) => {
 			profile,
 			instanceName: meta.name || 'Misskey',
 			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -360,8 +351,6 @@ router.get('/channels/:channel', async (ctx, next) => {
 		await ctx.render('channel', {
 			channel: _channel,
 			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl,
-			themeColor: meta.themeColor,
 		});
 
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -421,7 +410,6 @@ router.get('(.*)', async ctx => {
 		instanceName: meta.name || 'Misskey',
 		desc: meta.description,
 		icon: meta.iconUrl,
-		themeColor: meta.themeColor,
 	});
 	ctx.set('Cache-Control', 'public, max-age=300');
 });
@@ -429,4 +417,4 @@ router.get('(.*)', async ctx => {
 // Register router
 app.use(router.routes());
 
-export default app;
+module.exports = app;

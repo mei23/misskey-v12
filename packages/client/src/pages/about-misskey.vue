@@ -149,7 +149,6 @@ const patrons = [
 	'oss',
 	'Weeble',
 	'蝉暮せせせ',
-	'ThatOneCalculator',
 ];
 
 let easterEggReady = false;

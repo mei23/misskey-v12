@@ -1,5 +1,5 @@
-import Resolver from '../../src/remote/activitypub/resolver.js';
-import { IObject } from '../../src/remote/activitypub/type.js';
+import Resolver from '../../src/remote/activitypub/resolver';
+import { IObject } from '../../src/remote/activitypub/type';
 
 type MockResponse = {
 	type: string;

@@ -1,6 +1,6 @@
-
-
-export class registry21610277585759 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class registry21610277585759 {
     constructor() {
         this.name = 'registry21610277585759';
     }
@@ -13,3 +13,4 @@ export class registry21610277585759 {
         await queryRunner.query(`ALTER TABLE "registry_item" DROP COLUMN "value"`);
     }
 }
+exports.registry21610277585759 = registry21610277585759;

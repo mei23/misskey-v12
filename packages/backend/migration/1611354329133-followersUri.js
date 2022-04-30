@@ -1,6 +1,6 @@
-
-
-export class followersUri1611354329133 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class followersUri1611354329133 {
     constructor() {
         this.name = 'followersUri1611354329133';
     }
@@ -13,3 +13,4 @@ export class followersUri1611354329133 {
         await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "followersUri"`);
     }
 }
+exports.followersUri1611354329133 = followersUri1611354329133;

@@ -265,7 +265,7 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 			min-width: 0;
 
 			> .spacer {
-				height: calc(env(safe-area-inset-bottom, 0px) + 96px);
+				height: 82px;
 
 				@media (min-width: ($widgets-hide-threshold + 1px)) {
 					display: none;
@@ -340,14 +340,13 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 		z-index: 1000;
 		bottom: 0;
 		left: 0;
-		padding: 16px 16px calc(env(safe-area-inset-bottom, 0px) + 16px) 16px;
+		padding: 16px;
 		display: flex;
 		width: 100%;
 		box-sizing: border-box;
 		-webkit-backdrop-filter: var(--blur, blur(32px));
 		backdrop-filter: var(--blur, blur(32px));
 		background-color: var(--header);
-		border-top: solid 0.5px var(--divider);
 
 		> .button {
 			position: relative;
@@ -393,7 +392,7 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 			}
 
 			> * {
-				font-size: 20px;
+				font-size: 22px;
 			}
 
 			&:disabled {

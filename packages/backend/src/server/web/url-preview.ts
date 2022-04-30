@@ -1,42 +1,30 @@
-import Koa from 'koa';
+import * as Koa from 'koa';
 import summaly from 'summaly';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import Logger from '@/services/logger.js';
-import config from '@/config/index.js';
-import { query } from '@/prelude/url.js';
-import { getJson } from '@/misc/fetch.js';
+import { fetchMeta } from '@/misc/fetch-meta';
+import Logger from '@/services/logger';
+import config from '@/config/index';
+import { query } from '@/prelude/url';
+import { getJson } from '@/misc/fetch';
 
 const logger = new Logger('url-preview');
 
-export const urlPreviewHandler = async (ctx: Koa.Context) => {
-	const url = ctx.query.url;
-	if (typeof url !== 'string') {
-		ctx.status = 400;
-		return;
-	}
-
-	const lang = ctx.query.lang;
-	if (Array.isArray(lang)) {
-		ctx.status = 400;
-		return;
-	}
-
+module.exports = async (ctx: Koa.Context) => {
 	const meta = await fetchMeta();
 
 	logger.info(meta.summalyProxy
-		? `(Proxy) Getting preview of ${url}@${lang} ...`
-		: `Getting preview of ${url}@${lang} ...`);
+		? `(Proxy) Getting preview of ${ctx.query.url}@${ctx.query.lang} ...`
+		: `Getting preview of ${ctx.query.url}@${ctx.query.lang} ...`);
 
 	try {
 		const summary = meta.summalyProxy ? await getJson(`${meta.summalyProxy}?${query({
-			url: url,
-			lang: lang ?? 'ja-JP',
-		})}`) : await summaly.default(url, {
+			url: ctx.query.url,
+			lang: ctx.query.lang || 'ja-JP',
+		})}`) : await summaly(ctx.query.url, {
 			followRedirects: false,
-			lang: lang ?? 'ja-JP',
+			lang: ctx.query.lang || 'ja-JP',
 		});
 
-		logger.succ(`Got preview of ${url}: ${summary.title}`);
+		logger.succ(`Got preview of ${ctx.query.url}: ${summary.title}`);
 
 		summary.icon = wrap(summary.icon);
 		summary.thumbnail = wrap(summary.thumbnail);
@@ -45,8 +33,8 @@ export const urlPreviewHandler = async (ctx: Koa.Context) => {
 		ctx.set('Cache-Control', 'max-age=604800, immutable');
 
 		ctx.body = summary;
-	} catch (err) {
-		logger.warn(`Failed to get preview of ${url}: ${err}`);
+	} catch (e) {
+		logger.warn(`Failed to get preview of ${ctx.query.url}: ${e}`);
 		ctx.status = 200;
 		ctx.set('Cache-Control', 'max-age=86400, immutable');
 		ctx.body = '{}';

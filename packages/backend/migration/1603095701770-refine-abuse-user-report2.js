@@ -1,6 +1,6 @@
-
-
-export class refineAbuseUserReport21603095701770 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class refineAbuseUserReport21603095701770 {
     constructor() {
         this.name = 'refineAbuseUserReport21603095701770';
     }
@@ -17,3 +17,4 @@ export class refineAbuseUserReport21603095701770 {
         await queryRunner.query(`ALTER TABLE "abuse_user_report" DROP COLUMN "targetUserHost"`);
     }
 }
+exports.refineAbuseUserReport21603095701770 = refineAbuseUserReport21603095701770;

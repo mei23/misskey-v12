@@ -1,6 +1,6 @@
-
-
-export class miauth1585361548360 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class miauth1585361548360 {
     constructor() {
         this.name = 'miauth1585361548360';
     }
@@ -33,3 +33,4 @@ export class miauth1585361548360 {
         await queryRunner.query(`ALTER TABLE "access_token" DROP COLUMN "lastUsedAt"`, undefined);
     }
 }
+exports.miauth1585361548360 = miauth1585361548360;

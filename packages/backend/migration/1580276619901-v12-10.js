@@ -1,6 +1,6 @@
-
-
-export class v12101580276619901 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class v12101580276619901 {
     constructor() {
         this.name = 'v12101580276619901';
     }
@@ -16,3 +16,4 @@ export class v12101580276619901 {
         await queryRunner.query(`ALTER TABLE "notification" ADD "type" character varying(32) NOT NULL`, undefined);
     }
 }
+exports.v12101580276619901 = v12101580276619901;

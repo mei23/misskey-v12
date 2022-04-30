@@ -4,8 +4,8 @@ import * as dns from 'dns';
 import CacheableLookup, { IPFamily } from 'cacheable-lookup';
 import fetch from 'node-fetch';
 import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent';
-import config from '@/config/index.js';
-import { URL } from 'node:url';
+import config from '@/config/index';
+import { URL } from 'url';
 
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
 	const res = await getResponse({

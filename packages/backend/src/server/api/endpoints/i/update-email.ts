@@ -1,13 +1,14 @@
-import { publishMainStream } from '@/services/stream.js';
-import define from '../../define.js';
+import $ from 'cafy';
+import { publishMainStream } from '@/services/stream';
+import define from '../../define';
 import rndstr from 'rndstr';
-import config from '@/config/index.js';
+import config from '@/config/index';
 import ms from 'ms';
-import bcrypt from 'bcryptjs';
-import { Users, UserProfiles } from '@/models/index.js';
-import { sendEmail } from '@/services/send-email.js';
-import { ApiError } from '../../error.js';
-import { validateEmailForAccount } from '@/services/validate-email-for-account.js';
+import * as bcrypt from 'bcryptjs';
+import { Users, UserProfiles } from '@/models/index';
+import { sendEmail } from '@/services/send-email';
+import { ApiError } from '../../error';
+import { validateEmailForAccount } from '@/services/validate-email-for-account';
 
 export const meta = {
 	requireCredential: true,
@@ -17,6 +18,16 @@ export const meta = {
 	limit: {
 		duration: ms('1hour'),
 		max: 3,
+	},
+
+	params: {
+		password: {
+			validator: $.str,
+		},
+
+		email: {
+			validator: $.optional.nullable.str,
+		},
 	},
 
 	errors: {
@@ -34,17 +45,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		password: { type: 'string' },
-		email: { type: 'string', nullable: true },
-	},
-	required: ['password'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const profile = await UserProfiles.findOneOrFail(user.id);
 
 	// Compare password

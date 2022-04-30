@@ -1,10 +1,12 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { getUser } from '../../common/getters.js';
-import { genId } from '@/misc/gen-id.js';
-import { Mutings, NoteWatchings } from '@/models/index.js';
-import { Muting } from '@/models/entities/muting.js';
-import { publishUserEvent } from '@/services/stream.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { getUser } from '../../common/getters';
+import { genId } from '@/misc/gen-id';
+import { Mutings, NoteWatchings } from '@/models/index';
+import { Muting } from '@/models/entities/muting';
+import { publishUserEvent } from '@/services/stream';
 
 export const meta = {
 	tags: ['account'],
@@ -12,6 +14,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:mutes',
+
+	params: {
+		userId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchUser: {
@@ -34,17 +42,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-		expiresAt: { type: 'integer', nullable: true },
-	},
-	required: ['userId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const muter = user;
 
 	// 自分自身
@@ -68,15 +67,10 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw new ApiError(meta.errors.alreadyMuting);
 	}
 
-	if (ps.expiresAt && ps.expiresAt <= Date.now()) {
-		return;
-	}
-
 	// Create mute
 	await Mutings.insert({
 		id: genId(),
 		createdAt: new Date(),
-		expiresAt: ps.expiresAt ? new Date(ps.expiresAt) : null,
 		muterId: muter.id,
 		muteeId: mutee.id,
 	} as Muting);

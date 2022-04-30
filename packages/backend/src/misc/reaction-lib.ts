@@ -1,8 +1,8 @@
 /* eslint-disable key-spacing */
-import { emojiRegex } from './emoji-regex.js';
-import { fetchMeta } from './fetch-meta.js';
-import { Emojis } from '@/models/index.js';
-import { toPunyNullable } from './convert-host.js';
+import { emojiRegex } from './emoji-regex';
+import { fetchMeta } from './fetch-meta';
+import { Emojis } from '@/models/index';
+import { toPunyNullable } from './convert-host';
 
 const legacies: Record<string, string> = {
 	'like':     '👍',

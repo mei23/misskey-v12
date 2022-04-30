@@ -1,6 +1,6 @@
-
-
-export class channelUnread1597459042300 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class channelUnread1597459042300 {
     constructor() {
         this.name = 'channelUnread1597459042300';
     }
@@ -24,3 +24,4 @@ export class channelUnread1597459042300 {
         await queryRunner.query(`ALTER TABLE "channel_following" ADD "readCursor" TIMESTAMP WITH TIME ZONE NOT NULL`);
     }
 }
+exports.channelUnread1597459042300 = channelUnread1597459042300;
