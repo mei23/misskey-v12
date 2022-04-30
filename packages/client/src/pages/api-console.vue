@@ -25,9 +25,9 @@
 </MkSpacer>
 </template>
 
-<script lang="ts" setup>
-import { defineExpose, ref } from 'vue';
-import * as JSON5 from 'json5';
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import JSON5 from 'json5';
 import MkButton from '@/components/ui/button.vue';
 import MkInput from '@/components/form/input.vue';
 import MkTextarea from '@/components/form/textarea.vue';
