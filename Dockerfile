@@ -1,4 +1,4 @@
-FROM node:16.14.0-alpine3.15 AS base
+FROM node:gallium-alpine AS base
 
 ENV NODE_ENV=production
 
