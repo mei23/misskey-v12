@@ -468,7 +468,7 @@ router.get('(.*)', async ctx => {
 		icon: meta.iconUrl,
 		themeColor: meta.themeColor,
 	});
-	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Cache-Control', 'public, max-age=0');
 });
 
 // Register router
