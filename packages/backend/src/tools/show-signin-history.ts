@@ -1,4 +1,4 @@
-import { initDb } from '@/db/postgre.js';
+import { initDb } from '@/db/postgre';
 
 // node built/tools/show-signin-history username
 //  => {Success} {Date} {IPAddrsss}

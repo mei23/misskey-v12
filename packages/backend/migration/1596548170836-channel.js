@@ -1,6 +1,6 @@
-
-
-export class channel1596548170836 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class channel1596548170836 {
     constructor() {
         this.name = 'channel1596548170836';
     }
@@ -55,3 +55,4 @@ export class channel1596548170836 {
         await queryRunner.query(`DROP TABLE "channel"`);
     }
 }
+exports.channel1596548170836 = channel1596548170836;

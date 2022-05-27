@@ -1,6 +1,6 @@
-import { User } from '@/models/entities/user.js';
-import { id } from '@/models/id.js';
-import { UserProfiles } from '@/models/index.js';
+import { User } from '@/models/entities/user';
+import { id } from '@/models/id';
+import { UserProfiles } from '@/models/index';
 import { SelectQueryBuilder, Brackets } from 'typeorm';
 
 function createMutesQuery(id: string) {

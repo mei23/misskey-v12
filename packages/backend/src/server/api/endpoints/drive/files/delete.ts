@@ -1,8 +1,10 @@
-import { deleteFile } from '@/services/drive/delete-file.js';
-import { publishDriveStream } from '@/services/stream.js';
-import define from '../../../define.js';
-import { ApiError } from '../../../error.js';
-import { DriveFiles } from '@/models/index.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import { deleteFile } from '@/services/drive/delete-file';
+import { publishDriveStream } from '@/services/stream';
+import define from '../../../define';
+import { ApiError } from '../../../error';
+import { DriveFiles } from '@/models/index';
 
 export const meta = {
 	tags: ['drive'],
@@ -10,6 +12,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:drive',
+
+	params: {
+		fileId: {
+			validator: $.type(ID),
+		},
+	},
 
 	errors: {
 		noSuchFile: {
@@ -26,16 +34,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		fileId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['fileId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const file = await DriveFiles.findOne(ps.fileId);
 
 	if (file == null) {

@@ -1,12 +1,14 @@
-import Channel from '../channel.js';
-import { Notes } from '@/models/index.js';
-import { isInstanceMuted, isUserFromMutedInstance } from '@/misc/is-instance-muted.js';
+import autobind from 'autobind-decorator';
+import Channel from '../channel';
+import { Notes } from '@/models/index';
+import { isInstanceMuted, isUserFromMutedInstance } from '@/misc/is-instance-muted';
 
 export default class extends Channel {
 	public readonly chName = 'main';
 	public static shouldShare = true;
 	public static requireCredential = true;
 
+	@autobind
 	public async init(params: any) {
 		// Subscribe main stream channel
 		this.subscriber.on(`mainStream:${this.user!.id}`, async data => {

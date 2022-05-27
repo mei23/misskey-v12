@@ -1,6 +1,7 @@
-import define from '../../define.js';
-import Resolver from '@/remote/activitypub/resolver.js';
-import { ApiError } from '../../error.js';
+import $ from 'cafy';
+import define from '../../define';
+import Resolver from '@/remote/activitypub/resolver';
+import { ApiError } from '../../error';
 import ms from 'ms';
 
 export const meta = {
@@ -13,6 +14,12 @@ export const meta = {
 		max: 30,
 	},
 
+	params: {
+		uri: {
+			validator: $.str,
+		},
+	},
+
 	errors: {
 	},
 
@@ -22,16 +29,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		uri: { type: 'string' },
-	},
-	required: ['uri'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps) => {
+export default define(meta, async (ps) => {
 	const resolver = new Resolver();
 	const object = await resolver.resolve(ps.uri);
 	return object;

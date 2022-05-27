@@ -1,6 +1,6 @@
 import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.js';
-import { id } from '../id.js';
+import { User } from './user';
+import { id } from '../id';
 
 @Entity()
 @Index(['followerId', 'followeeId'], { unique: true })
@@ -41,7 +41,6 @@ export class Following {
 	public follower: User | null;
 
 	//#region Denormalized fields
-	@Index()
 	@Column('varchar', {
 		length: 128, nullable: true,
 		comment: '[Denormalized]',
@@ -60,7 +59,6 @@ export class Following {
 	})
 	public followerSharedInbox: string | null;
 
-	@Index()
 	@Column('varchar', {
 		length: 128, nullable: true,
 		comment: '[Denormalized]',

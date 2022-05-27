@@ -1,15 +1,15 @@
-import bcrypt from 'bcryptjs';
-import { generateKeyPair } from 'node:crypto';
-import generateUserToken from './generate-native-user-token.js';
-import { User } from '@/models/entities/user.js';
-import { Users, UsedUsernames } from '@/models/index.js';
-import { UserProfile } from '@/models/entities/user-profile.js';
+import * as bcrypt from 'bcryptjs';
+import { generateKeyPair } from 'crypto';
+import generateUserToken from './generate-native-user-token';
+import { User } from '@/models/entities/user';
+import { Users, UsedUsernames } from '@/models/index';
+import { UserProfile } from '@/models/entities/user-profile';
 import { getConnection } from 'typeorm';
-import { genId } from '@/misc/gen-id.js';
-import { toPunyNullable } from '@/misc/convert-host.js';
-import { UserKeypair } from '@/models/entities/user-keypair.js';
-import { usersChart } from '@/services/chart/index.js';
-import { UsedUsername } from '@/models/entities/used-username.js';
+import { genId } from '@/misc/gen-id';
+import { toPunyNullable } from '@/misc/convert-host';
+import { UserKeypair } from '@/models/entities/user-keypair';
+import { usersChart } from '@/services/chart/index';
+import { UsedUsername } from '@/models/entities/used-username';
 
 export async function signup(opts: {
 	username: User['username'];
@@ -21,13 +21,13 @@ export async function signup(opts: {
 	let hash = passwordHash;
 
 	// Validate username
-	if (!Users.validateLocalUsername(username)) {
+	if (!Users.validateLocalUsername.ok(username)) {
 		throw new Error('INVALID_USERNAME');
 	}
 
 	if (password != null && passwordHash == null) {
 		// Validate password
-		if (!Users.validatePassword(password)) {
+		if (!Users.validatePassword.ok(password)) {
 			throw new Error('INVALID_PASSWORD');
 		}
 

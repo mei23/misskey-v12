@@ -1,5 +1,5 @@
-import * as crypto from 'node:crypto';
-import * as util from 'node:util';
+import * as crypto from 'crypto';
+import * as util from 'util';
 
 const generateKeyPair = util.promisify(crypto.generateKeyPair);
 

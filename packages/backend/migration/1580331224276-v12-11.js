@@ -1,6 +1,6 @@
-
-
-export class v12111580331224276 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class v12111580331224276 {
     constructor() {
         this.name = 'v12111580331224276';
     }
@@ -15,3 +15,4 @@ export class v12111580331224276 {
         await queryRunner.query(`ALTER TABLE "instance" ADD "isMarkedAsClosed" boolean NOT NULL DEFAULT false`, undefined);
     }
 }
+exports.v12111580331224276 = v12111580331224276;

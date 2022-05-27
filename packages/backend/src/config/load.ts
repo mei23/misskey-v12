@@ -2,13 +2,14 @@
  * Config loader
  */
 
-import * as fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import * as fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import * as yaml from 'js-yaml';
-import { Source, Mixin } from './types.js';
+import { Source, Mixin } from './types';
 
-const _filename = fileURLToPath(import.meta.url);
+//const _filename = fileURLToPath(import.meta.url);
+const _filename = __filename;
 const _dirname = dirname(_filename);
 
 /**

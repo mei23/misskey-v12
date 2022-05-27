@@ -1,23 +1,23 @@
-import define from '../../define.js';
-import { AccessTokens } from '@/models/index.js';
-import { publishUserEvent } from '@/services/stream.js';
+import $ from 'cafy';
+import define from '../../define';
+import { AccessTokens } from '@/models/index';
+import { ID } from '@/misc/cafy-id';
+import { publishUserEvent } from '@/services/stream';
 
 export const meta = {
 	requireCredential: true,
 
 	secure: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		tokenId: { type: 'string', format: 'misskey:id' },
+	params: {
+		tokenId: {
+			validator: $.type(ID),
+		},
 	},
-	required: ['tokenId'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const token = await AccessTokens.findOne(ps.tokenId);
 
 	if (token) {

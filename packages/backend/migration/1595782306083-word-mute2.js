@@ -1,6 +1,6 @@
-
-
-export class wordMute21595782306083 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class wordMute21595782306083 {
     constructor() {
         this.name = 'wordMute21595782306083';
     }
@@ -15,3 +15,4 @@ export class wordMute21595782306083 {
         await queryRunner.query(`DROP TYPE "muted_note_reason_enum"`);
     }
 }
+exports.wordMute21595782306083 = wordMute21595782306083;

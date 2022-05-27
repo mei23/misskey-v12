@@ -154,24 +154,11 @@ const props = defineProps<{
 
 const inChannel = inject('inChannel', null);
 
-let note = $ref(JSON.parse(JSON.stringify(props.note)));
-
-// plugin
-if (noteViewInterruptors.length > 0) {
-	onMounted(async () => {
-		let result = JSON.parse(JSON.stringify(note));
-		for (const interruptor of noteViewInterruptors) {
-			result = await interruptor.handler(result);
-		}
-		note = result;
-	});
-}
-
 const isRenote = (
-	note.renote != null &&
-	note.text == null &&
-	note.fileIds.length === 0 &&
-	note.poll == null
+	props.note.renote != null &&
+	props.note.text == null &&
+	props.note.fileIds.length === 0 &&
+	props.note.poll == null
 );
 
 const el = ref<HTMLElement>();
@@ -179,8 +166,8 @@ const menuButton = ref<HTMLElement>();
 const renoteButton = ref<InstanceType<typeof XRenoteButton>>();
 const renoteTime = ref<HTMLElement>();
 const reactButton = ref<HTMLElement>();
-let appearNote = $computed(() => isRenote ? note.renote as misskey.entities.Note : note);
-const isMyRenote = $i && ($i.id === note.userId);
+let appearNote = $ref(isRenote ? props.note.renote as misskey.entities.Note : props.note);
+const isMyRenote = $i && ($i.id === props.note.userId);
 const showContent = ref(false);
 const isDeleted = ref(false);
 const muted = ref(checkWordMute(appearNote, $i, defaultStore.state.mutedWords));
@@ -201,9 +188,8 @@ const keymap = {
 };
 
 useNoteCapture({
+	appearNote: $$(appearNote),
 	rootEl: el,
-	note: $$(appearNote),
-	isDeletedRef: isDeleted,
 });
 
 function reply(viaKeyboard = false): void {
@@ -251,12 +237,12 @@ function onContextmenu(ev: MouseEvent): void {
 		ev.preventDefault();
 		react();
 	} else {
-		os.contextMenu(getNoteMenu({ note: note, translating, translation, menuButton }), ev).then(focus);
+		os.contextMenu(getNoteMenu({ note: props.note, translating, translation, menuButton }), ev).then(focus);
 	}
 }
 
 function menu(viaKeyboard = false): void {
-	os.popupMenu(getNoteMenu({ note: note, translating, translation, menuButton }), menuButton.value, {
+	os.popupMenu(getNoteMenu({ note: props.note, translating, translation, menuButton }), menuButton.value, {
 		viaKeyboard
 	}).then(focus);
 }
@@ -269,7 +255,7 @@ function showRenoteMenu(viaKeyboard = false): void {
 		danger: true,
 		action: () => {
 			os.api('notes/delete', {
-				noteId: note.id
+				noteId: props.note.id
 			});
 			isDeleted.value = true;
 		}

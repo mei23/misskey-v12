@@ -1,7 +1,6 @@
 /*
 import * as assert from 'assert';
-
-import { toDbReaction } from '../src/misc/reaction-lib.js';
+import { initTestDb } from 'utils';
 
 describe('toDbReaction', async () => {
 	let toDbReaction: any;

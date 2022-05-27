@@ -1,14 +1,17 @@
-import * as os from 'node:os';
-import si from 'systeminformation';
+import * as os from 'os';
+import * as si from 'systeminformation';
 import { getConnection } from 'typeorm';
-import define from '../../define.js';
-import { redisClient } from '../../../../db/redis.js';
+import define from '../../define';
+import { redisClient } from '../../../../db/redis';
 
 export const meta = {
 	requireCredential: true,
 	requireModerator: true,
 
 	tags: ['admin', 'meta'],
+
+	params: {
+	},
 
 	res: {
 		type: 'object',
@@ -87,14 +90,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async () => {
+export default define(meta, async () => {
 	const memStats = await si.mem();
 	const fsStats = await si.fsSize();
 	const netInterface = await si.networkInterfaceDefault();

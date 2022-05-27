@@ -1,14 +1,14 @@
 import * as http from 'http';
 import * as websocket from 'websocket';
 
-import MainStreamConnection from './stream/index.js';
+import MainStreamConnection from './stream/index';
 import { ParsedUrlQuery } from 'querystring';
-import authenticate from './authenticate.js';
+import authenticate from './authenticate';
 import { EventEmitter } from 'events';
-import { subsdcriber as redisClient } from '../../db/redis.js';
-import { Users } from '@/models/index.js';
+import { subsdcriber as redisClient } from '../../db/redis';
+import { Users } from '@/models/index';
 
-export const initializeStreamingServer = (server: http.Server) => {
+module.exports = (server: http.Server) => {
 	// Init websocket server
 	const ws = new websocket.server({
 		httpServer: server,
@@ -56,7 +56,7 @@ export const initializeStreamingServer = (server: http.Server) => {
 		});
 
 		connection.on('message', async (data) => {
-			if (data.type === 'utf8' && data.utf8Data === 'ping') {
+			if (data.utf8Data === 'ping') {
 				connection.send('pong');
 			}
 		});

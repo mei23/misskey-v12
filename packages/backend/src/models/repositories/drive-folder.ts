@@ -1,11 +1,18 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { DriveFolders, DriveFiles } from '../index.js';
-import { DriveFolder } from '@/models/entities/drive-folder.js';
-import { awaitAll } from '@/prelude/await-all.js';
-import { Packed } from '@/misc/schema.js';
+import { DriveFolders, DriveFiles } from '../index';
+import { DriveFolder } from '@/models/entities/drive-folder';
+import { awaitAll } from '@/prelude/await-all';
+import { Packed } from '@/misc/schema';
 
 @EntityRepository(DriveFolder)
 export class DriveFolderRepository extends Repository<DriveFolder> {
+	public validateFolderName(name: string): boolean {
+		return (
+			(name.trim().length > 0) &&
+			(name.length <= 200)
+		);
+	}
+
 	public async pack(
 		src: DriveFolder['id'] | DriveFolder,
 		options?: {

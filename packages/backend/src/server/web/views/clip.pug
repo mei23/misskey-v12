@@ -26,6 +26,8 @@ block meta
 	meta(name='misskey:user-id' content=user.id)
 	meta(name='misskey:clip-id' content=clip.id)
 
+	meta(name='twitter:card' content='summary')
+
 	// todo
 	if user.twitter
 		meta(name='twitter:creator' content=`@${user.twitter.screenName}`)

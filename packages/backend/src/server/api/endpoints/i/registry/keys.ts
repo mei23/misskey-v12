@@ -1,24 +1,22 @@
-import define from '../../../define.js';
-import { RegistryItems } from '@/models/index.js';
+import $ from 'cafy';
+import define from '../../../define';
+import { RegistryItems } from '@/models/index';
 
 export const meta = {
 	requireCredential: true,
 
 	secure: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		scope: { type: 'array', default: [], items: {
-			type: 'string', pattern: /^[a-zA-Z0-9_]+$/.toString().slice(1, -1),
-		} },
+	params: {
+		scope: {
+			validator: $.optional.arr($.str.match(/^[a-zA-Z0-9_]+$/)),
+			default: [],
+		},
 	},
-	required: [],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const query = RegistryItems.createQueryBuilder('item')
 		.select('item.key')
 		.where('item.domain IS NULL')

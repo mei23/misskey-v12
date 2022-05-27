@@ -1,6 +1,6 @@
-
-
-export class v121579267006611 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class v121579267006611 {
     constructor() {
         this.name = 'v121579267006611';
     }
@@ -31,3 +31,4 @@ export class v121579267006611 {
         await queryRunner.query(`DROP TABLE "announcement"`, undefined);
     }
 }
+exports.v121579267006611 = v121579267006611;

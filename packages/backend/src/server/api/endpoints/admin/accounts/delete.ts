@@ -1,26 +1,26 @@
-import define from '../../../define.js';
-import { Users } from '@/models/index.js';
-import { doPostSuspend } from '@/services/suspend-user.js';
-import { publishUserEvent } from '@/services/stream.js';
-import { createDeleteAccountJob } from '@/queue/index.js';
+import $ from 'cafy';
+import define from '../../../define';
+import { Users } from '@/models/index';
+import { doPostSuspend } from '@/services/suspend-user';
+import { publishUserEvent } from '@/services/stream';
+import { createDeleteAccountJob } from '@/queue';
+import { ID } from '@/misc/cafy-id';
 
 export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
 	requireModerator: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
+	params: {
+		userId: {
+			validator: $.type(ID),
+		},
 	},
-	required: ['userId'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const user = await Users.findOne(ps.userId);
 
 	if (user == null) {

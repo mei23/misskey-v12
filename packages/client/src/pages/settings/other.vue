@@ -4,9 +4,7 @@
 		{{ $ts.showFeaturedNotesInTimeline }}
 	</FormSwitch>
 
-	<!--
 	<FormSwitch v-model="reportError" class="_formBlock">{{ $ts.sendErrorReports }}<template #caption>{{ $ts.sendErrorReportsDescription }}</template></FormSwitch>
-	-->
 
 	<FormLink to="/settings/account-info" class="_formBlock">{{ $ts.accountInfo }}</FormLink>
 

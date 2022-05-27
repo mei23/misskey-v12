@@ -1,6 +1,6 @@
-
-
-export class deeplIntegration21629778475000 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class deeplIntegration21629778475000 {
     constructor() {
         this.name = 'deeplIntegration21629778475000';
     }
@@ -11,3 +11,4 @@ export class deeplIntegration21629778475000 {
         await queryRunner.query(`ALTER TABLE "meta" DROP COLUMN "deeplIsPro"`);
     }
 }
+exports.deeplIntegration21629778475000 = deeplIntegration21629778475000;

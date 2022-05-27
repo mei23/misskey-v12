@@ -14,8 +14,7 @@ if (localStorage.getItem('accounts') != null) {
 //#endregion
 
 import { computed, createApp, watch, markRaw, version as vueVersion } from 'vue';
-import compareVersions from 'compare-versions';
-import * as JSON5 from 'json5';
+import * as compareVersions from 'compare-versions';
 
 import widgets from '@/widgets';
 import directives from '@/directives';
@@ -33,7 +32,7 @@ import { defaultStore, ColdDeviceStorage } from '@/store';
 import { fetchInstance, instance } from '@/instance';
 import { makeHotkey } from '@/scripts/hotkey';
 import { search } from '@/scripts/search';
-import { deviceKind } from '@/scripts/device-kind';
+import { isMobile } from '@/scripts/is-mobile';
 import { initializeSw } from '@/scripts/initialize-sw';
 import { reloadChannel } from '@/scripts/unison-reload';
 import { reactionPicker } from '@/scripts/reaction-picker';
@@ -93,10 +92,11 @@ window.addEventListener('resize', () => {
 //#endregion
 
 // If mobile, insert the viewport meta tag
-if (['smartphone', 'tablet'].includes(deviceKind)) {
+if (isMobile || window.innerWidth <= 1024) {
 	const viewport = document.getElementsByName('viewport').item(0);
 	viewport.setAttribute('content',
-		`${viewport.getAttribute('content')}, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover`);
+		`${viewport.getAttribute('content')},minimum-scale=1,maximum-scale=1,user-scalable=no`);
+	document.head.appendChild(viewport);
 }
 
 //#region Set lang attr
@@ -160,9 +160,7 @@ if ($i && $i.token) {
 }
 //#endregion
 
-const fetchInstanceMetaPromise = fetchInstance();
-
-fetchInstanceMetaPromise.then(() => {
+fetchInstance().then(() => {
 	localStorage.setItem('v', instance.version);
 
 	// Init service worker
@@ -271,14 +269,6 @@ window.matchMedia('(prefers-color-scheme: dark)').addListener(mql => {
 	}
 });
 //#endregion
-
-fetchInstanceMetaPromise.then(() => {
-	if (defaultStore.state.themeInitial) {
-		if (instance.defaultLightTheme != null) ColdDeviceStorage.set('lightTheme', JSON5.parse(instance.defaultLightTheme));
-		if (instance.defaultDarkTheme != null) ColdDeviceStorage.set('darkTheme', JSON5.parse(instance.defaultDarkTheme));
-		defaultStore.set('themeInitial', false);
-	}
-});
 
 // shortcut
 document.addEventListener('keydown', makeHotkey({

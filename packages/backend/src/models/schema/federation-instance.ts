@@ -1,4 +1,4 @@
-import config from '@/config/index.js';
+import config from "@/config";
 
 export const packedFederationInstanceSchema = {
 	type: 'object',
@@ -31,6 +31,14 @@ export const packedFederationInstanceSchema = {
 			optional: false, nullable: false,
 		},
 		followersCount: {
+			type: 'number',
+			optional: false, nullable: false,
+		},
+		driveUsage: {
+			type: 'number',
+			optional: false, nullable: false,
+		},
+		driveFiles: {
 			type: 'number',
 			optional: false, nullable: false,
 		},

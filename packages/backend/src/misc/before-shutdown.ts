@@ -24,14 +24,14 @@ const SHUTDOWN_TIMEOUT = 15000;
  * down the process.
  * @type {BeforeShutdownListener[]}
  */
-const shutdownListeners: ((signalOrEvent: string) => void)[] = [];
+const shutdownListeners = [];
 
 /**
  * Listen for signals and execute given `fn` function once.
  * @param  {string[]} signals System signals to listen to.
  * @param  {function(string)} fn Function to execute on shutdown.
  */
-const processOnce = (signals: string[], fn: (signalOrEvent: string) => void) => {
+const processOnce = (signals, fn) => {
 	for (const sig of signals) {
 		process.once(sig, fn);
 	}
@@ -41,7 +41,7 @@ const processOnce = (signals: string[], fn: (signalOrEvent: string) => void) => 
  * Sets a forced shutdown mechanism that will exit the process after `timeout` milliseconds.
  * @param {number} timeout Time to wait before forcing shutdown (milliseconds)
  */
-const forceExitAfter = (timeout: number) => () => {
+const forceExitAfter = timeout => () => {
 	setTimeout(() => {
 		// Force shutdown after timeout
 		console.warn(`Could not close resources gracefully after ${timeout}ms: forcing shutdown`);
@@ -55,7 +55,7 @@ const forceExitAfter = (timeout: number) => () => {
  * be logged out as a warning, but won't prevent other callbacks from executing.
  * @param {string} signalOrEvent The exit signal or event name received on the process.
  */
-async function shutdownHandler(signalOrEvent: string) {
+async function shutdownHandler(signalOrEvent) {
 	if (process.env.NODE_ENV === 'test') return process.exit(0);
 
 	console.warn(`Shutting down: received [${signalOrEvent}] signal`);
@@ -64,9 +64,7 @@ async function shutdownHandler(signalOrEvent: string) {
 		try {
 			await listener(signalOrEvent);
 		} catch (err) {
-			if (err instanceof Error) {
-				console.warn(`A shutdown handler failed before completing with: ${err.message || err}`);
-			}
+			console.warn(`A shutdown handler failed before completing with: ${err.message || err}`);
 		}
 	}
 
@@ -80,7 +78,7 @@ async function shutdownHandler(signalOrEvent: string) {
  * @param {BeforeShutdownListener} listener The shutdown listener to register.
  * @returns {BeforeShutdownListener} Echoes back the supplied `listener`.
  */
-export function beforeShutdown(listener: () => void) {
+export function beforeShutdown(listener) {
 	shutdownListeners.push(listener);
 	return listener;
 }

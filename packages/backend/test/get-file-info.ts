@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import { async } from './utils.js';
-import { getFileInfo } from '../src/misc/get-file-info.js';
+import { async } from './utils';
+import { getFileInfo } from '../src/misc/get-file-info';
 
 describe('Get file info', () => {
 	it('Empty file', async (async () => {

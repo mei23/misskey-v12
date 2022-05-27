@@ -1,6 +1,6 @@
-
-
-export class userLastActiveDate1618637372000 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class userLastActiveDate1618637372000 {
     constructor() {
         this.name = 'userLastActiveDate1618637372000';
     }
@@ -13,3 +13,4 @@ export class userLastActiveDate1618637372000 {
         await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "lastActiveDate"`);
     }
 }
+exports.userLastActiveDate1618637372000 = userLastActiveDate1618637372000;

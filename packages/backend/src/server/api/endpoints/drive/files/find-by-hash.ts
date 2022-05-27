@@ -1,5 +1,6 @@
-import define from '../../../define.js';
-import { DriveFiles } from '@/models/index.js';
+import $ from 'cafy';
+import define from '../../../define';
+import { DriveFiles } from '@/models/index';
 
 export const meta = {
 	tags: ['drive'],
@@ -7,6 +8,12 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'read:drive',
+
+	params: {
+		md5: {
+			validator: $.str,
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -19,16 +26,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		md5: { type: 'string' },
-	},
-	required: ['md5'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const files = await DriveFiles.find({
 		md5: ps.md5,
 		userId: user.id,
