@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { just, nothing } from '../../src/prelude/maybe.js';
+import { just, nothing } from '../../src/prelude/maybe';
 
 describe('just', () => {
 	it('has a value', () => {

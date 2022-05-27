@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { query } from '../../src/prelude/url.js';
+import { query } from '../../src/prelude/url';
 
 describe('url', () => {
 	it('query', () => {

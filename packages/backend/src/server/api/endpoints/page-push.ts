@@ -1,11 +1,27 @@
-import define from '../define.js';
-import { publishMainStream } from '@/services/stream.js';
-import { Users, Pages } from '@/models/index.js';
-import { ApiError } from '../error.js';
+import $ from 'cafy';
+import define from '../define';
+import { ID } from '@/misc/cafy-id';
+import { publishMainStream } from '@/services/stream';
+import { Users, Pages } from '@/models/index';
+import { ApiError } from '../error';
 
 export const meta = {
 	requireCredential: true,
 	secure: true,
+
+	params: {
+		pageId: {
+			validator: $.type(ID),
+		},
+
+		event: {
+			validator: $.str,
+		},
+
+		var: {
+			validator: $.optional.nullable.any,
+		},
+	},
 
 	errors: {
 		noSuchPage: {
@@ -16,18 +32,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		pageId: { type: 'string', format: 'misskey:id' },
-		event: { type: 'string' },
-		var: {},
-	},
-	required: ['pageId', 'event'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const page = await Pages.findOne(ps.pageId);
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);

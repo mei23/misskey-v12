@@ -1,3 +1,4 @@
+import autobind from 'autobind-decorator';
 import Connection from '.';
 
 /**
@@ -43,6 +44,7 @@ export default abstract class Channel {
 		this.connection = connection;
 	}
 
+	@autobind
 	public send(typeOrPayload: any, payload?: any) {
 		const type = payload === undefined ? typeOrPayload.type : typeOrPayload;
 		const body = payload === undefined ? typeOrPayload.body : payload;

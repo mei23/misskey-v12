@@ -1,7 +1,7 @@
 import * as nodemailer from 'nodemailer';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import Logger from './logger.js';
-import config from '@/config/index.js';
+import { fetchMeta } from '@/misc/fetch-meta';
+import Logger from './logger';
+import config from '@/config/index';
 
 export const logger = new Logger('email');
 
@@ -114,9 +114,9 @@ export async function sendEmail(to: string, subject: string, html: string, text:
 </html>`,
 		});
 
-		logger.info(`Message sent: ${info.messageId}`);
-	} catch (err) {
-		logger.error(err as Error);
-		throw err;
+		logger.info('Message sent: %s', info.messageId);
+	} catch (e) {
+		logger.error(e);
+		throw e;
 	}
 }

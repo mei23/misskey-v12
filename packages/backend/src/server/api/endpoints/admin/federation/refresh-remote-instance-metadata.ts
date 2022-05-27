@@ -1,25 +1,24 @@
-import define from '../../../define.js';
-import { Instances } from '@/models/index.js';
-import { toPuny } from '@/misc/convert-host.js';
-import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
+import $ from 'cafy';
+import define from '../../../define';
+import { Instances } from '@/models/index';
+import { toPuny } from '@/misc/convert-host';
+import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata';
 
 export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
 	requireModerator: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		host: { type: 'string' },
+	params: {
+		host: {
+			validator: $.str,
+		},
 	},
-	required: ['host'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const instance = await Instances.findOne({ host: toPuny(ps.host) });
 
 	if (instance == null) {

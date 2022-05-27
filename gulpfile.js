@@ -15,14 +15,6 @@ gulp.task('copy:backend:views', () =>
 	gulp.src('./packages/backend/src/server/web/views/**/*').pipe(gulp.dest('./packages/backend/built/server/web/views'))
 );
 
-gulp.task('copy:client:fonts', () =>
-	gulp.src('./packages/client/node_modules/three/examples/fonts/**/*').pipe(gulp.dest('./built/_client_dist_/fonts/'))
-);
-
-gulp.task('copy:client:fontawesome', () =>
-	gulp.src('./packages/client/node_modules/@fortawesome/fontawesome-free/**/*').pipe(gulp.dest('./built/_client_dist_/fontawesome/'))
-);
-
 gulp.task('copy:client:locales', cb => {
 	fs.mkdirSync('./built/_client_dist_/locales', { recursive: true });
 
@@ -54,7 +46,7 @@ gulp.task('build:backend:style', () => {
 });
 
 gulp.task('build', gulp.parallel(
-	'copy:client:locales', 'copy:backend:views', 'build:backend:script', 'build:backend:style', 'copy:client:fonts', 'copy:client:fontawesome'
+	'copy:client:locales', 'copy:backend:views', 'build:backend:script', 'build:backend:style'
 ));
 
 gulp.task('default', gulp.task('build'));

@@ -1,15 +1,59 @@
-import define from '../../define.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
-import { Notes } from '@/models/index.js';
-import { generateMutedUserQuery } from '../../common/generate-muted-user-query.js';
-import { generateVisibilityQuery } from '../../common/generate-visibility-query.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { makePaginationQuery } from '../../common/make-pagination-query';
+import { Notes } from '@/models/index';
+import { generateMutedUserQuery } from '../../common/generate-muted-user-query';
+import { generateVisibilityQuery } from '../../common/generate-visibility-query';
 import { Brackets } from 'typeorm';
-import { safeForSql } from '@/misc/safe-for-sql.js';
-import { normalizeForSearch } from '@/misc/normalize-for-search.js';
-import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
+import { safeForSql } from '@/misc/safe-for-sql';
+import { normalizeForSearch } from '@/misc/normalize-for-search';
+import { generateBlockedUserQuery } from '../../common/generate-block-query';
 
 export const meta = {
 	tags: ['notes', 'hashtags'],
+
+	params: {
+		tag: {
+			validator: $.optional.str,
+		},
+
+		query: {
+			validator: $.optional.arr($.arr($.str)),
+		},
+
+		reply: {
+			validator: $.optional.nullable.bool,
+			default: null,
+		},
+
+		renote: {
+			validator: $.optional.nullable.bool,
+			default: null,
+		},
+
+		withFiles: {
+			validator: $.optional.bool,
+		},
+
+		poll: {
+			validator: $.optional.nullable.bool,
+			default: null,
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+		},
+
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -22,40 +66,14 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		tag: { type: 'string' },
-		query: { type: 'array', items: {
-			type: 'array', items: {
-				type: 'string',
-			},
-		} },
-		reply: { type: 'boolean', nullable: true, default: null },
-		renote: { type: 'boolean', nullable: true, default: null },
-		withFiles: { type: 'boolean' },
-		poll: { type: 'boolean', nullable: true, default: null },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-	},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
 		.innerJoinAndSelect('note.user', 'user')
-		.leftJoinAndSelect('user.avatar', 'avatar')
-		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
 		.leftJoinAndSelect('note.renote', 'renote')
 		.leftJoinAndSelect('reply.user', 'replyUser')
-		.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
-		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
-		.leftJoinAndSelect('renote.user', 'renoteUser')
-		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
-		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner');
+		.leftJoinAndSelect('renote.user', 'renoteUser');
 
 	generateVisibilityQuery(query, me);
 	if (me) generateMutedUserQuery(query, me);
@@ -111,7 +129,7 @@ export default define(meta, paramDef, async (ps, me) => {
 	}
 
 	// Search notes
-	const notes = await query.take(ps.limit).getMany();
+	const notes = await query.take(ps.limit!).getMany();
 
 	return await Notes.packMany(notes, me);
 });

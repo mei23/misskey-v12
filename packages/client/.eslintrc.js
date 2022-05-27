@@ -19,7 +19,6 @@ module.exports = {
 		// e の禁止理由: error や event など、複数のキーワードの頭文字であり分かりにくいため
 		"id-denylist": ["error", "window", "data", "e"],
 		'eqeqeq': ['error', 'always', { 'null': 'ignore' }],
-		"no-shadow": ["warn"],
 		"vue/attributes-order": ["error", {
 			"alphabetical": false
 		}],

@@ -1,26 +1,26 @@
-import * as fs from 'node:fs';
+import * as fs from 'fs';
 
 import { v4 as uuid } from 'uuid';
 
-import { publishMainStream, publishDriveStream } from '@/services/stream.js';
-import { deleteFile } from './delete-file.js';
-import { fetchMeta } from '@/misc/fetch-meta.js';
-import { GenerateVideoThumbnail } from './generate-video-thumbnail.js';
-import { driveLogger } from './logger.js';
-import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg } from './image-processor.js';
-import { contentDisposition } from '@/misc/content-disposition.js';
-import { getFileInfo } from '@/misc/get-file-info.js';
-import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from '@/models/index.js';
-import { InternalStorage } from './internal-storage.js';
-import { DriveFile } from '@/models/entities/drive-file.js';
-import { IRemoteUser, User } from '@/models/entities/user.js';
-import { driveChart, perUserDriveChart, instanceChart } from '@/services/chart/index.js';
-import { genId } from '@/misc/gen-id.js';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
-import S3 from 'aws-sdk/clients/s3.js';
-import { getS3 } from './s3.js';
-import sharp from 'sharp';
-import { FILE_TYPE_BROWSERSAFE } from '@/const.js';
+import { publishMainStream, publishDriveStream } from '@/services/stream';
+import { deleteFile } from './delete-file';
+import { fetchMeta } from '@/misc/fetch-meta';
+import { GenerateVideoThumbnail } from './generate-video-thumbnail';
+import { driveLogger } from './logger';
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg } from './image-processor';
+import { contentDisposition } from '@/misc/content-disposition';
+import { getFileInfo } from '@/misc/get-file-info';
+import { DriveFiles, DriveFolders, Users, Instances, UserProfiles } from '@/models/index';
+import { InternalStorage } from './internal-storage';
+import { DriveFile } from '@/models/entities/drive-file';
+import { IRemoteUser, User } from '@/models/entities/user';
+import { driveChart, perUserDriveChart, instanceChart } from '@/services/chart/index';
+import { genId } from '@/misc/gen-id';
+import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error';
+import * as S3 from 'aws-sdk/clients/s3';
+import { getS3 } from './s3';
+import * as sharp from 'sharp';
+import { FILE_TYPE_BROWSERSAFE } from '@/const';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -169,8 +169,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 				webpublic: null,
 				thumbnail,
 			};
-		} catch (err) {
-			logger.warn(`GenerateVideoThumbnail failed: ${err}`);
+		} catch (e) {
+			logger.warn(`GenerateVideoThumbnail failed: ${e}`);
 			return {
 				webpublic: null,
 				thumbnail: null,
@@ -200,8 +200,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 				thumbnail: null,
 			};
 		}
-	} catch (err) {
-		logger.warn(`sharp failed: ${err}`);
+	} catch (e) {
+		logger.warn(`sharp failed: ${e}`);
 		return {
 			webpublic: null,
 			thumbnail: null,
@@ -224,8 +224,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 			} else {
 				logger.debug(`web image not created (not an required image)`);
 			}
-		} catch (err) {
-			logger.warn(`web image not created (an error occured)`, err as Error);
+		} catch (e) {
+			logger.warn(`web image not created (an error occured)`, e);
 		}
 	} else {
 		logger.info(`web image not created (from remote)`);
@@ -243,8 +243,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 		} else {
 			logger.debug(`thumbnail not created (not an required file)`);
 		}
-	} catch (err) {
-		logger.warn(`thumbnail not created (an error occured)`, err as Error);
+	} catch (e) {
+		logger.warn(`thumbnail not created (an error occured)`, e);
 	}
 	// #endregion thumbnail
 
@@ -460,9 +460,9 @@ export async function addFile({
 			file.storedInternal = false;
 
 			file = await DriveFiles.insert(file).then(x => DriveFiles.findOneOrFail(x.identifiers[0]));
-		} catch (err) {
+		} catch (e) {
 			// duplicate key error (when already registered)
-			if (isDuplicateKeyValueError(err)) {
+			if (isDuplicateKeyValueError(e)) {
 				logger.info(`already registered ${file.uri}`);
 
 				file = await DriveFiles.findOne({
@@ -470,8 +470,8 @@ export async function addFile({
 					userId: user ? user.id : null,
 				}) as DriveFile;
 			} else {
-				logger.error(err as Error);
-				throw err;
+				logger.error(e);
+				throw e;
 			}
 		}
 	} else {
@@ -493,6 +493,8 @@ export async function addFile({
 	perUserDriveChart.update(file, true);
 	if (file.userHost !== null) {
 		instanceChart.updateDrive(file, true);
+		Instances.increment({ host: file.userHost }, 'driveUsage', file.size);
+		Instances.increment({ host: file.userHost }, 'driveFiles', 1);
 	}
 
 	return file;

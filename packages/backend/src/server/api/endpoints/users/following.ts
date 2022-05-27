@@ -1,13 +1,42 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { Users, Followings, UserProfiles } from '@/models/index.js';
-import { makePaginationQuery } from '../../common/make-pagination-query.js';
-import { toPunyNullable } from '@/misc/convert-host.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { Users, Followings, UserProfiles } from '@/models/index';
+import { makePaginationQuery } from '../../common/make-pagination-query';
+import { toPunyNullable } from '@/misc/convert-host';
 
 export const meta = {
 	tags: ['users'],
 
 	requireCredential: false,
+
+	params: {
+		userId: {
+			validator: $.optional.type(ID),
+		},
+
+		username: {
+			validator: $.optional.str,
+		},
+
+		host: {
+			validator: $.optional.nullable.str,
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+		},
+
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -34,21 +63,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-		username: { type: 'string' },
-		host: { type: 'string', nullable: true },
-		sinceId: { type: 'string', format: 'misskey:id' },
-		untilId: { type: 'string', format: 'misskey:id' },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-	},
-	required: [],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const user = await Users.findOne(ps.userId != null
 		? { id: ps.userId }
 		: { usernameLower: ps.username!.toLowerCase(), host: toPunyNullable(ps.host) });
@@ -82,7 +98,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		.innerJoinAndSelect('following.followee', 'followee');
 
 	const followings = await query
-		.take(ps.limit)
+		.take(ps.limit!)
 		.getMany();
 
 	return await Followings.packMany(followings, me, { populateFollowee: true });

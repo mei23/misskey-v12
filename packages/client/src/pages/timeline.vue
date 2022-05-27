@@ -46,10 +46,8 @@ const keymap = {
 const tlComponent = $ref<InstanceType<typeof XTimeline>>();
 const rootEl = $ref<HTMLElement>();
 
+let src = $ref<'home' | 'local' | 'social' | 'global'>(defaultStore.state.tl.src);
 let queue = $ref(0);
-const src = $computed(() => defaultStore.reactiveState.tl.value.src);
-
-watch ($$(src), () => queue = 0);
 
 function queueUpdated(q: number): void {
 	queue = q;
@@ -62,7 +60,7 @@ function top(): void {
 async function chooseList(ev: MouseEvent): Promise<void> {
 	const lists = await os.api('users/lists/list');
 	const items = lists.map(list => ({
-		type: 'link' as const,
+		type: 'link',
 		text: list.name,
 		to: `/timeline/list/${list.id}`,
 	}));
@@ -72,7 +70,7 @@ async function chooseList(ev: MouseEvent): Promise<void> {
 async function chooseAntenna(ev: MouseEvent): Promise<void> {
 	const antennas = await os.api('antennas/list');
 	const items = antennas.map(antenna => ({
-		type: 'link' as const,
+		type: 'link',
 		text: antenna.name,
 		indicate: antenna.hasUnreadNote,
 		to: `/timeline/antenna/${antenna.id}`,
@@ -83,7 +81,7 @@ async function chooseAntenna(ev: MouseEvent): Promise<void> {
 async function chooseChannel(ev: MouseEvent): Promise<void> {
 	const channels = await os.api('channels/followed');
 	const items = channels.map(channel => ({
-		type: 'link' as const,
+		type: 'link',
 		text: channel.name,
 		indicate: channel.hasUnreadNote,
 		to: `/channels/${channel.id}`,
@@ -91,10 +89,9 @@ async function chooseChannel(ev: MouseEvent): Promise<void> {
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
-function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global'): void {
+function saveSrc(): void {
 	defaultStore.set('tl', {
-		...defaultStore.state.tl,
-		src: newSrc,
+		src: src,
 	});
 }
 
@@ -138,25 +135,25 @@ defineExpose({
 			title: i18n.ts._timelines.home,
 			icon: 'fas fa-home',
 			iconOnly: true,
-			onClick: () => { saveSrc('home'); },
+			onClick: () => { src = 'home'; saveSrc(); },
 		}, ...(isLocalTimelineAvailable ? [{
 			active: src === 'local',
 			title: i18n.ts._timelines.local,
 			icon: 'fas fa-comments',
 			iconOnly: true,
-			onClick: () => { saveSrc('local'); },
+			onClick: () => { src = 'local'; saveSrc(); },
 		}, {
 			active: src === 'social',
 			title: i18n.ts._timelines.social,
 			icon: 'fas fa-share-alt',
 			iconOnly: true,
-			onClick: () => { saveSrc('social'); },
+			onClick: () => { src = 'social'; saveSrc(); },
 		}] : []), ...(isGlobalTimelineAvailable ? [{
 			active: src === 'global',
 			title: i18n.ts._timelines.global,
 			icon: 'fas fa-globe',
 			iconOnly: true,
-			onClick: () => { saveSrc('global'); },
+			onClick: () => { src = 'global'; saveSrc(); },
 		}] : [])],
 	})),
 });

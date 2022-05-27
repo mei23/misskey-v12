@@ -12,14 +12,6 @@
 		</template>
 	</FormSelect>
 
-	<FormRadios v-model="overridedDeviceKind" class="_formBlock">
-		<template #label>{{ $ts.overridedDeviceKind }}</template>
-		<option :value="null">{{ $ts.auto }}</option>
-		<option value="smartphone"><i class="fas fa-mobile-alt"/> {{ $ts.smartphone }}</option>
-		<option value="tablet"><i class="fas fa-tablet-alt"/> {{ $ts.tablet }}</option>
-		<option value="desktop"><i class="fas fa-desktop"/> {{ $ts.desktop }}</option>
-	</FormRadios>
-
 	<FormSwitch v-model="showFixedPostForm" class="_formBlock">{{ $ts.showFixedPostForm }}</FormSwitch>
 
 	<FormSection>
@@ -135,7 +127,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		overridedDeviceKind: defaultStore.makeGetterSetter('overridedDeviceKind'),
 		serverDisconnectedBehavior: defaultStore.makeGetterSetter('serverDisconnectedBehavior'),
 		reduceAnimation: defaultStore.makeGetterSetter('animation', v => !v, v => !v),
 		useBlurEffectForModal: defaultStore.makeGetterSetter('useBlurEffectForModal'),
@@ -200,10 +191,6 @@ export default defineComponent({
 		},
 
 		instanceTicker() {
-			this.reloadAsk();
-		},
-
-		overridedDeviceKind() {
 			this.reloadAsk();
 		},
 	},

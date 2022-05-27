@@ -1,6 +1,6 @@
-
-
-export class v1261579993013959 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class v1261579993013959 {
     constructor() {
         this.name = 'v1261579993013959';
     }
@@ -15,3 +15,4 @@ export class v1261579993013959 {
         await queryRunner.query(`ALTER TABLE "antenna" ADD "hasNewNote" boolean NOT NULL DEFAULT false`, undefined);
     }
 }
+exports.v1261579993013959 = v1261579993013959;

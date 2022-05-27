@@ -1,12 +1,39 @@
-import define from '../../define.js';
-import { UserProfiles, Users } from '@/models/index.js';
-import { User } from '@/models/entities/user.js';
+import $ from 'cafy';
+import define from '../../define';
+import { UserProfiles, Users } from '@/models/index';
+import { User } from '@/models/entities/user';
 import { Brackets } from 'typeorm';
 
 export const meta = {
 	tags: ['users'],
 
 	requireCredential: false,
+
+	params: {
+		query: {
+			validator: $.str,
+		},
+
+		offset: {
+			validator: $.optional.num.min(0),
+			default: 0,
+		},
+
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10,
+		},
+
+		origin: {
+			validator: $.optional.str.or(['local', 'remote', 'combined']),
+			default: 'combined',
+		},
+
+		detail: {
+			validator: $.optional.bool,
+			default: true,
+		},
+	},
 
 	res: {
 		type: 'array',
@@ -19,20 +46,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		query: { type: 'string' },
-		offset: { type: 'integer', default: 0 },
-		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
-		origin: { type: 'string', enum: ['local', 'remote', 'combined'], default: "combined" },
-		detail: { type: 'boolean', default: true },
-	},
-	required: ['query'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const activeThreshold = new Date(Date.now() - (1000 * 60 * 60 * 24 * 30)); // 30日
 
 	const isUsername = ps.query.startsWith('@');
@@ -56,7 +71,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 		users = await usernameQuery
 			.orderBy('user.updatedAt', 'DESC', 'NULLS LAST')
-			.take(ps.limit)
+			.take(ps.limit!)
 			.skip(ps.offset)
 			.getMany();
 	} else {
@@ -76,11 +91,11 @@ export default define(meta, paramDef, async (ps, me) => {
 
 		users = await nameQuery
 			.orderBy('user.updatedAt', 'DESC', 'NULLS LAST')
-			.take(ps.limit)
+			.take(ps.limit!)
 			.skip(ps.offset)
 			.getMany();
 
-		if (users.length < ps.limit) {
+		if (users.length < ps.limit!) {
 			const profQuery = UserProfiles.createQueryBuilder('prof')
 				.select('prof.userId')
 				.where('prof.description ILIKE :query', { query: '%' + ps.query + '%' });
@@ -102,7 +117,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 			users = users.concat(await query
 				.orderBy('user.updatedAt', 'DESC', 'NULLS LAST')
-				.take(ps.limit)
+				.take(ps.limit!)
 				.skip(ps.offset)
 				.getMany()
 			);

@@ -1,20 +1,17 @@
-import define from '../../../define.js';
-import { RegistryItems } from '@/models/index.js';
+import define from '../../../define';
+import { RegistryItems } from '@/models/index';
 
 export const meta = {
 	requireCredential: true,
 
 	secure: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {},
-	required: [],
+	params: {
+	},
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const query = RegistryItems.createQueryBuilder('item')
 		.select('item.scope')
 		.where('item.domain IS NULL')

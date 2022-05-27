@@ -1,6 +1,6 @@
-
-
-export class apUrl1585772678853 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class apUrl1585772678853 {
     constructor() {
         this.name = 'apUrl1585772678853';
     }
@@ -11,3 +11,4 @@ export class apUrl1585772678853 {
         await queryRunner.query(`ALTER TABLE "note" DROP COLUMN "url"`, undefined);
     }
 }
+exports.apUrl1585772678853 = apUrl1585772678853;

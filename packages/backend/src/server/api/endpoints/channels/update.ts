@@ -1,6 +1,8 @@
-import define from '../../define.js';
-import { ApiError } from '../../error.js';
-import { Channels, DriveFiles } from '@/models/index.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../define';
+import { ApiError } from '../../error';
+import { Channels, DriveFiles } from '@/models/index';
 
 export const meta = {
 	tags: ['channels'],
@@ -8,6 +10,24 @@ export const meta = {
 	requireCredential: true,
 
 	kind: 'write:channels',
+
+	params: {
+		channelId: {
+			validator: $.type(ID),
+		},
+
+		name: {
+			validator: $.optional.str.range(1, 128),
+		},
+
+		description: {
+			validator: $.nullable.optional.str.range(1, 2048),
+		},
+
+		bannerId: {
+			validator: $.nullable.optional.type(ID),
+		},
+	},
 
 	res: {
 		type: 'object',
@@ -36,19 +56,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		channelId: { type: 'string', format: 'misskey:id' },
-		name: { type: 'string', minLength: 1, maxLength: 128 },
-		description: { type: 'string', nullable: true, minLength: 1, maxLength: 2048 },
-		bannerId: { type: 'string', format: 'misskey:id', nullable: true },
-	},
-	required: ['channelId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const channel = await Channels.findOne({
 		id: ps.channelId,
 	});

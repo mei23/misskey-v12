@@ -1,25 +1,26 @@
-import define from '../../define.js';
+import $ from 'cafy';
+import define from '../../define';
 import { getConnection } from 'typeorm';
-import { insertModerationLog } from '@/services/insert-moderation-log.js';
+import { insertModerationLog } from '@/services/insert-moderation-log';
 
 export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
 	requireModerator: true,
-} as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		full: { type: 'boolean' },
-		analyze: { type: 'boolean' },
+	params: {
+		full: {
+			validator: $.bool,
+		},
+		analyze: {
+			validator: $.bool,
+		},
 	},
-	required: ['full', 'analyze'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, me) => {
+export default define(meta, async (ps, me) => {
 	const params: string[] = [];
 
 	if (ps.full) {

@@ -61,7 +61,6 @@ pinnedNotes: "Post fixado"
 smtpUser: "Nome de usuário"
 smtpPass: "Senha"
 user: "Usuários"
-searchByGoogle: "Pesquisar"
 _email:
   _follow:
     title: "Você tem um novo seguidor"

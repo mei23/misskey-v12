@@ -1,6 +1,6 @@
-
-
-export class useBigintForDriveUsage1613503367223 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class useBigintForDriveUsage1613503367223 {
     constructor() {
         this.name = 'useBigintForDriveUsage1613503367223';
     }
@@ -12,3 +12,4 @@ export class useBigintForDriveUsage1613503367223 {
         await queryRunner.query(`ALTER TABLE "instance" ADD "driveUsage" integer NOT NULL DEFAULT 0`);
     }
 }
+exports.useBigintForDriveUsage1613503367223 = useBigintForDriveUsage1613503367223;

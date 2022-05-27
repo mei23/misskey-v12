@@ -1,4 +1,4 @@
-import { Packed } from './schema.js';
+import { Packed } from './schema';
 
 /**
  * 投稿を表す文字列を取得します。

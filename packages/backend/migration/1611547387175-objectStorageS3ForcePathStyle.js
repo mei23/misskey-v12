@@ -1,6 +1,6 @@
-
-
-export class objectStorageS3ForcePathStyle1611547387175 {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class objectStorageS3ForcePathStyle1611547387175 {
     constructor() {
         this.name = 'objectStorageS3ForcePathStyle1611547387175';
     }
@@ -11,3 +11,4 @@ export class objectStorageS3ForcePathStyle1611547387175 {
         await queryRunner.query(`ALTER TABLE "meta" DROP COLUMN "objectStorageS3ForcePathStyle"`);
     }
 }
+exports.objectStorageS3ForcePathStyle1611547387175 = objectStorageS3ForcePathStyle1611547387175;

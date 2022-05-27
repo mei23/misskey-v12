@@ -1,8 +1,10 @@
-import define from '../../../define.js';
+import $ from 'cafy';
+import { ID } from '@/misc/cafy-id';
+import define from '../../../define';
 import ms from 'ms';
-import { ApiError } from '../../../error.js';
-import { MessagingMessages } from '@/models/index.js';
-import { deleteMessage } from '@/services/messages/delete.js';
+import { ApiError } from '../../../error';
+import { MessagingMessages } from '@/models/index';
+import { deleteMessage } from '@/services/messages/delete';
 
 export const meta = {
 	tags: ['messaging'],
@@ -17,6 +19,12 @@ export const meta = {
 		minInterval: ms('1sec'),
 	},
 
+	params: {
+		messageId: {
+			validator: $.type(ID),
+		},
+	},
+
 	errors: {
 		noSuchMessage: {
 			message: 'No such message.',
@@ -26,16 +34,8 @@ export const meta = {
 	},
 } as const;
 
-export const paramDef = {
-	type: 'object',
-	properties: {
-		messageId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['messageId'],
-} as const;
-
 // eslint-disable-next-line import/no-default-export
-export default define(meta, paramDef, async (ps, user) => {
+export default define(meta, async (ps, user) => {
 	const message = await MessagingMessages.findOne({
 		id: ps.messageId,
 		userId: user.id,
