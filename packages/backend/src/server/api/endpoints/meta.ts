@@ -1,23 +1,15 @@
-import $ from 'cafy';
-import config from '@/config/index';
-import define from '../define';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { Ads, Emojis, Users } from '@/models/index';
-import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits';
+import config from '@/config/index.js';
+import define from '../define.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { Ads, Emojis, Users } from '@/models/index.js';
+import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits.js';
 import { MoreThan } from 'typeorm';
-import { REPOSITORY_URL } from '@/const';
+import { MAX_NOTE_TEXT_LENGTH, REPOSITORY_URL } from '@/const.js';
 
 export const meta = {
 	tags: ['meta'],
 
 	requireCredential: false,
-
-	params: {
-		detail: {
-			validator: $.optional.bool,
-			default: true,
-		},
-	},
 
 	res: {
 		type: 'object',
@@ -72,10 +64,13 @@ export const meta = {
 				optional: false, nullable: false,
 				default: 'https://github.com/misskey-dev/misskey/issues/new',
 			},
-			secure: {
-				type: 'boolean',
-				optional: false, nullable: false,
-				default: false,
+			defaultDarkTheme: {
+				type: 'string',
+				optional: false, nullable: true,
+			},
+			defaultLightTheme: {
+				type: 'string',
+				optional: false, nullable: true,
 			},
 			disableRegistration: {
 				type: 'boolean',
@@ -98,10 +93,6 @@ export const meta = {
 				optional: false, nullable: false,
 			},
 			cacheRemoteFiles: {
-				type: 'boolean',
-				optional: false, nullable: false,
-			},
-			proxyRemoteFiles: {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
@@ -150,7 +141,6 @@ export const meta = {
 			maxNoteTextLength: {
 				type: 'number',
 				optional: false, nullable: false,
-				default: 500,
 			},
 			emojis: {
 				type: 'array',
@@ -449,8 +439,16 @@ export const meta = {
 	},
 } as const;
 
+export const paramDef = {
+	type: 'object',
+	properties: {
+		detail: { type: 'boolean', default: true },
+	},
+	required: [],
+} as const;
+
 // eslint-disable-next-line import/no-default-export
-export default define(meta, async (ps, me) => {
+export default define(meta, paramDef, async (ps, me) => {
 	const instance = await fetchMeta(true);
 
 	const emojis = await Emojis.find({
@@ -486,9 +484,6 @@ export default define(meta, async (ps, me) => {
 		tosUrl: instance.ToSUrl,
 		repositoryUrl: REPOSITORY_URL,
 		feedbackUrl: instance.feedbackUrl,
-
-		secure: config.https != null,
-
 		disableRegistration: instance.disableRegistration,
 		disableLocalTimeline: instance.disableLocalTimeline,
 		disableGlobalTimeline: instance.disableGlobalTimeline,
@@ -500,14 +495,17 @@ export default define(meta, async (ps, me) => {
 		enableRecaptcha: instance.enableRecaptcha,
 		recaptchaSiteKey: instance.recaptchaSiteKey,
 		swPublickey: instance.swPublicKey,
+		themeColor: instance.themeColor,
 		mascotImageUrl: instance.mascotImageUrl,
 		bannerUrl: instance.bannerUrl,
 		errorImageUrl: instance.errorImageUrl,
 		iconUrl: instance.iconUrl,
 		backgroundImageUrl: instance.backgroundImageUrl,
 		logoImageUrl: instance.logoImageUrl,
-		maxNoteTextLength: Math.min(instance.maxNoteTextLength, DB_MAX_NOTE_TEXT_LENGTH),
+		maxNoteTextLength: MAX_NOTE_TEXT_LENGTH, // 後方互換性のため
 		emojis: await Emojis.packMany(emojis),
+		defaultLightTheme: instance.defaultLightTheme,
+		defaultDarkTheme: instance.defaultDarkTheme,
 		ads: ads.map(ad => ({
 			id: ad.id,
 			url: ad.url,
@@ -529,7 +527,6 @@ export default define(meta, async (ps, me) => {
 			pinnedPages: instance.pinnedPages,
 			pinnedClipId: instance.pinnedClipId,
 			cacheRemoteFiles: instance.cacheRemoteFiles,
-			proxyRemoteFiles: instance.proxyRemoteFiles,
 			requireSetup: (await Users.count({
 				host: null,
 			})) === 0,
