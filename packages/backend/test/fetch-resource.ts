@@ -20,6 +20,7 @@ describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
 
 	let admin: any;
+	let instanceBanner: any;
 	let instance: any;
 
 	let alice: any;
@@ -35,10 +36,15 @@ describe('Fetch resource', () => {
 		// admin
 		admin = await signup({ username: 'admin' });
 
+		// upload instance banner
+		instanceBanner = await uploadFile(admin);
+		console.log('instanceBanner', instanceBanner);
+	
 		// update instance
 		await api('admin/update-meta', {
 			name: 'Instance Name',
 			description: 'Instance Desc',
+			bannerUrl: instanceBanner.url,
 		}, admin);
 
 		instance = (await api('meta', {})).body;
@@ -297,6 +303,13 @@ describe('Fetch resource', () => {
 				'twitter:player:height': doc.querySelector('meta[name="twitter:player:height"]')?.getAttribute('content'),
 				'twitter:player:stream': doc.querySelector('meta[name="twitter:player:stream"]')?.getAttribute('content'),
 				'twitter:player:stream:content_type': doc.querySelector('meta[name="twitter:player:stream:content_type"]')?.getAttribute('content'),
+
+				// Player - og
+				'og:video:url': doc.querySelector('meta[property="og:video:url"]')?.getAttribute('content'),
+				'og:video:secure_url': doc.querySelector('meta[property="og:video:secure_url"]')?.getAttribute('content'),
+				'og:video:type': doc.querySelector('meta[property="og:video:type"]')?.getAttribute('content'),
+				'og:video:width': doc.querySelector('meta[property="og:video:width"]')?.getAttribute('content'),
+				'og:video:height': doc.querySelector('meta[property="og:video:height"]')?.getAttribute('content'),
 			};
 		}
 
@@ -309,17 +322,22 @@ describe('Fetch resource', () => {
 				'og:site_name': instance.name,
 				'description': instance.description,
 				'og:description': instance.description,
-				'twitter:card': undefined,
+				'twitter:card': undefined,	// https://github.com/misskey-dev/misskey/pull/8193
 				'misskey:user-username': undefined,
 				'misskey:user-id': undefined,
 				'og:url': undefined,
-				'og:image': null,
+				'og:image': instanceBanner.url,
 				'og:published_time': undefined,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -343,6 +361,11 @@ describe('Fetch resource', () => {
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -366,6 +389,11 @@ describe('Fetch resource', () => {
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -383,12 +411,18 @@ describe('Fetch resource', () => {
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/notes/${alicesPostImage.id}`,
 				'og:image': alice.avatarUrl,
+				// 'og:image': alicesPostImage.files[0].thumbnailUrl,	// or use attachment
 				'og:published_time': alicesPostImage.createtAt,
 				'twitter:player': undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 
@@ -406,12 +440,18 @@ describe('Fetch resource', () => {
 				'misskey:user-id': alice.id,
 				'og:url': `http://misskey.local/notes/${alicesPostVideo.id}`,
 				'og:image': alice.avatarUrl,
+				// 'og:image': alicesPostVideo.files[0].thumbnailUrl,
 				'og:published_time': alicesPostVideo.createtAt,
 				'twitter:player':  undefined,
 				'twitter:player:width': undefined,
 				'twitter:player:height': undefined,
 				'twitter:player:stream': undefined,
 				'twitter:player:stream:content_type': undefined,
+				'og:video:url': undefined,
+				'og:video:secure_url': undefined,
+				'og:video:type': undefined,
+				'og:video:width': undefined,
+				'og:video:height': undefined,
 			});
 		}));
 	});
