@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import * as openapi from '@redocly/openapi-core';
-import { async, startServer, signup, post, request, simpleGet, port, shutdownServer } from './utils.js';
+import { async, startServer, signup, post, api, simpleGet, port, shutdownServer, uploadFile, getDocument } from './utils.js';
 
 // Request Accept
 const ONLY_AP = 'application/activity+json';
@@ -19,15 +19,79 @@ const HTML = 'text/html; charset=utf-8';
 describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
 
+	let admin: any;
+	let instance: any;
+
 	let alice: any;
+	let avatar: any;
 	let alicesPost: any;
+	let image: any;
+	let alicesPostImage: any;
+	let video: any;
+	let alicesPostVideo: any;
 
 	before(async () => {
 		p = await startServer();
+		// admin
+		admin = await signup({ username: 'admin' });
+
+		// update instance
+		await api('admin/update-meta', {
+			name: 'Instance Name',
+			description: 'Instance Desc',
+		}, admin);
+
+		instance = (await api('meta', {})).body;
+		console.log('instance', instance);
+
+		// signup
 		alice = await signup({ username: 'alice' });
+		console.log('alice', alice);
+
+		// upload avatar
+		avatar = await uploadFile(alice);
+		console.log('avatar', avatar);
+
+		// update profile
+		const token = alice.token;
+
+		const res = await api('i/update', {
+			name: 'Alice',
+			description: 'Alice Desc',
+			avatarId: avatar.id,
+		}, alice);
+
+		alice = res.body;
+		alice.token = token;	// tokenはsignup以外では返ってこない
+		console.log('alice-2', alice);
+
+		// post
 		alicesPost = await post(alice, {
 			text: 'test',
 		});
+		console.log('alicesPost', alicesPost);
+
+		// upload image
+		image = await uploadFile(alice);
+		console.log('image', image);
+
+		// post image
+		alicesPostImage = await post(alice, {
+			text: 'image',
+			fileIds: [ image.id ],
+		});
+		console.log('alicesPostImage', alicesPostImage);
+
+		// upload video
+		video = await uploadFile(alice, 'anime.mp4');
+		console.log('video', video);
+
+		// post video
+		alicesPostVideo = await post(alice, {
+			text: 'video',
+			fileIds: [ video.id ],
+		});
+		console.log('alicesPostVideo', alicesPostVideo);
 	});
 
 	after(async () => {
@@ -36,7 +100,7 @@ describe('Fetch resource', () => {
 
 	describe('Common', () => {
 		it('meta', async(async () => {
-			const res = await request('/meta', {
+			const res = await api('meta', {
 			});
 
 			assert.strictEqual(res.status, 200);
@@ -200,6 +264,155 @@ describe('Fetch resource', () => {
 			const res = await simpleGet(`/@${alice.username}.json`, UNSPECIFIED);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, 'application/json; charset=utf-8');
+		}));
+	});
+
+	describe('HTML meta', () => {
+		const parse = (doc: Document) => {
+			return {
+				// Title
+				'title': doc.querySelector('title')?.textContent,
+				'og:title': doc.querySelector('meta[property="og:title"]')?.getAttribute('content'),
+				'og:site_name': doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content'),
+
+				// Description
+				'description': doc.querySelector('meta[name=description]')?.getAttribute('content'),
+				'og:description': doc.querySelector('meta[property="og:description"]')?.getAttribute('content'),
+
+				// Twitter card
+				'twitter:card': doc.querySelector('meta[name="twitter:card"]')?.getAttribute('content'),
+
+				// Misskey
+				'misskey:user-username': doc.querySelector('meta[name="misskey:user-username"]')?.getAttribute('content'),
+				'misskey:user-id': doc.querySelector('meta[name="misskey:user-id"]')?.getAttribute('content'),
+
+				// Generic - og
+				'og:url': doc.querySelector('meta[property="og:url"]')?.getAttribute('content'),
+				'og:image': doc.querySelector('meta[property="og:image"]')?.getAttribute('content'),
+				'og:published_time': doc.querySelector('meta[property="og:published_time"]')?.getAttribute('content'),
+
+				// Player - Twitter
+				'twitter:player': doc.querySelector('meta[name="twitter:player"]')?.getAttribute('content'),
+				'twitter:player:width': doc.querySelector('meta[name="twitter:player:width"]')?.getAttribute('content'),
+				'twitter:player:height': doc.querySelector('meta[name="twitter:player:height"]')?.getAttribute('content'),
+				'twitter:player:stream': doc.querySelector('meta[name="twitter:player:stream"]')?.getAttribute('content'),
+				'twitter:player:stream:content_type': doc.querySelector('meta[name="twitter:player:stream:content_type"]')?.getAttribute('content'),
+			};
+		}
+
+		it('/', async(async () => {
+			const parsed = parse(await getDocument('/'));
+
+			assert.deepStrictEqual(parsed, {
+				'title': instance.name,
+				'og:title': instance.name,
+				'og:site_name': instance.name,
+				'description': instance.description,
+				'og:description': instance.description,
+				'twitter:card': undefined,
+				'misskey:user-username': undefined,
+				'misskey:user-id': undefined,
+				'og:url': undefined,
+				'og:image': null,
+				'og:published_time': undefined,
+				'twitter:player': undefined,
+				'twitter:player:width': undefined,
+				'twitter:player:height': undefined,
+				'twitter:player:stream': undefined,
+				'twitter:player:stream:content_type': undefined,
+			});
+		}));
+
+		it('user', async(async () => {
+			const parsed = parse(await getDocument(`/@${alice.username}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': instance.name,
+				'description': alice.description,
+				'og:description': alice.description,
+				'twitter:card': undefined,
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/@${alice.username}`,
+				'og:image': alice.avatarUrl,
+				'og:published_time': undefined,
+				'twitter:player': undefined,
+				'twitter:player:width': undefined,
+				'twitter:player:height': undefined,
+				'twitter:player:stream': undefined,
+				'twitter:player:stream:content_type': undefined,
+			});
+		}));
+
+		it('note', async(async () => {
+			const parsed = parse(await getDocument(`/notes/${alicesPost.id}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': instance.name,
+				'description': alicesPost.text,
+				'og:description': alicesPost.text,
+				'twitter:card': undefined,
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/notes/${alicesPost.id}`,
+				'og:image': alice.avatarUrl,
+				'og:published_time': alicesPost.createtAt,
+				'twitter:player': undefined,
+				'twitter:player:width': undefined,
+				'twitter:player:height': undefined,
+				'twitter:player:stream': undefined,
+				'twitter:player:stream:content_type': undefined,
+			});
+		}));
+
+		it('note with image', async(async () => {
+			const parsed = parse(await getDocument(`/notes/${alicesPostImage.id}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': instance.name,
+				'description': `${alicesPostImage.text} (📎1)`,
+				'og:description': `${alicesPostImage.text} (📎1)`,
+				'twitter:card': undefined,
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/notes/${alicesPostImage.id}`,
+				'og:image': alice.avatarUrl,
+				'og:published_time': alicesPostImage.createtAt,
+				'twitter:player': undefined,
+				'twitter:player:width': undefined,
+				'twitter:player:height': undefined,
+				'twitter:player:stream': undefined,
+				'twitter:player:stream:content_type': undefined,
+			});
+		}));
+
+		it('note with video', async(async () => {
+			const parsed = parse(await getDocument(`/notes/${alicesPostVideo.id}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': instance.name,
+				'description': `${alicesPostVideo.text} (📎1)`,
+				'og:description': `${alicesPostVideo.text} (📎1)`,
+				'twitter:card': undefined,
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/notes/${alicesPostVideo.id}`,
+				'og:image': alice.avatarUrl,
+				'og:published_time': alicesPostVideo.createtAt,
+				'twitter:player':  undefined,
+				'twitter:player:width': undefined,
+				'twitter:player:height': undefined,
+				'twitter:player:stream': undefined,
+				'twitter:player:stream:content_type': undefined,
+			});
 		}));
 	});
 });

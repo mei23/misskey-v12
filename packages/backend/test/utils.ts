@@ -1,4 +1,5 @@
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import * as childProcess from 'child_process';
@@ -11,6 +12,9 @@ import FormData from 'form-data';
 import { DataSource } from 'typeorm';
 import loadConfig from '../src/config/load.js';
 import { entities } from '../src/db/postgre.js';
+import { getHtml } from '@/misc/fetch.js';
+import { JSDOM } from 'jsdom';
+import got from 'got';
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
@@ -24,6 +28,40 @@ export const async = (fn: Function) => (done: Function) => {
 	}, (err: Error) => {
 		done(err);
 	});
+};
+
+export const api = async (endpoint: string, params: any, me?: any) => {
+	const auth = me ? {
+		i: me.token
+	} : {};
+
+	const res = await got<string>(`http://localhost:${port}/api/${endpoint}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(Object.assign(auth, params)),
+		retry: {
+			limit: 0,
+		},
+		hooks: {
+			beforeError: [
+				error => {
+					const { response } = error;
+					if (response && response.body) console.warn(response.body);
+					return error;
+				}
+			]
+		},
+	});
+
+	const status = res.statusCode;
+	const body = res.statusCode !== 204 ? await JSON.parse(res.body) : null;
+
+	return {
+		status,
+		body
+	};
 };
 
 export const request = async (endpoint: string, params: any, me?: any): Promise<{ body: any, status: number }> => {
@@ -75,22 +113,30 @@ export const react = async (user: any, note: any, reaction: string): Promise<any
 	}, user);
 };
 
-export const uploadFile = (user: any, path?: string): Promise<any> => {
-	const formData = new FormData();
-	formData.append('i', user.token);
-	formData.append('file', fs.createReadStream(path || _dirname + '/resources/Lenna.png'));
+/**
+ * Upload file
+ * @param user User
+ * @param _path Optional, absolute path or relative from ./resources/
+ */
+export const uploadFile = async (user: any, _path?: string): Promise<any> => {
+	const absPath = _path == null ? `${_dirname}/resources/Lenna.jpg` : path.isAbsolute(_path) ? _path : `${_dirname}/resources/${_path}`;
 
-	return fetch(`http://localhost:${port}/api/drive/files/create`, {
-		method: 'post',
+	const formData = new FormData() as any;
+	formData.append('i', user.token);
+	formData.append('file', fs.createReadStream(absPath));
+	formData.append('force', 'true');
+
+	const res = await got<string>(`http://localhost:${port}/api/drive/files/create`, {
+		method: 'POST',
 		body: formData,
-		timeout: 30 * 1000,
-	}).then(res => {
-		if (!res.ok) {
-			throw `${res.status} ${res.statusText}`;
-		} else {
-			return res.json();
-		}
+		retry: {
+			limit: 0,
+		},
 	});
+
+	const body = res.statusCode !== 204 ? await JSON.parse(res.body) : null;
+
+	return body;
 };
 
 export function connectStream(user: any, channel: string, listener: (message: Record<string, any>) => any, params?: any): Promise<WebSocket> {
@@ -141,6 +187,13 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 
 		req.end();
 	});
+};
+
+export const getDocument = async (path: string): Promise<Document> => {
+	const html = await getHtml(`http://localhost:${port}${path}`);
+	const { window } = new JSDOM(html);
+	const doc = window.document;
+	return doc;
 };
 
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {
