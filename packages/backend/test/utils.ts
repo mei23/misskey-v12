@@ -31,6 +31,8 @@ export const async = (fn: Function) => (done: Function) => {
 };
 
 export const api = async (endpoint: string, params: any, me?: any) => {
+	endpoint = endpoint.replace(/^\//, '');
+
 	const auth = me ? {
 		i: me.token
 	} : {};
@@ -91,7 +93,7 @@ export const signup = async (params?: any): Promise<any> => {
 		password: 'test',
 	}, params);
 
-	const res = await request('/signup', q);
+	const res = await api('signup', q);
 
 	return res.body;
 };
@@ -101,13 +103,13 @@ export const post = async (user: any, params?: misskey.Endpoints['notes/create']
 		text: 'test',
 	}, params);
 
-	const res = await request('/notes/create', q, user);
+	const res = await api('notes/create', q, user);
 
 	return res.body ? res.body.createdNote : null;
 };
 
 export const react = async (user: any, note: any, reaction: string): Promise<any> => {
-	await request('/notes/reactions/create', {
+	await api('notes/reactions/create', {
 		noteId: note.id,
 		reaction: reaction,
 	}, user);
