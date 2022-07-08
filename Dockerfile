@@ -6,8 +6,17 @@ WORKDIR /misskey
 
 COPY . ./
 
+RUN dpkg -l git || true
+RUN dpkg -l python || true
+RUN dpkg -l python3 || true
+
 RUN apt-get update
 RUN apt-get install -y build-essential
+
+RUN dpkg -l git || true
+RUN dpkg -l python || true
+RUN dpkg -l python3 || true
+
 RUN git submodule update --init
 RUN yarn install
 RUN yarn build
