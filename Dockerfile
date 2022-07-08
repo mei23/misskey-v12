@@ -15,11 +15,10 @@ RUN rm -rf .git
 
 FROM node:16.15.1-bullseye-slim AS runner
 
-
 WORKDIR /misskey
 
 RUN apt-get update
-RUN apt-get install -y ffmpeg
+RUN apt-get install -y ffmpeg tini
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
@@ -29,4 +28,5 @@ COPY --from=builder /misskey/packages/client/node_modules ./packages/client/node
 COPY . ./
 
 ENV NODE_ENV=production
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["npm", "run", "migrateandstart"]
