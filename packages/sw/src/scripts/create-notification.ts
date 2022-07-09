@@ -21,7 +21,6 @@ export async function createNotification<K extends keyof pushNotificationDataMap
 		return self.registration.showNotification(...n);
 	} else {
 		console.error('Could not compose notification', data);
-		return createEmptyNotification();
 	}
 }
 
@@ -44,18 +43,11 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 					// users/showの型定義をswos.apiへ当てはめるのが困難なのでapiFetch.requestを直接使用
 					const account = await getAccountFromId(data.userId);
 					if (!account) return null;
-					const userDetail = await cli.request('users/show', { userId: data.body.userId }, account.token);
 					return [t('_notification.youWereFollowed'), {
 						body: getUserName(data.body.user),
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('user-plus'),
 						data,
-						actions: userDetail.isFollowing ? [] : [
-							{
-								action: 'follow',
-								title: t('_notification._actions.followBack')
-							}
-						],
 					}];
 
 				case 'mention':
@@ -64,12 +56,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('at'),
 						data,
-						actions: [
-							{
-								action: 'reply',
-								title: t('_notification._actions.reply')
-							}
-						],
 					}];
 
 				case 'reply':
@@ -78,12 +64,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('reply'),
 						data,
-						actions: [
-							{
-								action: 'reply',
-								title: t('_notification._actions.reply')
-							}
-						],
 					}];
 
 				case 'renote':
@@ -92,12 +72,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('retweet'),
 						data,
-						actions: [
-							{
-								action: 'showUser',
-								title: getUserName(data.body.user)
-							}
-						],
 					}];
 
 				case 'quote':
@@ -106,18 +80,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('quote-right'),
 						data,
-						actions: [
-							{
-								action: 'reply',
-								title: t('_notification._actions.reply')
-							},
-							...((data.body.note.visibility === 'public' || data.body.note.visibility === 'home') ? [
-							{
-								action: 'renote',
-								title: t('_notification._actions.renote')
-							}
-							] : [])
-						],
 					}];
 
 				case 'reaction':
@@ -160,12 +122,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge,
 						data,
-						actions: [
-							{
-								action: 'showUser',
-								title: getUserName(data.body.user)
-							}
-						],
 					}];
 
 				case 'pollVote':
@@ -189,16 +145,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						icon: data.body.user.avatarUrl,
 						badge: iconUrl('clock'),
 						data,
-						actions: [
-							{
-								action: 'accept',
-								title: t('accept')
-							},
-							{
-								action: 'reject',
-								title: t('reject')
-							}
-						],
 					}];
 
 				case 'followRequestAccepted':
@@ -214,16 +160,6 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 						body: data.body.invitation.group.name,
 						badge: iconUrl('id-card-alt'),
 						data,
-						actions: [
-							{
-								action: 'accept',
-								title: t('accept')
-							},
-							{
-								action: 'reject',
-								title: t('reject')
-							}
-						],
 					}];
 
 				case 'app':
@@ -256,34 +192,4 @@ async function composeNotification<K extends keyof pushNotificationDataMap>(data
 		default:
 			return null;
 	}
-}
-
-export async function createEmptyNotification() {
-	return new Promise<void>(async res => {
-		if (!swLang.i18n) swLang.fetchLocale();
-		const i18n = await swLang.i18n as I18n<any>;
-		const { t } = i18n;
-	
-		await self.registration.showNotification(
-			t('_notification.emptyPushNotificationMessage'),
-			{
-				silent: true,
-				badge: iconUrl('null'),
-				tag: 'read_notification',
-			}
-		);
-
-		res();
-
-		setTimeout(async () => {
-			for (const n of
-				[
-					...(await self.registration.getNotifications({ tag: 'user_visible_auto_notification' })),
-					...(await self.registration.getNotifications({ tag: 'read_notification' }))
-				]
-			) {
-				n.close();
-			}
-		}, 1000);
-	});
 }
