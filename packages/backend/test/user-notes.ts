@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, signup, request, post, uploadFile, startServer, shutdownServer } from './utils.js';
+import { async, signup, request, post, uploadUrl, startServer, shutdownServer } from './utils.js';
 
 describe('users/notes', () => {
 	let p: childProcess.ChildProcess;
@@ -15,16 +15,16 @@ describe('users/notes', () => {
 	before(async () => {
 		p = await startServer();
 		alice = await signup({ username: 'alice' });
-		const jpg = await uploadFile(alice, __dirname + '/resources/Lenna.jpg');
-		const png = await uploadFile(alice, __dirname + '/resources/Lenna.png');
+		const jpg = await uploadUrl(alice, 'https://raw.githubusercontent.com/misskey-dev/misskey/develop/packages/backend/test/resources/Lenna.jpg');
+		const png = await uploadUrl(alice, 'https://raw.githubusercontent.com/misskey-dev/misskey/develop/packages/backend/test/resources/Lenna.png');
 		jpgNote = await post(alice, {
-			fileIds: [jpg.id]
+			fileIds: [jpg.id],
 		});
 		pngNote = await post(alice, {
-			fileIds: [png.id]
+			fileIds: [png.id],
 		});
 		jpgPngNote = await post(alice, {
-			fileIds: [jpg.id, png.id]
+			fileIds: [jpg.id, png.id],
 		});
 	});
 
@@ -35,7 +35,7 @@ describe('users/notes', () => {
 	it('ファイルタイプ指定 (jpg)', async(async () => {
 		const res = await request('/users/notes', {
 			userId: alice.id,
-			fileType: ['image/jpeg']
+			fileType: ['image/jpeg'],
 		}, alice);
 
 		assert.strictEqual(res.status, 200);
@@ -48,7 +48,7 @@ describe('users/notes', () => {
 	it('ファイルタイプ指定 (jpg or png)', async(async () => {
 		const res = await request('/users/notes', {
 			userId: alice.id,
-			fileType: ['image/jpeg', 'image/png']
+			fileType: ['image/jpeg', 'image/png'],
 		}, alice);
 
 		assert.strictEqual(res.status, 200);

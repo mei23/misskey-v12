@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, signup, request, post, react, connectStream, startServer, shutdownServer } from './utils.js';
+import { async, signup, request, post, react, startServer, shutdownServer, waitFire } from './utils.js';
 
 describe('Mute', () => {
 	let p: childProcess.ChildProcess;
@@ -25,7 +25,7 @@ describe('Mute', () => {
 
 	it('ミュート作成', async(async () => {
 		const res = await request('/mute/create', {
-			userId: carol.id
+			userId: carol.id,
 		}, alice);
 
 		assert.strictEqual(res.status, 204);
@@ -55,48 +55,24 @@ describe('Mute', () => {
 		assert.strictEqual(res.body.hasUnreadMentions, false);
 	}));
 
-	it('ミュートしているユーザーからメンションされても、ストリームに unreadMention イベントが流れてこない', () => new Promise(async done => {
+	it('ミュートしているユーザーからメンションされても、ストリームに unreadMention イベントが流れてこない', async () => {
 		// 状態リセット
 		await request('/i/read-all-unread-notes', {}, alice);
 
-		let fired = false;
+		const fired = await waitFire(alice, 'main', () => post(carol, { text: '@alice hi' }), msg => msg.type === 'unreadMention');
 
-		const ws = await connectStream(alice, 'main', ({ type }) => {
-			if (type == 'unreadMention') {
-				fired = true;
-			}
-		});
+		assert.strictEqual(fired, false);
+	});
 
-		post(carol, { text: '@alice hi' });
-
-		setTimeout(() => {
-			assert.strictEqual(fired, false);
-			ws.close();
-			done();
-		}, 5000);
-	}));
-
-	it('ミュートしているユーザーからメンションされても、ストリームに unreadNotification イベントが流れてこない', () => new Promise(async done => {
+	it('ミュートしているユーザーからメンションされても、ストリームに unreadNotification イベントが流れてこない', async () => {
 		// 状態リセット
 		await request('/i/read-all-unread-notes', {}, alice);
 		await request('/notifications/mark-all-as-read', {}, alice);
 
-		let fired = false;
+		const fired = await waitFire(alice, 'main', () => post(carol, { text: '@alice hi' }), msg => msg.type === 'unreadNotification');
 
-		const ws = await connectStream(alice, 'main', ({ type }) => {
-			if (type == 'unreadNotification') {
-				fired = true;
-			}
-		});
-
-		post(carol, { text: '@alice hi' });
-
-		setTimeout(() => {
-			assert.strictEqual(fired, false);
-			ws.close();
-			done();
-		}, 5000);
-	}));
+		assert.strictEqual(fired, false);
+	});
 
 	describe('Timeline', () => {
 		it('タイムラインにミュートしているユーザーの投稿が含まれない', async(async () => {
@@ -117,7 +93,7 @@ describe('Mute', () => {
 			const aliceNote = await post(alice);
 			const carolNote = await post(carol);
 			const bobNote = await post(bob, {
-				renoteId: carolNote.id
+				renoteId: carolNote.id,
 			});
 
 			const res = await request('/notes/local-timeline', {}, alice);

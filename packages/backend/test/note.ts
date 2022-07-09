@@ -2,8 +2,8 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, signup, request, post, uploadFile, startServer, shutdownServer, initTestDb } from './utils.js';
 import { Note } from '../src/models/entities/note.js';
+import { async, signup, request, post, uploadUrl, startServer, shutdownServer, initTestDb, api } from './utils.js';
 
 describe('Note', () => {
 	let p: childProcess.ChildProcess;
@@ -26,7 +26,7 @@ describe('Note', () => {
 
 	it('投稿できる', async(async () => {
 		const post = {
-			text: 'test'
+			text: 'test',
 		};
 
 		const res = await request('/notes/create', post, alice);
@@ -37,10 +37,10 @@ describe('Note', () => {
 	}));
 
 	it('ファイルを添付できる', async(async () => {
-		const file = await uploadFile(alice);
+		const file = await uploadUrl(alice, 'https://raw.githubusercontent.com/misskey-dev/misskey/develop/packages/backend/test/resources/Lenna.jpg');
 
 		const res = await request('/notes/create', {
-			fileIds: [file.id]
+			fileIds: [file.id],
 		}, alice);
 
 		assert.strictEqual(res.status, 200);
@@ -49,11 +49,11 @@ describe('Note', () => {
 	}));
 
 	it('他人のファイルは無視', async(async () => {
-		const file = await uploadFile(bob);
+		const file = await uploadUrl(bob, 'https://raw.githubusercontent.com/misskey-dev/misskey/develop/packages/backend/test/resources/Lenna.jpg');
 
 		const res = await request('/notes/create', {
 			text: 'test',
-			fileIds: [file.id]
+			fileIds: [file.id],
 		}, alice);
 
 		assert.strictEqual(res.status, 200);
@@ -64,7 +64,7 @@ describe('Note', () => {
 	it('存在しないファイルは無視', async(async () => {
 		const res = await request('/notes/create', {
 			text: 'test',
-			fileIds: ['000000000000000000000000']
+			fileIds: ['000000000000000000000000'],
 		}, alice);
 
 		assert.strictEqual(res.status, 200);
@@ -72,21 +72,23 @@ describe('Note', () => {
 		assert.deepStrictEqual(res.body.createdNote.fileIds, []);
 	}));
 
-	it('不正なファイルIDで怒られる', async(async () => {
+	it('不正なファイルIDは無視', async(async () => {
 		const res = await request('/notes/create', {
-			fileIds: ['kyoppie']
+			fileIds: ['kyoppie'],
 		}, alice);
-		assert.strictEqual(res.status, 400);
+		assert.strictEqual(res.status, 200);
+		assert.strictEqual(typeof res.body === 'object' && !Array.isArray(res.body), true);
+		assert.deepStrictEqual(res.body.createdNote.fileIds, []);
 	}));
 
 	it('返信できる', async(async () => {
 		const bobPost = await post(bob, {
-			text: 'foo'
+			text: 'foo',
 		});
 
 		const alicePost = {
 			text: 'bar',
-			replyId: bobPost.id
+			replyId: bobPost.id,
 		};
 
 		const res = await request('/notes/create', alicePost, alice);
@@ -100,11 +102,11 @@ describe('Note', () => {
 
 	it('renoteできる', async(async () => {
 		const bobPost = await post(bob, {
-			text: 'test'
+			text: 'test',
 		});
 
 		const alicePost = {
-			renoteId: bobPost.id
+			renoteId: bobPost.id,
 		};
 
 		const res = await request('/notes/create', alicePost, alice);
@@ -117,12 +119,12 @@ describe('Note', () => {
 
 	it('引用renoteできる', async(async () => {
 		const bobPost = await post(bob, {
-			text: 'test'
+			text: 'test',
 		});
 
 		const alicePost = {
 			text: 'test',
-			renoteId: bobPost.id
+			renoteId: bobPost.id,
 		};
 
 		const res = await request('/notes/create', alicePost, alice);
@@ -136,7 +138,7 @@ describe('Note', () => {
 
 	it('文字数ぎりぎりで怒られない', async(async () => {
 		const post = {
-			text: '!'.repeat(500)
+			text: '!'.repeat(3000),
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 200);
@@ -144,7 +146,7 @@ describe('Note', () => {
 
 	it('文字数オーバーで怒られる', async(async () => {
 		const post = {
-			text: '!'.repeat(501)
+			text: '!'.repeat(3001),
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 400);
@@ -153,7 +155,7 @@ describe('Note', () => {
 	it('存在しないリプライ先で怒られる', async(async () => {
 		const post = {
 			text: 'test',
-			replyId: '000000000000000000000000'
+			replyId: '000000000000000000000000',
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 400);
@@ -161,7 +163,7 @@ describe('Note', () => {
 
 	it('存在しないrenote対象で怒られる', async(async () => {
 		const post = {
-			renoteId: '000000000000000000000000'
+			renoteId: '000000000000000000000000',
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 400);
@@ -170,7 +172,7 @@ describe('Note', () => {
 	it('不正なリプライ先IDで怒られる', async(async () => {
 		const post = {
 			text: 'test',
-			replyId: 'foo'
+			replyId: 'foo',
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 400);
@@ -178,7 +180,7 @@ describe('Note', () => {
 
 	it('不正なrenote対象IDで怒られる', async(async () => {
 		const post = {
-			renoteId: 'foo'
+			renoteId: 'foo',
 		};
 		const res = await request('/notes/create', post, alice);
 		assert.strictEqual(res.status, 400);
@@ -186,7 +188,7 @@ describe('Note', () => {
 
 	it('存在しないユーザーにメンションできる', async(async () => {
 		const post = {
-			text: '@ghost yo'
+			text: '@ghost yo',
 		};
 
 		const res = await request('/notes/create', post, alice);
@@ -198,7 +200,7 @@ describe('Note', () => {
 
 	it('同じユーザーに複数メンションしても内部的にまとめられる', async(async () => {
 		const post = {
-			text: '@bob @bob @bob yo'
+			text: '@bob @bob @bob yo',
 		};
 
 		const res = await request('/notes/create', post, alice);
@@ -207,7 +209,7 @@ describe('Note', () => {
 		assert.strictEqual(typeof res.body === 'object' && !Array.isArray(res.body), true);
 		assert.strictEqual(res.body.createdNote.text, post.text);
 
-		const noteDoc = await Notes.findOne(res.body.createdNote.id);
+		const noteDoc = await Notes.findOneBy({ id: res.body.createdNote.id });
 		assert.deepStrictEqual(noteDoc.mentions, [bob.id]);
 	}));
 
@@ -216,8 +218,8 @@ describe('Note', () => {
 			const res = await request('/notes/create', {
 				text: 'test',
 				poll: {
-					choices: ['foo', 'bar']
-				}
+					choices: ['foo', 'bar'],
+				},
 			}, alice);
 
 			assert.strictEqual(res.status, 200);
@@ -227,7 +229,7 @@ describe('Note', () => {
 
 		it('投票の選択肢が無くて怒られる', async(async () => {
 			const res = await request('/notes/create', {
-				poll: {}
+				poll: {},
 			}, alice);
 			assert.strictEqual(res.status, 400);
 		}));
@@ -235,8 +237,8 @@ describe('Note', () => {
 		it('投票の選択肢が無くて怒られる (空の配列)', async(async () => {
 			const res = await request('/notes/create', {
 				poll: {
-					choices: []
-				}
+					choices: [],
+				},
 			}, alice);
 			assert.strictEqual(res.status, 400);
 		}));
@@ -244,8 +246,8 @@ describe('Note', () => {
 		it('投票の選択肢が1つで怒られる', async(async () => {
 			const res = await request('/notes/create', {
 				poll: {
-					choices: ['Strawberry Pasta']
-				}
+					choices: ['Strawberry Pasta'],
+				},
 			}, alice);
 			assert.strictEqual(res.status, 400);
 		}));
@@ -254,13 +256,13 @@ describe('Note', () => {
 			const { body } = await request('/notes/create', {
 				text: 'test',
 				poll: {
-					choices: ['sakura', 'izumi', 'ako']
-				}
+					choices: ['sakura', 'izumi', 'ako'],
+				},
 			}, alice);
 
 			const res = await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 1
+				choice: 1,
 			}, alice);
 
 			assert.strictEqual(res.status, 204);
@@ -270,18 +272,18 @@ describe('Note', () => {
 			const { body } = await request('/notes/create', {
 				text: 'test',
 				poll: {
-					choices: ['sakura', 'izumi', 'ako']
-				}
+					choices: ['sakura', 'izumi', 'ako'],
+				},
 			}, alice);
 
 			await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 0
+				choice: 0,
 			}, alice);
 
 			const res = await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 2
+				choice: 2,
 			}, alice);
 
 			assert.strictEqual(res.status, 400);
@@ -292,23 +294,23 @@ describe('Note', () => {
 				text: 'test',
 				poll: {
 					choices: ['sakura', 'izumi', 'ako'],
-					multiple: true
-				}
+					multiple: true,
+				},
 			}, alice);
 
 			await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 0
+				choice: 0,
 			}, alice);
 
 			await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 1
+				choice: 1,
 			}, alice);
 
 			const res = await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 2
+				choice: 2,
 			}, alice);
 
 			assert.strictEqual(res.status, 204);
@@ -319,15 +321,15 @@ describe('Note', () => {
 				text: 'test',
 				poll: {
 					choices: ['sakura', 'izumi', 'ako'],
-					expiredAfter: 1
-				}
+					expiredAfter: 1,
+				},
 			}, alice);
 
 			await new Promise(x => setTimeout(x, 2));
 
 			const res = await request('/notes/polls/vote', {
 				noteId: body.createdNote.id,
-				choice: 1
+				choice: 1,
 			}, alice);
 
 			assert.strictEqual(res.status, 400);
@@ -336,32 +338,32 @@ describe('Note', () => {
 
 	describe('notes/delete', () => {
 		it('delete a reply', async(async () => {
-			const mainNoteRes = await request('/notes/create', {
+			const mainNoteRes = await api('notes/create', {
 				text: 'main post',
 			}, alice);
-			const replyOneRes = await request('/notes/create', {
+			const replyOneRes = await api('notes/create', {
 				text: 'reply one',
-				replyId: mainNoteRes.body.createdNote.id
+				replyId: mainNoteRes.body.createdNote.id,
 			}, alice);
-			const replyTwoRes = await request('/notes/create', {
+			const replyTwoRes = await api('notes/create', {
 				text: 'reply two',
-				replyId: mainNoteRes.body.createdNote.id
+				replyId: mainNoteRes.body.createdNote.id,
 			}, alice);
 
-			const deleteOneRes = await request('/notes/delete', {
+			const deleteOneRes = await api('notes/delete', {
 				noteId: replyOneRes.body.createdNote.id,
 			}, alice);
 
 			assert.strictEqual(deleteOneRes.status, 204);
-			let mainNote = await Notes.findOne({id: mainNoteRes.body.createdNote.id});
+			let mainNote = await Notes.findOneBy({ id: mainNoteRes.body.createdNote.id });
 			assert.strictEqual(mainNote.repliesCount, 1);
 
-			const deleteTwoRes = await request('/notes/delete', {
+			const deleteTwoRes = await api('notes/delete', {
 				noteId: replyTwoRes.body.createdNote.id,
 			}, alice);
 
 			assert.strictEqual(deleteTwoRes.status, 204);
-			mainNote = await Notes.findOne({id: mainNoteRes.body.createdNote.id});
+			mainNote = await Notes.findOneBy({ id: mainNoteRes.body.createdNote.id });
 			assert.strictEqual(mainNote.repliesCount, 0);
 		}));
 	});
