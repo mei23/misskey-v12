@@ -120,7 +120,7 @@
 		"ms": "3.0.0-canary.1",
 		"multer": "1.4.4",
 		"nested-property": "4.0.0",
-		"node-fetch": "3.2.3",
+		"node-fetch": "3.2.10",
 		"nodemailer": "6.7.3",
 		"os-utils": "0.0.14",
 		"parse5": "6.0.1",
