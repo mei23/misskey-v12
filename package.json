@@ -1,11 +1,14 @@
 {
 	"name": "misskey",
-	"version": "12.119.2",
+	"version": "12.119.2-20221224054835",
 	"codename": "indigo",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/misskey-dev/misskey.git"
 	},
+	"engines": {
+    "node": ">= 16.0.0"
+  },
 	"private": true,
 	"scripts": {
 		"postinstall": "node ./scripts/install-packages.js",
