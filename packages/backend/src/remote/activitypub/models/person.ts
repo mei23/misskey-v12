@@ -161,12 +161,12 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
 
 	const movedTo = (person.id && person.movedTo)
-	? await resolveAnotherUser(person.id, person.movedTo, resolver)
-		.catch(e => {
-			logger.warn(`Error in movedTo: ${e}`);
-			return null;
-		})
-	: null;
+		? await resolveAnotherUser(person.id, person.movedTo, resolver)
+			.catch(e => {
+				logger.warn(`Error in movedTo: ${e}`);
+				return null;
+			})
+		: null;
 
 	// Create user
 	let user: IRemoteUser;
