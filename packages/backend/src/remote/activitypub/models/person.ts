@@ -31,6 +31,7 @@ import Resolver from '../resolver.js';
 import { extractApHashtags } from './tag.js';
 import { resolveNote, extractEmojis } from './note.js';
 import { resolveImage } from './image.js';
+import { resolveAnotherUser } from '../resolve-another-user.js';
 
 const logger = apLogger;
 
@@ -159,6 +160,14 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 
 	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
 
+	const movedTo = (person.id && person.movedTo)
+		? await resolveAnotherUser(person.id, person.movedTo, resolver)
+			.catch(e => {
+				logger.warn(`Error in movedTo: ${e}`);
+				return null;
+			})
+		: null;
+
 	// Create user
 	let user: IRemoteUser;
 	try {
@@ -184,6 +193,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<Us
 				tags,
 				isBot,
 				isCat: (person as any).isCat === true,
+				movedToUserId: movedTo?.id || null,
 			})) as IRemoteUser;
 
 			await transactionalEntityManager.save(new UserProfile({
@@ -330,6 +340,14 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 
 	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
 
+	const movedTo = (person.id && person.movedTo)
+		? await resolveAnotherUser(person.id, person.movedTo, resolver)
+			.catch(e => {
+				logger.warn(`Error in movedTo: ${e}`);
+				return null;
+			})
+		: null;
+
 	const updates = {
 		lastFetchedAt: new Date(),
 		inbox: person.inbox,
@@ -343,6 +361,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		isCat: (person as any).isCat === true,
 		isLocked: !!person.manuallyApprovesFollowers,
 		isExplorable: !!person.discoverable,
+		movedToUserId: movedTo?.id || null,
 	} as Partial<User>;
 
 	if (avatar) {

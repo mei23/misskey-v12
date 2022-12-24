@@ -96,6 +96,16 @@ export const packedUserDetailedNotMeOnlySchema = {
 			format: 'uri',
 			nullable: true, optional: false,
 		},
+		movedToUserId: {
+			type: 'string',
+			nullable: true, optional: false,
+			format: 'id',
+		},
+		movedToUser: {
+			type: 'object',
+			ref: 'UserDetailed',
+			nullable: true, optional: false,
+		},
 		createdAt: {
 			type: 'string',
 			nullable: false, optional: false,
