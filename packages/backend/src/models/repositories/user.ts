@@ -353,7 +353,7 @@ export const UserRepository = db.getRepository(User).extend({
 					}).then(result => result >= 1)
 					: false,
 				movedToUserId: user.movedToUserId,
-				movedToUser: user.movedToUserId ? Users.pack(user.movedToUserId) : null,
+				movedToUser: user.movedToUserId ? Users.pack(user.movedToUserId, null, { detail: true }) : null,
 			} : {}),
 
 			...(opts.detail && isMe ? {

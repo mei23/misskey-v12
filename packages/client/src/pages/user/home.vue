@@ -7,7 +7,7 @@
 			<!-- <div class="punished" v-if="user.isSilenced"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ i18n.ts.userSilenced }}</div> -->
 
 			<div class="profile">
-				<MkMoved v-if="user.movedTo" :acct="user.movedTo" />
+				<MkMoved v-if="user.movedToUser" :user="user.movedToUser" />
 				<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
 
 				<div :key="user.id" class="_block main">

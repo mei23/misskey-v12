@@ -3,13 +3,15 @@
 </template>
 
 <script lang="ts" setup>
+import * as misskey from 'misskey-js';
 import { i18n } from '@/i18n';
 
 const props = defineProps<{
-	acct: string;
+	user: misskey.entities.UserDetailed;
 }>();
 
-const href = $computed(() => `/${props.acct}`);
+const acct = $computed(() => `@${props.user.username}${props.user.host ? `@${props.user.host}` : ''}`);
+const href = $computed(() => `/@${props.user.username}${props.user.host ? `@${props.user.host}` : ''}`);
 </script>
 
 <style lang="scss" module>
