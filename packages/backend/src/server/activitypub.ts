@@ -1,6 +1,11 @@
 import Router from '@koa/router';
-import json from 'koa-json-body';
+import config from '@/config/index.js';
+import * as coBody from 'co-body';
+import * as crypto from 'node:crypto';
+import { IActivity } from '@/remote/activitypub/type.js';
 import httpSignature from '@peertube/http-signature';
+import Logger from '@/services/logger.js';
+import { inspect } from 'util';
 
 import { renderActivity } from '@/remote/activitypub/renderer/index.js';
 import renderNote from '@/remote/activitypub/renderer/note.js';
@@ -20,22 +25,96 @@ import { renderLike } from '@/remote/activitypub/renderer/like.js';
 import { getUserKeypair } from '@/misc/keypair-store.js';
 import renderFollow from '@/remote/activitypub/renderer/follow.js';
 
+const logger = new Logger('activitypub');
+
 // Init router
 const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.RouterContext) {
-	let signature;
-
-	try {
-		signature = httpSignature.parseRequest(ctx.req, { 'headers': [] });
-	} catch (e) {
-		ctx.status = 401;
+async function inbox(ctx: Router.RouterContext) {
+	if (ctx.req.headers.host !== config.host) {
+		logger.warn(`inbox: Invalid Host`);
+		ctx.status = 400;
+		ctx.message = 'Invalid Host';
 		return;
 	}
 
-	processInbox(ctx.request.body, signature);
+	// parse body
+	const { parsed, raw } = await coBody.json(ctx, {
+		limit: '64kb',
+		returnRawBody: true,
+	});
+	ctx.request.body = parsed;
+
+	let signature: httpSignature.IParsedSignature;
+
+	try {
+		signature = httpSignature.parseRequest(ctx.req, { 'headers': ['(request-target)', 'digest', 'host', 'date'] });
+	} catch (e) {
+		logger.warn(`inbox: signature parse error: ${inspect(e)}`);
+		ctx.status = 401;
+
+		if (e instanceof Error) {
+			if (e.name === 'ExpiredRequestError') ctx.message = 'Expired Request Error';
+			if (e.name === 'MissingHeaderError') ctx.message = 'Missing Required Header';
+		}
+
+		return;
+	}
+
+	// Validate signature algorithm
+	if (!signature.algorithm.toLowerCase().match(/^((dsa|rsa|ecdsa)-(sha256|sha384|sha512)|ed25519-sha512|hs2019)$/)) {
+		logger.warn(`inbox: invalid signature algorithm ${signature.algorithm}`);
+		ctx.status = 401;
+		ctx.message = 'Invalid Signature Algorithm';
+		return;
+
+		// hs2019
+		// keyType=ED25519 => ed25519-sha512
+		// keyType=other => (keyType)-sha256
+	}
+
+	// Digestヘッダーの検証
+	const digest = ctx.req.headers.digest;
+
+	// 無いとか複数あるとかダメ！
+	if (typeof digest !== 'string') {
+		logger.warn(`inbox: unrecognized digest header 1`);
+		ctx.status = 401;
+		ctx.message = 'Invalid Digest Header';
+		return;
+	}
+
+	const match = digest.match(/^([0-9A-Za-z-]+)=(.+)$/);
+
+	if (match == null) {
+		logger.warn(`inbox: unrecognized digest header 2`);
+		ctx.status = 401;
+		ctx.message = 'Invalid Digest Header';
+		return;
+	}
+
+	const digestAlgo = match[1];
+	const digestExpected = match[2];
+
+	if (digestAlgo.toUpperCase() !== 'SHA-256') {
+		logger.warn(`inbox: Unsupported Digest Algorithm`);
+		ctx.status = 401;
+		ctx.message = 'Unsupported Digest Algorithm';
+		return;
+	}
+
+	const digestActual = crypto.createHash('sha256').update(raw).digest('base64');
+
+	if (digestExpected !== digestActual) {
+		logger.warn(`inbox: Digest Missmatch`);
+		ctx.status = 401;
+		ctx.message = 'Digest Missmatch';
+		return;
+	}
+
+	processInbox(ctx.request.body as IActivity, signature);
 
 	ctx.status = 202;
 }
@@ -59,8 +138,8 @@ export function setResponseType(ctx: Router.RouterContext) {
 }
 
 // inbox
-router.post('/inbox', json(), inbox);
-router.post('/users/:user/inbox', json(), inbox);
+router.post('/inbox', inbox);
+router.post('/users/:user/inbox', inbox);
 
 // note
 router.get('/notes/:note', async (ctx, next) => {
