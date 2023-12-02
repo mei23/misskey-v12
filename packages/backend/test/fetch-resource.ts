@@ -200,7 +200,7 @@ describe('Fetch resource', () => {
 			assert.strictEqual(res.type, 'application/atom+xml; charset=utf-8');
 		}));
 
-		it('TYPE_JSON', async(async () => {
+		it('JSON', async(async () => {
 			const res = await simpleGet(`/@${alice.username}.json`, UNSPECIFIED);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, 'application/json; charset=utf-8');
