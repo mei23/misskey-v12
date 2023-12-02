@@ -63,6 +63,18 @@ async function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
+	// Validate signature algorithm
+	if (!signature.algorithm.toLowerCase().match(/^((dsa|rsa|ecdsa)-(sha256|sha384|sha512)|ed25519-sha512|hs2019)$/)) {
+		logger.warn(`inbox: invalid signature algorithm ${signature.algorithm}`);
+		ctx.status = 401;
+		ctx.message = 'Invalid Signature Algorithm';
+		return;
+
+		// hs2019
+		// keyType=ED25519 => ed25519-sha512
+		// keyType=other => (keyType)-sha256
+	}
+
 	// Digestヘッダーの検証
 	const digest = ctx.req.headers.digest;
 
