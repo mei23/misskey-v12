@@ -125,7 +125,7 @@
 		"@redocly/openapi-core": "1.0.0-beta.108",
 		"@types/bcryptjs": "2.4.2",
 		"@types/bull": "3.15.9",
-		"@types/cbor": "6.0.0",
+		"@types/cbor": "6.0.4",
 		"@types/co-body": "6.1.3",
 		"@types/escape-regexp": "0.0.1",
 		"@types/fluent-ffmpeg": "2.1.20",
