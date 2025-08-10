@@ -615,10 +615,10 @@
   resolved "https://registry.yarnpkg.com/@types/disposable-email-domains/-/disposable-email-domains-1.0.2.tgz#0280f6b38fa7f14e54b056a434135ecd254483b1"
   integrity sha512-SDKwyYTjk3y5aZBxxc38yRecpJPjsqn57STz1bNxYYlv4k11bBe7QB8w4llXDTmQXKT1mFvgGmJv+8Zdu3YmJw==
 
-"@types/escape-regexp@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.1.tgz#f1a977ccdf2ef059e9862bd3af5e92cbbe723e0e"
-  integrity sha512-ogj/ZTIdeFkiuxDwawYuZSIgC6suFGgBeZPr6Xs5lHEcvIXTjXGtH+/n8f1XhZhespaUwJ5LIGRICPji972FLw==
+"@types/escape-regexp@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@types/escape-regexp/-/escape-regexp-0.0.3.tgz#670ae8d6a38ba2530d5b55238ff70aba1596d20a"
+  integrity sha512-FQMYUxaf1dVeWLUzJFSvfdDugfOpDyM13p67QfyMdagxSkBa689opkr/q9uR/VWyrWrl0jAyQaSPKxX9MpAXFw==
 
 "@types/express-serve-static-core@*":
   version "4.17.5"
