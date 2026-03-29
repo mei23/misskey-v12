@@ -4671,10 +4671,10 @@ jsprim@^1.2.2:
     json-schema "0.4.0"
     verror "1.10.0"
 
-jsrsasign@11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-11.0.0.tgz#766570c21f87d68075a142f5188f7e583cee9d70"
-  integrity sha512-BtRwVKS+5dsgPpAtzJcpo5OoWjSs1/zllSBG0+8o8/aV0Ki76m6iZwHnwnsqoTdhfFZDN1XIdcaZr5ZkP+H2gg==
+jsrsasign@11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-11.1.1.tgz#a6a213e52b835fd6292fae9903a165921578fc13"
+  integrity sha512-6w95OOXH8DNeGxakqLndBEqqwQ6A70zGaky1oxfg8WVLWOnghTfJsc5Tknx+Z88MHSb1bGLcqQHImOF8Lk22XA==
 
 jstransformer@1.0.0:
   version "1.0.0"
