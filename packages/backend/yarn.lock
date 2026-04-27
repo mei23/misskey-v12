@@ -809,10 +809,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa__multer@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@types/koa__multer/-/koa__multer-2.0.4.tgz#e0f0fd1800a46b51886bebab480a57100f2488b0"
-  integrity sha512-WRkshXhE5rpYFUbbtAjyMhdOOSdbu1XX+2AQlRNM6AZtgxd0/WXMU4lrP7e9tk5HWVTWbx8DOOsVBmfHjSGJ4w==
+"@types/koa__multer@2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@types/koa__multer/-/koa__multer-2.0.8.tgz#66f1cbd6ba474bb3c2f6ee163235b0a60b0dc8c6"
+  integrity sha512-XkD9YzmGKzKfOkxwHepueQkP61okAeu6ibAieL4NSqwM1lyGOkgbT2XmP+xROd2agQVsewPqsFOsfgVmlEqJmg==
   dependencies:
     "@types/koa" "*"
 
