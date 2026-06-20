@@ -118,7 +118,7 @@
 		"uuid": "9.0.0",
 		"web-push": "3.5.0",
 		"websocket": "1.0.34",
-		"ws": "8.8.1",
+		"ws": "8.17.1",
 		"xev": "3.0.2"
 	},
 	"devDependencies": {
